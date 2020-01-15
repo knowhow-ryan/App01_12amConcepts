@@ -1,101 +1,89 @@
 import 'package:flutter/material.dart';
 
 class StrainCard extends StatelessWidget {
+  //based on the tutorial: https://flutterbyexample.com/reusable-custom-card-widget/
+  final Strain strain;
+
+  StrainCard(this.strain);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
-      padding: EdgeInsets.fromLTRB(0, 50, 0, 50),
-      //height: MediaQuery.of(context).copyWith().size.height * .45,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        border: Border.all(width: 2.0, color:Colors.green),
-        color: Colors.black87,
-      ),
-      child: Row(
-        children: <Widget>[
-        Stack(children: <Widget>[ 
-          Container( //Card Container
-            padding: EdgeInsets.only(top:MediaQuery.of(context).copyWith().size.height * .03,),
-            width: MediaQuery.of(context).copyWith().size.width * .95,
-            child: 
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container( //Card
-                  height:MediaQuery.of(context).copyWith().size.width * .35,
-                  decoration: BoxDecoration(
-                    color: Colors.black87,
-                    gradient: LinearGradient(
-                      colors: [Colors.grey, Colors.grey],
-                      begin: Alignment.bottomRight,
-                      end: Alignment.topLeft,
-                      
-                      ),
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(12.0),
-                    boxShadow:[ BoxShadow(
-                      color: Colors.black12,
-                      blurRadius:10,
-                      offset: Offset(0.0, 10),
-                    ),]
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Container(
+        height: 115.0,
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              left: 50.0,
+              child: Container(
+                width: 290.0,
+                height: 115.0,
+                child: Card(
+                  color: Colors.black87,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 8.0,
+                      bottom: 8.0,
+                      left: 64.0,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text(strain.name,
+                            style: Theme.of(context).textTheme.headline),
+                        Text(strain.location,
+                            style: Theme.of(context).textTheme.subhead),
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.star,
+                            ),
+                            Text(': ${strain.rating}')
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                  margin: EdgeInsets.only(left:MediaQuery.of(context).copyWith().size.width * .25,),
-                  padding: EdgeInsets.only(left:MediaQuery.of(context).copyWith().size.width * .125,),
-                  child: Column(children: <Widget>[
-                    
-                     ListTile(
-                    title:Text("Gorilla Glue #12"),
-                    subtitle: Text("from K9 Kronic"),
-                  ),
-                  
-                  Row(children: <Widget>[
-                    Text("%%THC"),
-                    SizedBox(width:MediaQuery.of(context).copyWith().size.width * .025,),
-                    Text("%%CBD"),
-                    Text("DATE"),
-                  ],)
-                  ],)
                 ),
-              ],
+              ),
             ),
-          ),
-          Container( //Strain Image - Need to decide default image
-            margin: EdgeInsets.fromLTRB(12, 28, 12, 12),
-            width:MediaQuery.of(context).copyWith().size.width * .32,
-            height:MediaQuery.of(context).copyWith().size.width * .32,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.white,
-              border: Border.all(width: 2.0, color: Colors.red),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                  "http://justcole.design/wp-content/uploads/2019/12/weed@0.25x.png"
-                  )))),
-          Positioned( //Rating Number Container
-            left:5,
-            bottom:5,
-            child: Container(
-            padding: EdgeInsets.all(13.0),
-            
-            decoration: BoxDecoration(
-              shape:BoxShape.circle,
-              color: Colors.black,
-              border: Border.all(width:2.0, color: Colors.black),),
-              child: 
-                Text("01",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                )),
+            Positioned(top: 7.5, child: Container(
+                width: 100.0,
+                height: 100.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage("http://justcole.design/wp-content/uploads/2019/12/weed@0.25x.png"),
+                  ),
+                ),
+              )
             ),
-          ),
-        ],
-      ), // outermost widget
-        
-        ],),
+          ],
+        ),
+      ),
     );
+  }
+}
+
+//This is a dummy strain so you have data you can insert into the UI
+//you access this information by using strain.name, strain.thc, etc.
+class Strain {
+  String name;
+  double thc;
+  double cbd;
+  double rating;
+  String date;
+  String location;
+
+  Strain() {
+    this.name = "Jedi Killer Kush";
+    this.thc = 18.5;
+    this.cbd = 2.3;
+    this.rating = 4.7;
+    this.date = "04/20/20";
+    this.location = "Destroyer's Burger Cave";
   }
 }
