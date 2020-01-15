@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 
 class StrainCard extends StatelessWidget {
   //based on the tutorial: https://flutterbyexample.com/reusable-custom-card-widget/
+  
+  //this is a container for all of the strain information, like name, location, thc, etc.
   final Strain strain;
 
+  //this is a constructor that pulls in the Strain object information and puts it in the strain container above
   StrainCard(this.strain);
 
   @override
