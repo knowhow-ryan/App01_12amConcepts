@@ -12,20 +12,22 @@ class StrainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xFFCCCCCC),
+      
+     
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
             //Strain Info Page
             height: 300,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(
-                Radius.circular(12.0),
+                Radius.circular(8.0),
               ),
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: NetworkImage(
-                    "https://media1.fdncms.com/illinoistimes/imager/u/original/11623518/news01.jpg"),
+                    "https://images.pexels.com/photos/1466335/pexels-photo-1466335.jpeg"),
               ),
               boxShadow: [
                 new BoxShadow(
@@ -33,18 +35,7 @@ class StrainPage extends StatelessWidget {
                   blurRadius: 8.0,
                 ),
               ],
-              gradient: LinearGradient(
-                end: FractionalOffset.bottomRight,
-                begin: FractionalOffset.topLeft,
-                stops: [
-                  .4,
-                  .7,
-                ],
-                colors: [
-                  Color(0xFFFFFFFF),
-                  Color(0xFFedccb3),
-                ],
-              ),
+              
             ),
 
             child: Stack(
@@ -154,29 +145,18 @@ class StrainPage extends StatelessWidget {
               ))
             ],
           ),
-          Padding(
-            padding: EdgeInsets.all(12),
-            child: Column(
-              children: <Widget>[//TO DO: why are you centered?
-                 Text("Experiences",
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
-                      )),
-                  SizedBox(
-                    height: 10,
-                  ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                   
-                    
-                  ],
-                ),
-              ],
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[//TO DO: why are you centered?
+               Text("Experiences",
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    )),
+                
+              
+            ],
           ),
         ],
       ),

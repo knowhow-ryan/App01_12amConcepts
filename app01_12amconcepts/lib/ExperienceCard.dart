@@ -15,8 +15,9 @@ class ExperienceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height:5,),
+          
                     Text(
                       experience.date,
                       style: TextStyle(
@@ -74,6 +75,7 @@ class ExperienceCard extends StatelessWidget {
                           color: Colors.black54,
                           fontSize: 15,
                         )),
+                        SizedBox(height:15,),
         ],
       )
     );}}
