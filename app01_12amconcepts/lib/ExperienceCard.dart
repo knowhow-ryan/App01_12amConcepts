@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 
-
 class ExperienceCard extends StatelessWidget {
   //based on the tutorial: https://flutterbyexample.com/reusable-custom-card-widget/
 
@@ -18,89 +17,74 @@ class ExperienceCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           
-                    Text(
-                      experience.date,
-                      style: TextStyle(
-                        color: Colors.black54,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadiusDirectional.circular(50),
-                                color: Colors.white70,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Center(
-                                  child: Text("happy",
-                                      style: TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 15,
-                                      )),
-                                ),
-                              )),
-                          SizedBox(
-                            width: 5,
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                           padding: const EdgeInsets.only(right:4,),
+                          child: Text(
+                            experience.date,
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
                           ),
-                          Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadiusDirectional.circular(50),
-                                color: Colors.white70,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Center(
-                                  child: Text("stoney",
-                                      style: TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 15,
-                                      )),
-                                ),
-                              )),
-                        ],
-                      ),
+                        ),
+                      
+                    Padding(
+                       padding: const EdgeInsets.only(left:4,right:4,),
+                      child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadiusDirectional.circular(50),
+                            color: Colors.white70,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(12,8,12,8),
+                            child: Center(
+                              child: Text("happy",
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 13,
+                                  )),
+                            ),
+                          )),
                     ),
-                    SizedBox(
-                      width: 15,
+                    
+                    Padding(
+                      padding: const EdgeInsets.only(left:4,right:4,),
+                      child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadiusDirectional.circular(50),
+                            color: Colors.white70,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(12,8,12,8),
+                            child: Center(
+                              child: Text("stoney",
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 13,
+                                  )),
+                            ),
+                          )),
                     ),
-                    Text(
-                        'Donec nec diam sit amet dui tristique luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac lorem tellus. Suspendisse pharetra purus sit amet nulla suscipit, ac commodo metus ornare. Sed dolor lectus, volutpat nec ipsum interdum, ultrices iaculis nunc. In at consectetur ligula, quis viverra lectus. Maecenas lacinia ex sed blandit tincidunt. Vivamus egestas leo et sapien sollicitudin tincidunt.',
-                        style: TextStyle(
-                          color: Colors.black54,
-                          fontSize: 15,
-                        )),
+                    ],
+                    ),
+                   
+                    Padding(
+                      padding: const EdgeInsets.only(bottom:10,top:5,),
+                      child: Text(
+                          'Donec nec diam sit amet dui tristique luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac lorem tellus. Suspendisse pharetra purus sit amet nulla suscipit, ac commodo metus ornare. Sed dolor lectus, volutpat nec ipsum interdum, ultrices iaculis nunc. In at consectetur ligula, quis viverra lectus. Maecenas lacinia ex sed blandit tincidunt. Vivamus egestas leo et sapien sollicitudin tincidunt.',
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 15,
+                          )),
+                    ),
                         SizedBox(height:15,),
         ],
       )
     );}}
 
-//This is a dummy strain so you have data you can insert into the UI
-//you access this information by using strain.name, strain.thc, etc.
-// class Strain {
-//   String name;
-//   double thc;
-//   double cbd;
-//   double rating;
-//   String date;
-//   String location;
-//   String genetics;
-
-//   Strain() {
-//     this.name = "Jedi Killer Kush";
-//     this.thc = 18.5;
-//     this.cbd = 2.3;
-//     this.rating = 4.7;
-//     this.date = "04/20/20";
-//     this.location = "Destroyer's Burger Cave";
-//     this.genetics = "Sativa";
-//   }
-// }
 
 class Experience {
   String text;
