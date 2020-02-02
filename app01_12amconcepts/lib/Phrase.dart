@@ -1,3 +1,4 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 
 class Phrase {
@@ -83,8 +84,76 @@ class Phrase {
   }
 
   Widget displayPill() {
-    //TODO: build Phrase.display_pill method
-    return null;
+    IconData icon;
+    MaterialColor iconColor;
+
+    //set the icon and iconColor based on the PhraseType
+    switch(this.phraseType) {
+      case PhraseType.Strain: {
+        icon = FontAwesomeIcons.acquisitionsIncorporated;
+        iconColor = Colors.yellow;
+      }
+      break;
+
+      case PhraseType.High: {
+        icon = FontAwesomeIcons.smileBeam;
+        iconColor = Colors.green;
+      }
+      break;
+
+      case PhraseType.Low: {
+        icon = FontAwesomeIcons.mehBlank;
+        iconColor = Colors.red;
+      }
+      break;
+
+      case PhraseType.Location: {
+        icon = FontAwesomeIcons.home;
+        iconColor = Colors.brown;
+      }
+      break;
+
+      case PhraseType.Ingestion: {
+        icon = FontAwesomeIcons.bong;
+        iconColor = Colors.teal;
+      }
+      break;
+
+      default: {
+        icon = FontAwesomeIcons.fire;
+        iconColor = Colors.orange;
+      }
+      break;
+    }
+
+    Widget phrasePill = Padding(
+      padding: EdgeInsets.fromLTRB(0, 5, 5, 5),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadiusDirectional.circular(50),
+          color: Colors.white70,
+          ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+          child: Row(
+            children: <Widget>[
+              Icon(
+                icon, //FontAwesomeIcons.smileBeam,
+                color: iconColor, //color: Colors.green,
+                size: 13,
+              ),
+              SizedBox(width: 3),
+              Text(this.phraseString,
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 13,
+              )),
+            ],
+          ),
+      )),
+    );
+    
+    return phrasePill;
   }
 
   Widget inputUI() {
