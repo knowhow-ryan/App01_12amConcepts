@@ -12,7 +12,7 @@ class StrainCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(12, 5, 12, 5),
+      padding: EdgeInsets.fromLTRB(18, 0, 18, 15),
       child: Container(
         //Sativa Orange Card
         height: 95,
@@ -27,17 +27,19 @@ class StrainCard extends StatelessWidget {
             ),
           ],
           gradient: LinearGradient(
-            end: FractionalOffset.bottomRight,
+            end: FractionalOffset.bottomCenter,
             begin: FractionalOffset.topLeft,
             stops: [
-              .5,
-              .8,
+              .6,
+              1,
             ],
-            colors: [
+            colors: [//depends on genetics
               Color(0xFFFFFFFF),
-              Color(0xFFedccb3),
+              // Color(0xFFedccb3), //Orange
+              //   Color(0xFFbfd7c9), //Green
+                Color(0xFFceafcc), //Purple
             ],
-          ), //Sativa Orange gradient
+          ), 
         ),
 
         child: Row(
@@ -56,10 +58,10 @@ class StrainCard extends StatelessWidget {
                             style: TextStyle(
                               color: Colors.black87,
                               fontWeight: FontWeight.bold,
-                              fontSize: 22,
+                              fontSize: 23,
                             )),
                         SizedBox(
-                          height: 3,
+                          height: 2,
                         ),
                         Text(strain.location,
                             style: TextStyle(
@@ -111,7 +113,7 @@ class StrainCard extends StatelessWidget {
                   Positioned(
                     right: 0,
                     top: 0,
-                    width: 95,
+                    width: 120,
                     height: 95,
                     child: Container(
                         decoration: BoxDecoration(
@@ -128,11 +130,9 @@ class StrainCard extends StatelessWidget {
                                   "https://images.pexels.com/photos/1466335/pexels-photo-1466335.jpeg"),
                             ))),
                   ),
-                
                 ],
               ),
             ),
-          
           ],
         ),
       ),

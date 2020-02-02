@@ -21,21 +21,21 @@ class ExperienceCard extends StatelessWidget {
             Padding(
               //experience.date
               padding: const EdgeInsets.only(
-                right: 4,
+                right: 10,
               ),
               child: Text(
                 experience.date + ' - ' + experience.location,
                 style: TextStyle(
                   color: Colors.black87,
                   fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                  fontSize: 24,
                 ),
               ),
             ),
             Icon(
                           FontAwesomeIcons.pencilAlt,
                           color: Colors.black26,
-                          size: 10,
+                          size: 13,
                         ),
           ],
         ),
@@ -62,7 +62,7 @@ class ExperienceCard extends StatelessWidget {
                         Text("happy",
                             style: TextStyle(
                               color: Colors.black54,
-                              fontSize: 13,
+                              fontSize: 15,
                             )),
                       ],
                     ),
@@ -90,7 +90,7 @@ class ExperienceCard extends StatelessWidget {
                         Text("stoney",
                             style: TextStyle(
                               color: Colors.black54,
-                              fontSize: 13,
+                              fontSize: 15,
                             )),
                       ],
                     ),
@@ -118,7 +118,7 @@ class ExperienceCard extends StatelessWidget {
                         Text("couchlocked",
                             style: TextStyle(
                               color: Colors.black54,
-                              fontSize: 13,
+                              fontSize: 15,
                             )),
                       ],
                     ),

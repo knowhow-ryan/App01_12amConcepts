@@ -466,7 +466,7 @@ Padding(
                 colors: [Color(0xFFDDDDDD), Colors.black87,],
               ),
               ),
-            child: Image.network("http://justcole.design/wp-content/uploads/2020/01/Smokey-Background.png",
+            child: Image.network("http://justcole.design/wp-content/uploads/2020/02/Smokey-Background-Side.png",
               height: double.maxFinite,
               width: double.maxFinite,
               fit: BoxFit.cover,
