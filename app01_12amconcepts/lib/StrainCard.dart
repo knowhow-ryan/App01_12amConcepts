@@ -11,365 +11,377 @@ class StrainCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-      Column(
-        children: <Widget>[
-          Container( //Sativa Orange Card
-            height:100,
-            decoration:
-
-            BoxDecoration(
-
-                            borderRadius: BorderRadius.all(Radius.circular(12.0),),
-                            boxShadow:[
-            new BoxShadow(
-              color: Colors.black38,
-              blurRadius: 8.0,
+    return Column(
+      children: <Widget>[
+        Container(
+          //Sativa Orange Card
+          height: 95,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(12.0),
             ),
-          ],
-                            gradient: LinearGradient(
-                        end: FractionalOffset.bottomRight,
-                        begin: FractionalOffset.topLeft,
-                        stops: [.4, .7,],
-                        colors: [
-                          Color(0xFFFFFFFF),
-                          Color(0xFFedccb3),
-                        ],
+            boxShadow: [
+              new BoxShadow(
+                color: Colors.black54,
+                blurRadius: 4.0,
+              ),
+            ],
+            gradient: LinearGradient(
+              end: FractionalOffset.bottomRight,
+              begin: FractionalOffset.topLeft,
+              stops: [
+                .5,
+                .8,
+              ],
+              colors: [
+                Color(0xFFFFFFFF),
+                Color(0xFFedccb3),
+              ],
+            ), //Sativa Orange gradient
+          ),
 
-                      ), //Sativa Orange gradient
-
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Expanded(
+                child: Stack(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text(strain.name,
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                              )),
+                          SizedBox(
+                            height: 3,
                           ),
-
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Expanded(
-                    child: Stack(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.all(12),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Text(strain.name,
-                                    style: TextStyle(
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:22,
-                                    )
+                          Text(strain.location,
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 19,
+                              )),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text('THC: ${strain.thc}%',
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  )),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                'CBD: ${strain.cbd}%',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
                                 ),
-                                SizedBox(height:2,),
-                                Text(strain.location,
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:18,
-                                    )
-                                ),
-                                SizedBox(height:3,),
-                                Row(
-                                  children: <Widget>[
-
-                                    Text('THC: ${strain.thc}%',
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:15,
-                                    )
-                                    ),
-                                    SizedBox(width:15,),
-                                    Text('CBD: ${strain.cbd}%',
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:15,
-                                    ),),
-                                    SizedBox(width:15,),
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.black54,
-                                      size:15,
-                                    ),
-                                    Text(': ${strain.rating}',
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:15,
-                                    )
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                        ),
-
-                        Positioned(
-                          right: 0,
-                          top: 0,
-                          width: 100,
-                          height:100,
-                          child: Container(
-                            decoration: BoxDecoration(
-
-                              borderRadius: BorderRadius.only(topRight:Radius.circular(12.0), bottomRight:Radius.circular(12.0), bottomLeft: Radius.circular(50.0), topLeft: Radius.circular(50.0),),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.black54,
+                                size: 18,
+                              ),
+                              Text(': ${strain.rating}',
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  )),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      width: 100,
+                      height: 100,
+                      child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(12.0),
+                                bottomRight: Radius.circular(12.0),
+                                bottomLeft: Radius.circular(50.0),
+                                topLeft: Radius.circular(50.0),
+                              ),
                               color: Colors.green,
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: NetworkImage("https://media1.fdncms.com/illinoistimes/imager/u/original/11623518/news01.jpg"),
-                              )
-                            )
-
-                          ),
-                        ),
-
-                      ],
+                                image: NetworkImage(
+                                    "https://media1.fdncms.com/illinoistimes/imager/u/original/11623518/news01.jpg"),
+                              ))),
                     ),
-                  ),
-                ],
-
-            ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          SizedBox(height:12),
-          Container( //Indica Purple Card
-            height:100,
-            decoration:
-
-            BoxDecoration(
-
-                            borderRadius: BorderRadius.all(Radius.circular(12.0),),
-                            boxShadow:[
-            new BoxShadow(
-              color: Colors.black38,
-              blurRadius: 8.0,
+        ),
+        SizedBox(height: 18),
+        Container(
+          //Indica Purple Card
+          height: 100,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(12.0),
             ),
-          ],
-                            gradient: LinearGradient(
-                        end: FractionalOffset.bottomRight,
-                        begin: FractionalOffset.topLeft,
-                        stops: [.4, .7,],
-                        colors: [
-                          Color(0xFFFFFFFF),
-                          Color(0xFFceafcc),
-                        ],
+            boxShadow: [
+              new BoxShadow(
+                color: Colors.black38,
+                blurRadius: 8.0,
+              ),
+            ],
+            gradient: LinearGradient(
+              end: FractionalOffset.bottomRight,
+              begin: FractionalOffset.topLeft,
+              stops: [
+                .4,
+                .7,
+              ],
+              colors: [
+                Color(0xFFFFFFFF),
+                Color(0xFFceafcc),
+              ],
+            ), //Indica Purple Gradient
+          ),
 
-                      ), //Indica Purple Gradient
-
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Expanded(
+                child: Stack(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text(strain.name,
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                              )),
+                          SizedBox(
+                            height: 2,
                           ),
-
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Expanded(
-                    child: Stack(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.all(12),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Text(strain.name,
-                                    style: TextStyle(
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:22,
-                                    )
+                          Text(strain.location,
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              )),
+                          SizedBox(
+                            height: 3,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text('THC: ${strain.thc}%',
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  )),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                'CBD: ${strain.cbd}%',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
                                 ),
-                                SizedBox(height:2,),
-                                Text(strain.location,
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:18,
-                                    )
-                                ),
-                                SizedBox(height:3,),
-                                Row(
-                                  children: <Widget>[
-
-                                    Text('THC: ${strain.thc}%',
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:15,
-                                    )
-                                    ),
-                                    SizedBox(width:15,),
-                                    Text('CBD: ${strain.cbd}%',
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:15,
-                                    ),),
-                                    SizedBox(width:15,),
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.black54,
-                                      size:15,
-                                    ),
-                                    Text(': ${strain.rating}',
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:15,
-                                    )
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                        ),
-
-                        Positioned(
-                          right: 0,
-                          top: 0,
-                          width: 100,
-                          height:100,
-                          child: Container(
-                            decoration: BoxDecoration(
-
-                              borderRadius: BorderRadius.only(topRight:Radius.circular(12.0), bottomRight:Radius.circular(12.0), bottomLeft: Radius.circular(50.0), topLeft: Radius.circular(50.0),),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.black54,
+                                size: 15,
+                              ),
+                              Text(': ${strain.rating}',
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  )),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      width: 100,
+                      height: 100,
+                      child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(12.0),
+                                bottomRight: Radius.circular(12.0),
+                                bottomLeft: Radius.circular(50.0),
+                                topLeft: Radius.circular(50.0),
+                              ),
                               color: Colors.green,
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: NetworkImage("https://media1.fdncms.com/illinoistimes/imager/u/original/11623518/news01.jpg"),
-                              )
-                            )
-
-                          ),
-                        ),
-
-                      ],
+                                image: NetworkImage(
+                                    "https://media1.fdncms.com/illinoistimes/imager/u/original/11623518/news01.jpg"),
+                              ))),
                     ),
-                  ),
-                ],
-
-            ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          SizedBox(height:12),
-          Container( //Hybrid Green Card
-            height:100,
-            decoration:
-
-            BoxDecoration(
-
-                            borderRadius: BorderRadius.all(Radius.circular(12.0),),
-                            boxShadow:[
-            new BoxShadow(
-              color: Colors.black38,
-              blurRadius: 8.0,
+        ),
+        SizedBox(height: 12),
+        Container(
+          //Hybrid Green Card
+          height: 100,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(12.0),
             ),
-          ],
-                            gradient: LinearGradient(
-                        end: FractionalOffset.bottomRight,
-                        begin: FractionalOffset.topLeft,
-                        stops: [.4, .7,],
-                        colors: [
-                          Color(0xFFFFFFFF),
-                          Color(0xFFb2d3bf),
-                        ],
+            boxShadow: [
+              new BoxShadow(
+                color: Colors.black38,
+                blurRadius: 8.0,
+              ),
+            ],
+            gradient: LinearGradient(
+              end: FractionalOffset.bottomRight,
+              begin: FractionalOffset.topLeft,
+              stops: [
+                .4,
+                .7,
+              ],
+              colors: [
+                Color(0xFFFFFFFF),
+                Color(0xFFb2d3bf),
+              ],
+            ), //Hybrid Green Gradient
+          ),
 
-                      ), //Hybrid Green Gradient
-
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Expanded(
+                child: Stack(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text(strain.name,
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                              )),
+                          SizedBox(
+                            height: 2,
                           ),
-
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Expanded(
-                    child: Stack(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.all(12),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Text(strain.name,
-                                    style: TextStyle(
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:22,
-                                    )
+                          Text(strain.location,
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              )),
+                          SizedBox(
+                            height: 3,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Text('THC: ${strain.thc}%',
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  )),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                'CBD: ${strain.cbd}%',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
                                 ),
-                                SizedBox(height:2,),
-                                Text(strain.location,
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:18,
-                                    )
-                                ),
-                                SizedBox(height:3,),
-                                Row(
-                                  children: <Widget>[
-
-                                    Text('THC: ${strain.thc}%',
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:15,
-                                    )
-                                    ),
-                                    SizedBox(width:15,),
-                                    Text('CBD: ${strain.cbd}%',
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:15,
-                                    ),),
-                                    SizedBox(width:15,),
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.black54,
-                                      size:15,
-                                    ),
-                                    Text(': ${strain.rating}',
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:15,
-                                    )
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                        ),
-
-                        Positioned(
-                          right: 0,
-                          top: 0,
-                          width: 100,
-                          height:100,
-                          child: Container(
-                            decoration: BoxDecoration(
-
-                              borderRadius: BorderRadius.only(topRight:Radius.circular(12.0), bottomRight:Radius.circular(12.0), bottomLeft: Radius.circular(50.0), topLeft: Radius.circular(50.0),),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.black54,
+                                size: 15,
+                              ),
+                              Text(': ${strain.rating}',
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  )),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      width: 100,
+                      height: 100,
+                      child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(12.0),
+                                bottomRight: Radius.circular(12.0),
+                                bottomLeft: Radius.circular(50.0),
+                                topLeft: Radius.circular(50.0),
+                              ),
                               color: Colors.green,
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: NetworkImage("https://media1.fdncms.com/illinoistimes/imager/u/original/11623518/news01.jpg"),
-                              )
-                            )
-
-                          ),
-                        ),
-
-                      ],
+                                image: NetworkImage(
+                                    "https://media1.fdncms.com/illinoistimes/imager/u/original/11623518/news01.jpg"),
+                              ))),
                     ),
-                  ),
-                ],
-
-            ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      );
-
+        ),
+      ],
+    );
   }
 }
-
 
 //This is a dummy strain so you have data you can insert into the UI
 //you access this information by using strain.name, strain.thc, etc.
@@ -392,5 +404,3 @@ class Strain {
     this.genetics = "Sativa";
   }
 }
-
-

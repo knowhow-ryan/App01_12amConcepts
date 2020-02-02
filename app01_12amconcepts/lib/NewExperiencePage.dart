@@ -45,7 +45,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   List<Step> steps = [
     Step(
       title: Text('What Strain?',
-      // style: MyStyle.mytitle(context),
+      
       style: TextStyle(
         color: Colors.white,
         fontSize: 18,
@@ -255,7 +255,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
             ),
         ],
       ),
-      state: StepState.complete,
+      
       isActive: true,
     ),
   ];

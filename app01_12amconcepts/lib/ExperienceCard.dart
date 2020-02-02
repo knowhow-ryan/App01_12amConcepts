@@ -50,7 +50,7 @@ class ExperienceCard extends StatelessWidget {
                           )),
                     ),
                     
-                    Padding(
+                    Padding( //Pill shapped tag
                       padding: const EdgeInsets.only(left:4,right:4,),
                       child: Container(
                           decoration: BoxDecoration(
