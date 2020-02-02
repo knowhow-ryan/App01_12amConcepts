@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'StrainPage.dart';
+import 'MainPage.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'StrainCard.dart';
 
 
 class NewExperiencePage extends StatefulWidget {
@@ -22,10 +25,10 @@ class NewExperiencePage extends StatefulWidget {
         
 //         textTheme: TextTheme(
           
-//           headline: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-//           title: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
-//           body1: TextStyle(fontSize: 18,),
-//           body2: TextStyle(fontSize: 15),
+//           headline: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+//           title: TextStyle(fontSize: 22, fontStyle: FontStyle.italic),
+//           body1: TextStyle(fontSize: 22,),
+//           body2: TextStyle(fontSize: 22),
 //         )
 
 //       )
@@ -35,7 +38,7 @@ class NewExperiencePage extends StatefulWidget {
 
 // class MyStyle {
 //   static TextStyle mytitle(BuildContext context) {
-//     return Theme.of(context).textTheme.title.copyWith(fontSize: 20);
+//     return Theme.of(context).textTheme.title.copyWith(fontSize: 22);
 //   }
 // }
 
@@ -48,8 +51,9 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       
       style: TextStyle(
         color: Colors.white,
-        fontSize: 18,
+        fontSize: 22,
         fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.bold,
       )
       ),
       content: 
@@ -119,7 +123,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       title: Text('Where at?',
       style: TextStyle(
         color: Colors.white,
-        fontSize: 18,
+        fontSize: 22,
         fontStyle: FontStyle.italic,
       )
       ),
@@ -137,7 +141,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 contentPadding: EdgeInsets.all(15),
                 
                   hintText: "Where at?",
-                  hintStyle: TextStyle(fontSize: 15),
+                  hintStyle: TextStyle(fontSize: 22),
               )
             ),
           ),
@@ -156,7 +160,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                           child: Text("home",
                               style: TextStyle(
                                 color: Colors.black54,
-                                fontSize: 13,
+                                fontSize: 22,
                               )),
                         ),
                       )),
@@ -174,7 +178,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                               child: Text("apartment",
                                   style: TextStyle(
                                     color: Colors.black54,
-                                    fontSize: 13,
+                                    fontSize: 22,
                                   )),
                             ),
                           )),
@@ -192,7 +196,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       title: Text('How?',
        style: TextStyle(
         color: Colors.white,
-        fontSize: 18,
+        fontSize: 22,
         fontStyle: FontStyle.italic,
       )),
       content: Column(
@@ -209,7 +213,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 contentPadding: EdgeInsets.all(15),
                 
                   hintText: "how so",
-                  hintStyle: TextStyle(fontSize: 15),
+                  hintStyle: TextStyle(fontSize: 22),
               )
             ),
           ),
@@ -228,7 +232,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                           child: Text("bong",
                               style: TextStyle(
                                 color: Colors.black54,
-                                fontSize: 13,
+                                fontSize: 22,
                               )),
                         ),
                       )),
@@ -246,7 +250,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                               child: Text("pipe",
                                   style: TextStyle(
                                     color: Colors.black54,
-                                    fontSize: 13,
+                                    fontSize: 22,
                                   )),
                             ),
                           )),
@@ -258,11 +262,197 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       
       isActive: true,
     ),
+
+    Step(
+      title: Text('Experience',
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 22,
+        fontStyle: FontStyle.italic,
+      )
+      ),
+      content: Column(
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.white54,
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+              ),
+            child: TextField(
+             
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.all(15),
+                
+                  hintText: "ups",
+                  hintStyle: TextStyle(fontSize: 22),
+              )
+            ),
+          ),
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadiusDirectional.circular(50),
+                        color: Colors.white70,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(12,8,12,8),
+                        child: Center(
+                          child: Text("stoney",
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 22,
+                              )),
+                        ),
+                      )),
+                ),
+                Padding(
+                      padding: const EdgeInsets.only(left:4,right:4,),
+                      child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadiusDirectional.circular(50),
+                            color: Colors.white70,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(12,8,12,8),
+                            child: Center(
+                              child: Text("relaxed",
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 22,
+                                  )),
+                            ),
+                          )),
+                    ),
+              ],
+            ),
+           Padding(
+             padding: const EdgeInsets.all(12.0),
+             child: Container(
+               width: 250,
+               height: 1.0,
+               color: Colors.white70,
+             ),
+           ),
+            Container(
+            decoration: BoxDecoration(
+                color: Colors.white54,
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+              ),
+            child: TextField(
+             
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.all(15),
+                
+                  hintText: "downs",
+                  hintStyle: TextStyle(fontSize: 22),
+              )
+            ),
+          ),
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadiusDirectional.circular(50),
+                        color: Colors.white70,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(12,8,12,8),
+                        child: Center(
+                          child: Text("couchlocked",
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 22,
+                              )),
+                        ),
+                      )),
+                ),
+                Padding(
+                      padding: const EdgeInsets.only(left:4,right:4,),
+                      child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadiusDirectional.circular(50),
+                            color: Colors.white70,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(12,8,12,8),
+                            child: Center(
+                              child: Text("anxious",
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 22,
+                                  )),
+                            ),
+                          )),
+                    ),
+              ],
+            ),
+Padding(
+             padding: const EdgeInsets.all(12.0),
+             child: Container(
+               width: 250,
+               height: 1.0,
+               color: Colors.white70,
+             ),
+           ),
+
+        ],
+      ),
+      isActive: true,
+    
+    ),
+    
+    Step(
+      title: Text('Notes',
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 22,
+        fontStyle: FontStyle.italic,
+      )
+      ),
+      content: Column(
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.white54,
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+              ),
+            child: TextField(
+             
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.all(15),
+                
+                  hintText: "tell me more",
+                  hintStyle: TextStyle(fontSize: 22),
+              )
+            ),
+          ),
+           
+
+        ],
+      ),
+      isActive: true,
+    
+    ),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      floatingActionButton: FloatingActionButton(
+      onPressed: () {
+            Navigator.of(context).push(_createRoute());//telling button what to do
+          },
+          
+      child: Icon(FontAwesomeIcons.cannabis),
+      backgroundColor: Color(0xFF8BD3A8),
+    ),
       // Body
       body: Stack(
 
@@ -289,6 +479,28 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       
     ),
             child: Stepper(
+              controlsBuilder: (BuildContext context,
+                    {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
+                  return Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: FlatButton(
+                          onPressed: onStepContinue,
+                          child: Icon(FontAwesomeIcons.arrowAltCircleDown, color: Color(0xFF51B579),),
+                          color: Colors.black54,
+                        ),
+                      ),
+                      
+                      Expanded(
+                        child: FlatButton(
+                          onPressed: onStepCancel,
+                          child: Icon(FontAwesomeIcons.arrowAltCircleUp, color: Color(0xFF51B579),),
+                          color: Colors.black54,
+                        ),
+                      ),
+                    ],
+                  );
+                },
               currentStep: this.currentStep,
               steps: steps,
               type: StepperType.vertical,
@@ -323,3 +535,20 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   }
 }
 
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => StrainPage(new Strain()),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = Offset(0.0, 1.0);
+      var end = Offset.zero;
+      var curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}

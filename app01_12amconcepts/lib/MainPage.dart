@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'StrainPage.dart';
+// import 'StrainPage.dart';
 import 'StrainCard.dart';
 import 'NewExperiencePage.dart';
 import 'TopSearch.dart';
@@ -39,14 +39,28 @@ class MainPage extends StatelessWidget {
                       colorBlendMode: BlendMode.overlay,
                     ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        children: <Widget>[
-                          TopSearch(),
-                          StrainCard(new Strain()),
-                        ],
-                      ),
+                    Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TopSearch(),
+                        ),
+                        Expanded(
+                child: ListView(
+                  padding: EdgeInsets.only(top: 0.0),
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    StrainCard(new Strain()),
+                    StrainCard(new Strain()),
+                    StrainCard(new Strain()),
+                    StrainCard(new Strain()),
+                    StrainCard(new Strain()),
+                    StrainCard(new Strain()),
+                    StrainCard(new Strain()),
+                  ],
+                ),
+              ),
+                      ],
                     ),
         ],
       ),

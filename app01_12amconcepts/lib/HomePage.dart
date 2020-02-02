@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'StrainCard.dart';
+// import 'StrainCard.dart';
 
 class HomePage extends StatelessWidget {
   

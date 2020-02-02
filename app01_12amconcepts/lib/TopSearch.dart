@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TopSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top:25,bottom:15,),
+      padding: const EdgeInsets.fromLTRB(12, 45, 12, 15),
       child: Container(
         height:50,
           child: Row(
@@ -12,7 +13,7 @@ class TopSearch extends StatelessWidget {
           Expanded(
             flex: 1,
             child: IconButton(
-              icon: Icon(Icons.home),
+              icon: Icon(FontAwesomeIcons.cannabis, color: Colors.white,),
               iconSize: 30,
               color: Colors.white,
               onPressed: () {},
@@ -41,7 +42,7 @@ class TopSearch extends StatelessWidget {
             flex:1,
             child:
             IconButton(
-              icon: Icon(Icons.compare_arrows),
+              icon: Icon(FontAwesomeIcons.sort, color: Colors.white,),
               iconSize: 30,
               color: Colors.white,
               onPressed: () {},
