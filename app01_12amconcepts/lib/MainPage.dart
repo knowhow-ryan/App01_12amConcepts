@@ -1,9 +1,10 @@
+import 'package:app01_12amconcepts/Strain.dart';
 import 'package:flutter/material.dart';
 // import 'StrainPage.dart';
-import 'StrainCard.dart';
 import 'NewExperiencePage.dart';
 import 'TopSearch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'Strain.dart';
 // import 'ExperienceInputStep2.dart';
 
 class MainPage extends StatelessWidget {
@@ -50,13 +51,12 @@ class MainPage extends StatelessWidget {
                   padding: EdgeInsets.only(top: 0.0),
                   shrinkWrap: true,
                   children: <Widget>[
-                    StrainCard(new Strain()),
-                    StrainCard(new Strain()),
-                    StrainCard(new Strain()),
-                    StrainCard(new Strain()),
-                    StrainCard(new Strain()),
-                    StrainCard(new Strain()),
-                    StrainCard(new Strain()),
+                    Strain.getDummyHybrid.displayCard(),
+                    Strain.getDummyIndica.displayCard(),
+                    Strain.getDummySativa.displayCard(),
+                    Strain.getDummyIndica.displayCard(),
+                    Strain.getDummyHybrid.displayCard(),
+                    Strain.getDummySativa.displayCard()
                   ],
                 ),
               ),

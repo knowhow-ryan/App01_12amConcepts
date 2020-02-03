@@ -1,7 +1,9 @@
+/*
 import 'package:flutter/material.dart';
 import 'StrainCard.dart';
 import 'TopSearch.dart';
 import 'ExperienceCard.dart';
+import 'Strain.dart';
 
 class StrainPage extends StatelessWidget {
   //based on the tutorial: https://flutterbyexample.com/reusable-custom-card-widget/
@@ -181,3 +183,4 @@ class StrainPage extends StatelessWidget {
     );
   }
 }
+*/

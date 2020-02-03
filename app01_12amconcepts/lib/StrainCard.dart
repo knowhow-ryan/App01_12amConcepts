@@ -1,4 +1,6 @@
+/*
 import 'package:flutter/material.dart';
+import 'Strain.dart';
 
 class StrainCard extends StatelessWidget {
   //based on the tutorial: https://flutterbyexample.com/reusable-custom-card-widget/
@@ -33,6 +35,7 @@ class StrainCard extends StatelessWidget {
               .6,
               1,
             ],
+            //TODO: select color based on Sub_Species type
             colors: [//depends on genetics
               Color(0xFFFFFFFF),
               // Color(0xFFedccb3), //Orange
@@ -54,7 +57,7 @@ class StrainCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       // mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        Text(strain.name,
+                        Text(strain.name.phraseString,
                             style: TextStyle(
                               color: Colors.black87,
                               fontWeight: FontWeight.bold,
@@ -63,18 +66,20 @@ class StrainCard extends StatelessWidget {
                         SizedBox(
                           height: 2,
                         ),
-                        Text(strain.location,
+                        /* Strain.mostRecentLocation() is not built yet
+                        TODO: uncomment Most Recent Location widget
+                        Text(strain.mostRecentLocation(),
                             style: TextStyle(
                               color: Colors.black54,
                               fontWeight: FontWeight.bold,
                               fontSize: 19,
-                            )),
+                            )),*/
                         SizedBox(
                           height: 5,
                         ),
                         Row(
                           children: <Widget>[
-                            Text('THC: ${strain.thc}%',
+                            Text('THC: ${strain.thcPercent}%',
                                 style: TextStyle(
                                   color: Colors.black54,
                                   fontWeight: FontWeight.bold,
@@ -84,7 +89,7 @@ class StrainCard extends StatelessWidget {
                               width: 15,
                             ),
                             Text(
-                              'CBD: ${strain.cbd}%',
+                              'CBD: ${strain.cbdPercent}%',
                               style: TextStyle(
                                 color: Colors.black54,
                                 fontWeight: FontWeight.bold,
@@ -99,7 +104,7 @@ class StrainCard extends StatelessWidget {
                               color: Colors.black54,
                               size: 18,
                             ),
-                            Text(': ${strain.rating}',
+                            Text(': ${strain.averageRating}',
                                 style: TextStyle(
                                   color: Colors.black54,
                                   fontWeight: FontWeight.bold,
@@ -139,25 +144,4 @@ class StrainCard extends StatelessWidget {
     );
   }
 }
-
-//This is a dummy strain so you have data you can insert into the UI
-//you access this information by using strain.name, strain.thc, etc.
-class Strain {
-  String name;
-  double thc;
-  double cbd;
-  double rating;
-  String date;
-  String location;
-  String genetics;
-
-  Strain() {
-    this.name = "Jedi Killer Kush";
-    this.thc = 18.5;
-    this.cbd = 2.3;
-    this.rating = 4.7;
-    this.date = "04/20/20";
-    this.location = "Destroyer's Burger Cave";
-    this.genetics = "Sativa";
-  }
-}
+*/
