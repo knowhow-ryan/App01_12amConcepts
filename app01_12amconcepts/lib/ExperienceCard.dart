@@ -42,91 +42,6 @@ class ExperienceCard extends StatelessWidget {
         ),
         Row(
           children: <Widget>[
-<<<<<<< HEAD
-            Padding(
-              //Experience High Tag
-              padding: EdgeInsets.fromLTRB(0, 5, 5, 5),
-              child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadiusDirectional.circular(50),
-                    color: Colors.white70,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          FontAwesomeIcons.smileBeam,
-                          color: Colors.green,
-                          size: 13,
-                        ),
-                        SizedBox(width: 3),
-                        Text("happy",
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 15,
-                            )),
-                      ],
-                    ),
-                  )),
-            ),
-            
-            Padding(
-              //Experience High Tag
-              padding: EdgeInsets.fromLTRB(0, 5, 5, 5),
-              child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadiusDirectional.circular(50),
-                    color: Colors.white70,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          FontAwesomeIcons.smileBeam,
-                          color: Colors.green,
-                          size: 13,
-                        ),
-                        SizedBox(width: 3),
-                        Text("stoney",
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 15,
-                            )),
-                      ],
-                    ),
-                  )),
-            ),
-
-            Padding(
-              //Experience Low Tag
-              padding: EdgeInsets.fromLTRB(0, 5, 5, 5),
-              child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadiusDirectional.circular(50),
-                    color: Colors.white70,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          FontAwesomeIcons.mehBlank,
-                          color: Colors.red,
-                          size: 13,
-                        ),
-                        SizedBox(width: 3),
-                        Text("couchlocked",
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 15,
-                            )),
-                      ],
-                    ),
-                  )),
-            ),
-=======
             Phrase("happy",PhraseType.High).displayPill(),
             Phrase("stoney", PhraseType.Strain).displayPill(),
             Phrase("couchlocked", PhraseType.Low).displayPill()
@@ -213,7 +128,6 @@ class ExperienceCard extends StatelessWidget {
             //         ),
             //       )),
             // ),
->>>>>>> 2c58bb097b8a95678c24caf5a911cdd28513bdbd
           ],
         ),
         Padding(
