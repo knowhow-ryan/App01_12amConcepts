@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'StrainPage.dart';
 //import 'MainPage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'StrainCard.dart';
 
 
 class NewExperiencePage extends StatefulWidget {

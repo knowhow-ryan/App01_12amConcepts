@@ -13,6 +13,12 @@ class Strain {
 
   static List<Strain> allStrains = []; //All the Strains the user has created
 
+  //TODO: remove
+  //dummy Strains for testing
+  static Strain _dummyHybrid;
+  static Strain _dummyIndica;
+  static Strain _dummySativa;
+
   Strain(String name, double thc, double cbd, Sub_species subSpecies) {
     this.name = Phrase.save(name, PhraseType.Strain);
     this.thcPercent = thc;
@@ -49,8 +55,152 @@ class Strain {
   }
 
   Widget displayCard() {
-    //TODO: build Strain.display_card method
-    return null;
+    //The Strain information displayed as a card-like widget
+
+    //sets the color of the background gradient based on the Sub_Species
+    Color gradientColor;
+    switch(this.subSpecies) {
+      case Sub_species.Hybrid: {
+        gradientColor = Color(0xFFceafcc); //Hybrid Purple
+      }
+      break;
+
+      case Sub_species.Indica: {
+        gradientColor = Color(0xFFedccb3); //Indica Green
+      }
+      break;
+      
+      case Sub_species.Sativa: {
+        gradientColor = Color(0xFFbfd7c9); //Sativa Orange
+      }
+      break;
+    }
+    return Padding(
+      padding: EdgeInsets.fromLTRB(18, 0, 18, 15),
+      child: Container(
+        //Sativa Orange Card
+        height: 95,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(14.0),
+          ),
+          boxShadow: [
+            new BoxShadow(
+              color: Colors.black54,
+              blurRadius: 2.0,
+            ),
+          ],
+          gradient: LinearGradient(
+            end: FractionalOffset.bottomCenter,
+            begin: FractionalOffset.topLeft,
+            stops: [
+              .6,
+              1,
+            ],
+            colors: [
+              Color(0xFFFFFFFF),
+              gradientColor, //depends on Sub_species
+            ],
+          ), 
+        ),
+
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Expanded(
+              child: Stack(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text(this.name.phraseString,
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 23,
+                            )),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        /* Strain.mostRecentLocation() is not built yet
+                        TODO: uncomment Most Recent Location widget
+                        Text(strain.mostRecentLocation(),
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 19,
+                            )),*/
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Text('THC: ${this.thcPercent}%',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                )),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Text(
+                              'CBD: ${this.cbdPercent}%',
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Icon(
+                              Icons.star,
+                              color: Colors.black54,
+                              size: 18,
+                            ),
+                            Text(': ${this.averageRating}',
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                )),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    width: 120,
+                    height: 95,
+                    child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(14.0),
+                              bottomRight: Radius.circular(14.0),
+                              bottomLeft: Radius.circular(50.0),
+                              topLeft: Radius.circular(50.0),
+                            ),
+                            color: Colors.green,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                  "https://images.pexels.com/photos/1466335/pexels-photo-1466335.jpeg"),
+                            ))),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget displayFull() {
@@ -65,6 +215,33 @@ class Strain {
     int sum = 0;
     this.experiences.forEach((experience) => sum += experience.overallRating);
     this.averageRating = sum.toDouble() / this.experiences.length.toDouble();
+  }
+
+  Phrase mostRecentLocation() {
+    //the location from the Experience with the most recent date
+    //TODO: build Strain.mostRecentLocation method
+    return null;
+  }
+
+  static Strain get getDummyHybrid {
+    if(_dummyHybrid == null) {
+      _dummyHybrid = Strain("Hybrid Dummy Strain",18.7,0.2,Sub_species.Hybrid);
+    }
+    return _dummyHybrid;
+  }
+
+  static Strain get getDummyIndica {
+    if(_dummyIndica == null) {
+      _dummyIndica = Strain("Indica Dummy Strain",15.0,5.3,Sub_species.Indica);
+    }
+    return _dummyIndica;
+  }
+
+  static Strain get getDummySativa {
+    if(_dummySativa == null) {
+      _dummySativa = Strain("Sativa Dummy Strain",22.1,3.5,Sub_species.Sativa);
+    }
+    return _dummySativa;
   }
 }
 

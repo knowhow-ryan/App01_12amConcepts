@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'StrainCard.dart';
+//import 'StrainCard.dart';
 import 'TopSearch.dart';
 import 'ExperienceCard.dart';
 
@@ -178,5 +178,27 @@ class StrainPage extends StatelessWidget {
             ],
           )),
     );
+  }
+}
+
+//This is a dummy strain so you have data you can insert into the UI
+//you access this information by using strain.name, strain.thc, etc.
+class Strain {
+  String name;
+  double thc;
+  double cbd;
+  double rating;
+  String date;
+  String location;
+  String genetics;
+
+  Strain() {
+    this.name = "Jedi Killer Kush";
+    this.thc = 18.5;
+    this.cbd = 2.3;
+    this.rating = 4.7;
+    this.date = "04/20/20";
+    this.location = "Destroyer's Burger Cave";
+    this.genetics = "Sativa";
   }
 }
