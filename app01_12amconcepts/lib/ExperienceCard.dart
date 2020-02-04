@@ -42,7 +42,6 @@ class ExperienceCard extends StatelessWidget {
         ),
         Row(
           children: <Widget>[
-<<<<<<< HEAD
             Padding(
               //Experience High Tag
               padding: EdgeInsets.fromLTRB(0, 5, 5, 5),
@@ -126,7 +125,6 @@ class ExperienceCard extends StatelessWidget {
                     ),
                   )),
             ),
-=======
             Phrase("happy",PhraseType.High).displayPill(),
             Phrase("stoney", PhraseType.Strain).displayPill(),
             Phrase("couchlocked", PhraseType.Low).displayPill()
@@ -213,7 +211,6 @@ class ExperienceCard extends StatelessWidget {
             //         ),
             //       )),
             // ),
->>>>>>> 2c58bb097b8a95678c24caf5a911cdd28513bdbd
           ],
         ),
         Padding(

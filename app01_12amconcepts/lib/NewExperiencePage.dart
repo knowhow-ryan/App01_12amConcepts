@@ -14,39 +14,12 @@ class NewExperiencePage extends StatefulWidget {
   NewExperiencePageState createState() => NewExperiencePageState();
 }
 
-// class MyStyle extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       theme: ThemeData(
-//         brightness: Brightness.dark,
-//         primaryColor: Color(0xFFb2d3bf),
-//         accentColor: Colors.white,
-        
-//         textTheme: TextTheme(
-          
-//           headline: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-//           title: TextStyle(fontSize: 22, fontStyle: FontStyle.italic),
-//           body1: TextStyle(fontSize: 22,),
-//           body2: TextStyle(fontSize: 22),
-//         )
-
-//       )
-      
-//     );
-//   }}
-
-// class MyStyle {
-//   static TextStyle mytitle(BuildContext context) {
-//     return Theme.of(context).textTheme.title.copyWith(fontSize: 22);
-//   }
-// }
-
 class NewExperiencePageState extends State<NewExperiencePage> {
   //
   int currentStep = 0;
-  List<Step> steps = [
-    Step(
+  double _sliderValue = 0.0;
+  List<Step> steps() {
+    return [Step(
       title: Text('What Strain?',
       
       style: TextStyle(
@@ -115,6 +88,43 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                     ),
               ],
             ),
+            Text('THC',
+      
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 15,
+        fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.bold,
+      )
+      ),
+            Slider(
+                  activeColor:  Color(0xFFbfd7c9), 
+                  thumbColor: 
+                  min: 0.0,
+                  max: 100.0,
+                  onChanged: (newPercentage) {//Do not change
+                    setState(() => _sliderValue = newPercentage);//do not change
+                  },
+                  value: _sliderValue,//Do not change
+                ),
+                Text('CBD',
+      
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 15,
+        fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.bold,
+      )
+      ),
+                 Slider(
+                  activeColor:  Color(0xFFbfd7c9), 
+                  min: 0.0,
+                  max: 100.0,
+                  onChanged: (newPercentage) {//Do not change
+                    setState(() => _sliderValue = newPercentage);//do not change
+                  },
+                  value: _sliderValue,//Do not change
+                ),
         ],
       ),
       isActive: true,
@@ -393,7 +403,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                     ),
               ],
             ),
-Padding(
+            Padding(
              padding: const EdgeInsets.all(12.0),
              child: Container(
                width: 250,
@@ -441,7 +451,7 @@ Padding(
       isActive: true,
     
     ),
-  ];
+  ];}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -502,7 +512,7 @@ Padding(
                   );
                 },
               currentStep: this.currentStep,
-              steps: steps,
+              steps: steps(),
               type: StepperType.vertical,
               onStepTapped: (step) {
                 setState(() {
@@ -511,7 +521,7 @@ Padding(
               },
               onStepContinue: () {
                 setState(() {
-                  if (currentStep < steps.length - 1) {
+                  if (currentStep < steps().length - 1) {
                     currentStep = currentStep + 1;
                   } else {
                     currentStep = 0;
