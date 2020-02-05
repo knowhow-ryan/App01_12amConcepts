@@ -19,7 +19,7 @@ class MainPage extends StatelessWidget {
           },
           
       child: Icon(FontAwesomeIcons.cannabis),
-      backgroundColor: Color(0xFF8BD3A8),
+      backgroundColor: Color(0xFF3e865d),
     ),
     
       body:  Stack(

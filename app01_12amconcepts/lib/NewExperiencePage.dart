@@ -30,6 +30,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       ),
       content: 
       Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
@@ -43,7 +44,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 contentPadding: EdgeInsets.all(15),
                 
                   hintText: "strain name",
-                  hintStyle: TextStyle(fontSize: 15),
+                  hintStyle: TextStyle(fontSize: 18),
               )
             ),
           ),
@@ -87,43 +88,129 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                     ),
               ],
             ),
-            Text('THC',
+          Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 15, 0, 8),
+                child: Text('THC',
       
       style: TextStyle(
         color: Colors.white,
-        fontSize: 15,
+        fontSize: 18,
         fontStyle: FontStyle.italic,
         fontWeight: FontWeight.bold,
       )
       ),
-            Slider(
-                  activeColor:  Color(0xFFbfd7c9), 
-                  
-                  min: 0.0,
-                  max: 100.0,
-                  onChanged: (newPercentage) {//Do not change
-                    setState(() => _sliderValue = newPercentage);//do not change
-                  },
-                  value: _sliderValue,//Do not change
+              ),
+            ],
+          ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  flex:1,
+                  child: Container(
+                    decoration: BoxDecoration(
+                color: Colors.white54,
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+              ),
+                    child: TextField(
+                      decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(15),
+                    
+                      hintText: "thc%",
+                      hintStyle: TextStyle(fontSize: 15),
+              )
+
+                    ),
+                  ),
                 ),
-                Text('CBD',
+                Expanded(
+                  flex:4,
+                  child: SliderTheme(
+                     data: SliderTheme.of(context).copyWith(
+        activeTrackColor: Color(0xFFbfd7c9),
+        inactiveTrackColor: Color(0xFF3e865d),
+        trackShape: RectangularSliderTrackShape(),
+        trackHeight: 3.0,
+                     ),
+                    child: Slider(
+                          activeColor:  Colors.white, 
+                          
+                          min: 0.0,
+                          max: 100.0,
+                          label: 'THC',
+                          onChanged: (newPercentage) {//Do not change
+                            setState(() => _sliderValue = newPercentage);//do not change
+                          },
+                          value: _sliderValue,//Do not change
+                        ),
+                  ),
+                ),
+              ],
+            ),
+               Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 15, 0, 8),
+                child: Text('CBD',
       
       style: TextStyle(
         color: Colors.white,
-        fontSize: 15,
+        fontSize: 18,
         fontStyle: FontStyle.italic,
         fontWeight: FontWeight.bold,
       )
       ),
-                 Slider(
-                  activeColor:  Color(0xFFbfd7c9), 
-                  min: 0.0,
-                  max: 100.0,
-                  onChanged: (newPercentage) {//Do not change
-                    setState(() => _sliderValue = newPercentage);//do not change
-                  },
-                  value: _sliderValue,//Do not change
+              ),
+            ],
+          ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  flex:1,
+                  child: Container(
+                    decoration: BoxDecoration(
+                color: Colors.white54,
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+              ),
+                    child: TextField(
+                      decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(15),
+                    
+                      hintText: "cbd%",
+                      hintStyle: TextStyle(fontSize: 15),
+              )
+
+                    ),
+                  ),
                 ),
+                Expanded(
+                  flex:4,
+                  child: SliderTheme(
+                     data: SliderTheme.of(context).copyWith(
+        activeTrackColor: Color(0xFFbfd7c9),
+        inactiveTrackColor: Color(0xFF3e865d),
+        trackShape: RectangularSliderTrackShape(),
+        trackHeight: 3.0,
+                     ),
+                    child: Slider(
+                          activeColor:  Colors.white, 
+                          
+                          min: 0.0,
+                          max: 100.0,
+                          label: 'CBD',
+                          onChanged: (newPercentage) {//Do not change
+                            setState(() => _sliderValue = newPercentage);//do not change
+                          },
+                          value: _sliderValue,//Do not change
+                        ),
+                  ),
+                ),
+              ],
+            ),
+               SizedBox(height:20,)
         ],
       ),
       isActive: true,
@@ -149,8 +236,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.all(15),
                 
-                  hintText: "Where at?",
-                  hintStyle: TextStyle(fontSize: 22),
+                  hintText: "location",
+                  hintStyle: TextStyle(fontSize: 18),
               )
             ),
           ),
@@ -169,7 +256,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                           child: Text("home",
                               style: TextStyle(
                                 color: Colors.black54,
-                                fontSize: 22,
+                                fontSize: 15,
                               )),
                         ),
                       )),
@@ -187,14 +274,14 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                               child: Text("apartment",
                                   style: TextStyle(
                                     color: Colors.black54,
-                                    fontSize: 22,
+                                    fontSize: 15,
                                   )),
                             ),
                           )),
                     ),
               ],
             ),
-
+SizedBox(height:20),
         ],
       ),
       isActive: true,
@@ -222,7 +309,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 contentPadding: EdgeInsets.all(15),
                 
                   hintText: "how so",
-                  hintStyle: TextStyle(fontSize: 22),
+                  hintStyle: TextStyle(fontSize: 18),
               )
             ),
           ),
@@ -241,7 +328,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                           child: Text("bong",
                               style: TextStyle(
                                 color: Colors.black54,
-                                fontSize: 22,
+                                fontSize: 15,
                               )),
                         ),
                       )),
@@ -259,13 +346,14 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                               child: Text("pipe",
                                   style: TextStyle(
                                     color: Colors.black54,
-                                    fontSize: 22,
+                                    fontSize: 15,
                                   )),
                             ),
                           )),
                     ),
               ],
             ),
+            SizedBox(height:20),
         ],
       ),
       
@@ -293,8 +381,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.all(15),
                 
-                  hintText: "ups",
-                  hintStyle: TextStyle(fontSize: 22),
+                  hintText: "highs",
+                  hintStyle: TextStyle(fontSize: 18),
               )
             ),
           ),
@@ -313,7 +401,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                           child: Text("stoney",
                               style: TextStyle(
                                 color: Colors.black54,
-                                fontSize: 22,
+                                fontSize: 15,
                               )),
                         ),
                       )),
@@ -331,21 +419,14 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                               child: Text("relaxed",
                                   style: TextStyle(
                                     color: Colors.black54,
-                                    fontSize: 22,
+                                    fontSize: 15,
                                   )),
                             ),
                           )),
                     ),
               ],
             ),
-           Padding(
-             padding: const EdgeInsets.all(12.0),
-             child: Container(
-               width: 250,
-               height: 1.0,
-               color: Colors.white70,
-             ),
-           ),
+           SizedBox(height:20),
             Container(
             decoration: BoxDecoration(
                 color: Colors.white54,
@@ -357,8 +438,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.all(15),
                 
-                  hintText: "downs",
-                  hintStyle: TextStyle(fontSize: 22),
+                  hintText: "lows",
+                  hintStyle: TextStyle(fontSize: 18),
               )
             ),
           ),
@@ -377,7 +458,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                           child: Text("couchlocked",
                               style: TextStyle(
                                 color: Colors.black54,
-                                fontSize: 22,
+                                fontSize: 15,
                               )),
                         ),
                       )),
@@ -395,22 +476,76 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                               child: Text("anxious",
                                   style: TextStyle(
                                     color: Colors.black54,
-                                    fontSize: 22,
+                                    fontSize: 15,
                                   )),
                             ),
                           )),
                     ),
               ],
             ),
-            Padding(
-             padding: const EdgeInsets.all(12.0),
-             child: Container(
-               width: 250,
-               height: 1.0,
-               color: Colors.white70,
-             ),
-           ),
+            
+             Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 15, 0, 8),
+                child: Text('Overall Rating',
+      
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 18,
+        fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.bold,
+      )
+      ),
+              ),
+            ],
+          ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  flex:1,
+                  child: Container(
+                    decoration: BoxDecoration(
+                color: Colors.white54,
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+              ),
+                    child: TextField(
+                      decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(15),
+                    
+                      hintText: "-",
+                      hintStyle: TextStyle(fontSize: 15),
+              )
 
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex:4,
+                  child: SliderTheme(
+                     data: SliderTheme.of(context).copyWith(
+        activeTrackColor: Color(0xFFbfd7c9),
+        inactiveTrackColor: Color(0xFF3e865d),
+        trackShape: RectangularSliderTrackShape(),
+        trackHeight: 3.0,
+                     ),
+                    child: Slider(
+                          activeColor:  Colors.white, 
+                          
+                          min: 0.0,
+                          max: 10.0,
+                          label: 'rating',
+                          onChanged: (newPercentage) {//Do not change
+                            setState(() => _sliderValue = newPercentage);//do not change
+                          },
+                          value: _sliderValue,//Do not change
+                        ),
+                  ),
+                ),
+              ],
+            ),
+SizedBox(height:20),
         ],
       ),
       isActive: true,
@@ -444,7 +579,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
             ),
           ),
            
-
+SizedBox(height:20),
         ],
       ),
       isActive: true,
