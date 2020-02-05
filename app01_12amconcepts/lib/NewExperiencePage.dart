@@ -98,7 +98,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       ),
             Slider(
                   activeColor:  Color(0xFFbfd7c9), 
-                  thumbColor: 
+                  
                   min: 0.0,
                   max: 100.0,
                   onChanged: (newPercentage) {//Do not change
@@ -450,7 +450,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       isActive: true,
     
     ),
-  ];}
+  ];
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

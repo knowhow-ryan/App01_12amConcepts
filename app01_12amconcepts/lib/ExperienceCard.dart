@@ -46,22 +46,16 @@ class ExperienceCard extends StatelessWidget {
             Phrase("couchlocked", PhraseType.Low).displayPill()
           ],
         ),
-          padding: const EdgeInsets.only(
-            bottom: 10,
-            top: 5,
-          ),
-          child: Text(
+          Text(
               'Donec nec diam sit amet dui tristique luctus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac lorem tellus. Suspendisse pharetra purus sit amet nulla suscipit, ac commodo metus ornare. Sed dolor lectus, volutpat nec ipsum interdum, ultrices iaculis nunc. In at consectetur ligula, quis viverra lectus. Maecenas lacinia ex sed blandit tincidunt. Vivamus egestas leo et sapien sollicitudin tincidunt.',
               style: TextStyle(
                 color: Colors.black54,
                 fontSize: 15,
               )),
-        ),
-        SizedBox(
-          height: 15,
-        ),
-      ],
-    ));
+      
+        
+      ]),
+    );
   }
 }
 
