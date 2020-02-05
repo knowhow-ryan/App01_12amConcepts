@@ -61,17 +61,17 @@ class Strain {
     Color gradientColor;
     switch(this.subSpecies) {
       case Sub_species.Hybrid: {
-        gradientColor = Color(0xFFceafcc); //Hybrid Purple
+        gradientColor = Color(0xFFbfd7c9); //Hybrid Green
       }
       break;
 
       case Sub_species.Indica: {
-        gradientColor = Color(0xFFedccb3); //Indica Green
+        gradientColor = Color(0xFFceafcc); //Indica Purple
       }
       break;
       
       case Sub_species.Sativa: {
-        gradientColor = Color(0xFFbfd7c9); //Sativa Orange
+        gradientColor = Color(0xFFedccb3); //Sativa Orange
       }
       break;
     }
@@ -204,7 +204,7 @@ class Strain {
   }
 
   Widget displayFull() {
-    //TODO: build Strain.display_card method
+    //TODO: build Strain.displayFull method
     return null;
   }
   
@@ -215,6 +215,28 @@ class Strain {
     int sum = 0;
     this.experiences.forEach((experience) => sum += experience.overallRating);
     this.averageRating = sum.toDouble() / this.experiences.length.toDouble();
+  }
+
+  String get getSubSpecies {
+    switch(this.subSpecies) {
+      case Sub_species.Hybrid: {
+        return "Hybrid";
+      }
+      break;
+
+      case Sub_species.Indica: {
+        return "Indica";
+      }
+      break;
+      
+      case Sub_species.Sativa: {
+        return "Sativa";
+      }
+      break;
+      
+      default:
+    }
+    return null;
   }
 
   Phrase mostRecentLocation() {

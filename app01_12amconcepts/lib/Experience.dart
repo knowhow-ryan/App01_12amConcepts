@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Phrase.dart';
 import 'Strain.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Experience {
   /* A single user cannabis experience */
@@ -12,6 +13,10 @@ class Experience {
   List<Phrase> highs; //short phrases describing the good parts of this Experience
   List<Phrase> lows; //short phrases describing the bad parts of this Experience
   String notes; //any extra information the user wants to attach to this Experience.
+
+  //TODO: remove
+  //dummy Experience for testing
+  static Experience _dummyExperience;
 
   Experience(this.strain,this.date,this.location,this.ingestion,this.overallRating,this.highs,this.lows,this.notes) {
     strain.addExperience(this);
@@ -67,8 +72,84 @@ class Experience {
     return experienceString;
   }
 
+  List<Widget> get highsPillList {
+    //get a list of all of the Phrase pill widgets from the highs List
+    List<Widget> widgetList = [];
+    this.highs.forEach((high) => widgetList.add(high.displayPill()));
+    return widgetList;
+  }
+
+  List<Widget> get lowsPillList {
+    //get a list of all of the Phrase pill widgets from the highs List
+    List<Widget> widgetList = [];
+    this.lows.forEach((low) => widgetList.add(low.displayPill()));
+    return widgetList;
+  }
+
   Widget displayCard() {
-    //TODO: implement Experience.displayCard method
-    return null;
+    Widget card = Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Padding(
+                //date - location
+                padding: const EdgeInsets.only(
+                  right: 10,
+                ),
+                child: Text(
+                  this.date.month.toString() + '/' +
+                  this.date.day.toString() + '/' +
+                  this.date.year.toString() + '/' +
+                  ' - ' + this.location.phraseString,
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+              Icon(
+                //edit icon
+                FontAwesomeIcons.pencilAlt,
+                color: Colors.black26,
+                size: 13,
+              ),
+            ],
+          ),
+          Row(
+            //highs
+            children: this.highsPillList
+          ),
+          Row(
+            //lows
+            children: this.lowsPillList
+          ),
+          Text(
+            //notes
+            this.notes,
+            style: TextStyle(
+            color: Colors.black54,
+            fontSize: 15,
+          )),
+      ]),
+    );
+
+    return card;
+  }
+
+  static Experience get dummyExperience {
+    if(_dummyExperience == null) {
+      _dummyExperience = Experience(Strain.getDummyHybrid,
+        DateTime.now(),
+        Phrase("dummy location", PhraseType.Location),
+        Phrase("dummy ingestion", PhraseType.Ingestion),
+        4,
+        [Phrase("dummy high 1", PhraseType.High), Phrase("dummy high 2", PhraseType.High)],
+        [Phrase("dummy low 1", PhraseType.Low), Phrase("dummy low 2", PhraseType.Low)],
+        "dummy notes");
+    }
+    return _dummyExperience;
   }
 }

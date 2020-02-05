@@ -1,3 +1,4 @@
+/*
 import 'package:app01_12amconcepts/Phrase.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -70,3 +71,4 @@ class Experience {
     this.location = "Cole Cave";
   }
 }
+*/

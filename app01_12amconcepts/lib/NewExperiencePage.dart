@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'StrainPage.dart';
-//import 'MainPage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'Strain.dart';
 
 
 class NewExperiencePage extends StatefulWidget {
@@ -547,7 +547,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
 
 Route _createRoute() {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => StrainPage(new Strain()),
+    pageBuilder: (context, animation, secondaryAnimation) => StrainPage(Strain.getDummyHybrid),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       var begin = Offset(0.0, 1.0);
       var end = Offset.zero;

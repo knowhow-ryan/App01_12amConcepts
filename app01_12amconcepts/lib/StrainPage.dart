@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-//import 'StrainCard.dart';
 import 'TopSearch.dart';
-import 'ExperienceCard.dart';
-
+import 'Experience.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'Strain.dart';
 
 class StrainPage extends StatelessWidget {
   //based on the tutorial: https://flutterbyexample.com/reusable-custom-card-widget/
@@ -16,7 +15,6 @@ class StrainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Experience experience = new Experience();
     return Material(
       child: Container(
           decoration: BoxDecoration(
@@ -78,7 +76,7 @@ class StrainPage extends StatelessWidget {
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
-                              child: Text(strain.genetics,
+                              child: Text(strain.subSpecies.toString(),
                                   style: TextStyle(
                                     color: Colors.black87,
                                     fontSize: 14,
@@ -98,7 +96,7 @@ class StrainPage extends StatelessWidget {
                             top: 15,
                             right: 8,
                           ),
-                          child: Text(strain.name,
+                          child: Text(strain.name.phraseString,
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontWeight: FontWeight.bold,
@@ -121,7 +119,7 @@ class StrainPage extends StatelessWidget {
                         children: <Widget>[
                           Expanded(
                             flex: 1,
-                            child: Text('THC: ${strain.thc}%',
+                            child: Text('THC: ${strain.thcPercent}%',
                                 style: TextStyle(
                                   color: Colors.black54,
                                   fontWeight: FontWeight.bold,
@@ -131,7 +129,7 @@ class StrainPage extends StatelessWidget {
                           Expanded(
                             flex: 1,
                             child: Text(
-                              'CBD: ${strain.cbd}%',
+                              'CBD: ${strain.cbdPercent}%',
                               style: TextStyle(
                                 color: Colors.black54,
                                 fontWeight: FontWeight.bold,
@@ -144,7 +142,7 @@ class StrainPage extends StatelessWidget {
                             color: Colors.black54,
                             size: 20,
                           ),
-                          Text('${strain.rating}',
+                          Text('${strain.averageRating}',
                               style: TextStyle(
                                 color: Colors.black54,
                                 fontWeight: FontWeight.bold,
@@ -168,10 +166,10 @@ class StrainPage extends StatelessWidget {
                 child: ListView(
                   padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                   children: <Widget>[
-                    ExperienceCard(experience),
-                    ExperienceCard(experience),
-                    ExperienceCard(experience),
-                    ExperienceCard(experience),
+                    Experience.dummyExperience.displayCard(),
+                    Experience.dummyExperience.displayCard(),
+                    Experience.dummyExperience.displayCard(),
+                    Experience.dummyExperience.displayCard(),
                   ],
                 ),
               ),
@@ -181,6 +179,7 @@ class StrainPage extends StatelessWidget {
   }
 }
 
+/*
 //This is a dummy strain so you have data you can insert into the UI
 //you access this information by using strain.name, strain.thc, etc.
 class Strain {
@@ -202,3 +201,4 @@ class Strain {
     this.genetics = "Sativa";
   }
 }
+*/
