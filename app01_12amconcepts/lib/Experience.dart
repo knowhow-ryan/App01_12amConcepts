@@ -91,32 +91,35 @@ class Experience {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Padding(
-                //date - location
-                padding: const EdgeInsets.only(
-                  right: 10,
-                ),
-                child: Text(
-                  this.date.month.toString() + '/' +
-                  this.date.day.toString() + '/' +
-                  this.date.year.toString() + '/' +
-                  ' - ' + this.location.phraseString,
-                  style: TextStyle(
-                    color: Colors.black87,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
+          Padding(
+            padding: const EdgeInsets.only(bottom:5.0),
+            child: Row(
+              children: <Widget>[
+                Padding(
+                  //date - location - rating
+                  padding: const EdgeInsets.only(
+                    right: 10,
+                  ),
+                  child: Text(
+                    this.date.month.toString() + '/' +
+                    this.date.day.toString() + '/' +
+                    this.date.year.toString() +
+                    ' - ' + this.location.phraseString + ' - 4.2', //TODO: add rating variable to experience card
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                    ),
                   ),
                 ),
-              ),
-              Icon(
-                //edit icon
-                FontAwesomeIcons.pencilAlt,
-                color: Colors.black26,
-                size: 13,
-              ),
-            ],
+                Icon(
+                  //edit icon
+                  FontAwesomeIcons.pencilAlt,
+                  color: Colors.black26,
+                  size: 13,
+                ),
+              ],
+            ),
           ),
           Row(
             //highs
@@ -126,13 +129,16 @@ class Experience {
             //lows
             children: this.lowsPillList
           ),
-          Text(
-            //notes
-            this.notes,
-            style: TextStyle(
-            color: Colors.black54,
-            fontSize: 15,
-          )),
+          Padding(
+            padding: const EdgeInsets.only(bottom:20.0,top:5,),
+            child: Text(
+              //notes
+              this.notes,
+              style: TextStyle(
+              color: Colors.black54,
+              fontSize: 18,
+            )),
+          ),
       ]),
     );
 
@@ -148,7 +154,7 @@ class Experience {
         4,
         [Phrase("dummy high 1", PhraseType.High), Phrase("dummy high 2", PhraseType.High)],
         [Phrase("dummy low 1", PhraseType.Low), Phrase("dummy low 2", PhraseType.Low)],
-        "dummy notes");
+        "woah dude. that was epic");
     }
     return _dummyExperience;
   }

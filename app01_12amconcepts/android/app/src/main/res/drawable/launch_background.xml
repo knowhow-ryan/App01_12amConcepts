@@ -2,9 +2,26 @@
 <!-- Modify this file to customize your launch splash screen -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@android:color/white" />
+    
 
     <!-- You can insert your own image assets here -->
-    <!-- <item>
+    Container( //Starting Gradient with Smoke Background
+                      decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        end: FractionalOffset.topCenter,
+                        begin: FractionalOffset.bottomCenter,
+                        stops: [.05, .45,],
+                        colors: [Color(0xFFDDDDDD), Colors.black87,],
+                      ),
+                      ),
+                    child: Image.network("http://justcole.design/wp-content/uploads/2020/02/Smokey-Background-Side.png",
+                      height: double.maxFinite,
+                      width: double.maxFinite,
+                      fit: BoxFit.cover,
+                      colorBlendMode: BlendMode.overlay,
+                    ),
+                    ),
+    <item>
         <bitmap
             android:gravity="center"
             android:src="@mipmap/launch_image" />

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'StrainPage.dart';
+import 'StrainPageNoPicture.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Strain.dart';
 
@@ -587,9 +587,11 @@ SizedBox(height:20),
     ),
   ];
   }
+ // setState(()=> _myOpacity = 0.0);//TODO Where does this go?
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       floatingActionButton: FloatingActionButton(
       onPressed: () {
             Navigator.of(context).push(_createRoute());//telling button what to do
@@ -623,55 +625,61 @@ SizedBox(height:20),
       primaryColor: Color(0xFF51B579),
       
     ),
-            child: Stepper(
-              controlsBuilder: (BuildContext context,
-                    {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
-                  return Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: FlatButton(
-                          onPressed: onStepContinue,
-                          child: Icon(FontAwesomeIcons.arrowAltCircleDown, color: Color(0xFF51B579),),
-                          color: Colors.black54,
+            child: AnimatedOpacity(
+              
+              opacity: 1,
+              
+              duration: Duration(seconds:1),
+              child: Stepper(
+                controlsBuilder: (BuildContext context,
+                      {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
+                    return Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: FlatButton(
+                            onPressed: onStepContinue,
+                            child: Icon(FontAwesomeIcons.arrowAltCircleDown, color: Color(0xFF51B579),),
+                            color: Colors.black54,
+                          ),
                         ),
-                      ),
-                      
-                      Expanded(
-                        child: FlatButton(
-                          onPressed: onStepCancel,
-                          child: Icon(FontAwesomeIcons.arrowAltCircleUp, color: Color(0xFF51B579),),
-                          color: Colors.black54,
+                        
+                        Expanded(
+                          child: FlatButton(
+                            onPressed: onStepCancel,
+                            child: Icon(FontAwesomeIcons.arrowAltCircleUp, color: Color(0xFF51B579),),
+                            color: Colors.black54,
+                          ),
                         ),
-                      ),
-                    ],
-                  );
+                      ],
+                    );
+                  },
+                currentStep: this.currentStep,
+                steps: steps(),
+                type: StepperType.vertical,
+                onStepTapped: (step) {
+                  setState(() {
+                    currentStep = step;
+                  });
                 },
-              currentStep: this.currentStep,
-              steps: steps(),
-              type: StepperType.vertical,
-              onStepTapped: (step) {
-                setState(() {
-                  currentStep = step;
-                });
-              },
-              onStepContinue: () {
-                setState(() {
-                  if (currentStep < steps().length - 1) {
-                    currentStep = currentStep + 1;
-                  } else {
-                    currentStep = 0;
-                  }
-                });
-              },
-              onStepCancel: () {
-                setState(() {
-                  if (currentStep > 0) {
-                    currentStep = currentStep - 1;
-                  } else {
-                    currentStep = 0;
-                  }
-                });
-              },
+                onStepContinue: () {
+                  setState(() {
+                    if (currentStep < steps().length - 1) {
+                      currentStep = currentStep + 1;
+                    } else {
+                      currentStep = 0;
+                    }
+                  });
+                },
+                onStepCancel: () {
+                  setState(() {
+                    if (currentStep > 0) {
+                      currentStep = currentStep - 1;
+                    } else {
+                      currentStep = 0;
+                    }
+                  });
+                },
+              ),
             ),
           ),
         ],

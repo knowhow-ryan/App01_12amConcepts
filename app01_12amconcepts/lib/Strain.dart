@@ -120,7 +120,7 @@ class Strain {
                             style: TextStyle(
                               color: Colors.black87,
                               fontWeight: FontWeight.bold,
-                              fontSize: 23,
+                              fontSize: 28,
                             )),
                         SizedBox(
                           height: 2,
@@ -142,7 +142,7 @@ class Strain {
                                 style: TextStyle(
                                   color: Colors.black54,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                                  fontSize: 20,
                                 )),
                             SizedBox(
                               width: 15,
@@ -152,7 +152,7 @@ class Strain {
                               style: TextStyle(
                                 color: Colors.black54,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                                fontSize: 20,
                               ),
                             ),
                             SizedBox(
@@ -161,39 +161,39 @@ class Strain {
                             Icon(
                               Icons.star,
                               color: Colors.black54,
-                              size: 18,
+                              size: 20,
                             ),
                             Text(': ${this.averageRating}',
                                 style: TextStyle(
                                   color: Colors.black54,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                                  fontSize: 20,
                                 )),
                           ],
                         )
                       ],
                     ),
                   ),
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    width: 120,
-                    height: 95,
-                    child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(14.0),
-                              bottomRight: Radius.circular(14.0),
-                              bottomLeft: Radius.circular(50.0),
-                              topLeft: Radius.circular(50.0),
-                            ),
-                            color: Colors.green,
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                  "https://images.pexels.com/photos/1466335/pexels-photo-1466335.jpeg"),
-                            ))),
-                  ),
+                  // Positioned(
+                  //   right: 0,
+                  //   top: 0,
+                  //   width: 120,
+                  //   height: 95,
+                  //   child: Container(
+                  //       decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.only(
+                  //             topRight: Radius.circular(14.0),
+                  //             bottomRight: Radius.circular(14.0),
+                  //             bottomLeft: Radius.circular(50.0),
+                  //             topLeft: Radius.circular(50.0),
+                  //           ),
+                  //           color: Colors.green,
+                  //           image: DecorationImage(
+                  //             fit: BoxFit.cover,
+                  //             image: NetworkImage(
+                  //                 "https://images.pexels.com/photos/1466335/pexels-photo-1466335.jpeg"),
+                  //           ))),
+                  // ),
                 ],
               ),
             ),

@@ -140,13 +140,13 @@ class Phrase {
               Icon(
                 icon, //FontAwesomeIcons.smileBeam,
                 color: iconColor, //color: Colors.green,
-                size: 13,
+                size: 15,
               ),
               SizedBox(width: 3),
               Text(this.phraseString,
                 style: TextStyle(
                   color: Colors.black54,
-                  fontSize: 13,
+                  fontSize: 15,
               )),
             ],
           ),
