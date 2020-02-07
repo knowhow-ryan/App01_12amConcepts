@@ -117,6 +117,7 @@ class Experience {
                   FontAwesomeIcons.pencilAlt,
                   color: Colors.black26,
                   size: 13,
+                  
                 ),
               ],
             ),

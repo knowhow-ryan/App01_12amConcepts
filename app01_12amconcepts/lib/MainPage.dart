@@ -2,7 +2,7 @@ import 'package:app01_12amconcepts/Strain.dart';
 import 'package:flutter/material.dart';
 // import 'StrainPage.dart';
 import 'NewExperiencePage.dart';
-import 'TopSearch.dart';
+import 'TopSearchHome.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Strain.dart';
 // import 'ExperienceInputStep2.dart';
@@ -19,7 +19,7 @@ class MainPage extends StatelessWidget {
             
           },
           
-      child: Icon(FontAwesomeIcons.cannabis),
+      child: Icon(FontAwesomeIcons.bong),
       backgroundColor: Color(0xFF3e865d),
     ),
     
@@ -45,7 +45,7 @@ class MainPage extends StatelessWidget {
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: TopSearch(),
+                          child: TopSearchHome(),
                         ),
                         Expanded(
                 child: ListView(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'CreditsPage.dart';
-import 'MainPage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class TopSearch extends StatelessWidget {
+
+class TopSearchHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -15,11 +15,11 @@ class TopSearch extends StatelessWidget {
           Expanded(
             flex: 1,
             child: IconButton(
-              icon: Icon(FontAwesomeIcons.cannabis, color: Colors.white,),
+              icon: Icon(FontAwesomeIcons.listAlt, color: Colors.white,),
               iconSize: 30,
-              color: Colors.white,
+              color: Colors.white60,
               onPressed: () {
-                Navigator.of(context).push(_createRoute2());//telling button what to do
+                Navigator.of(context).push(_createRoute());//telling button what to do
               },
             ),
           ),
@@ -46,12 +46,13 @@ class TopSearch extends StatelessWidget {
             flex:1,
             child:
             IconButton(
-              icon: Icon(FontAwesomeIcons.listAlt, color: Colors.white,),
+              icon: Icon(FontAwesomeIcons.sortAlphaDown, color: Colors.white,),
               iconSize: 30,
-              color: Colors.white60,
+              color: Colors.white,
               onPressed: () {
-                Navigator.of(context).push(_createRoute());//telling button what to do
-              },
+            
+            
+          },
             ),
           )
         ],
@@ -62,25 +63,6 @@ class TopSearch extends StatelessWidget {
 Route _createRoute() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => CreditsPage(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      var begin = 0;
-      var end = 1;
-      var curve = Curves.decelerate;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return FadeTransition(
-       // duration: Duration(seconds:1),
-        opacity: animation,
-        child: child,
-      );
-    },
-  );
-}
-
-Route _createRoute2() {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => MainPage(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       var begin = 0;
       var end = 1;
