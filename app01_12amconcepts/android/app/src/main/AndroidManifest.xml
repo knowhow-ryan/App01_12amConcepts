@@ -9,6 +9,10 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="app01_12amconcepts"
         android:icon="@mipmap/ic_launcher">
+        <!-- AdMob meta data for ads -->
+        <!-- <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="[ca-app-pub-1310865920876820~1195644282]"/> -->
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

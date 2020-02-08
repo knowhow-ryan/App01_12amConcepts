@@ -1,6 +1,6 @@
-//OLD DEPRECATED FILE
+// OLD DEPRECATED FILE
 
-//import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
 // class StrainCard extends StatefulWidget {
 //   final String strainName;
@@ -31,7 +31,7 @@
 //       //height: MediaQuery.of(context).copyWith().size.height * .45,
 //       width: double.infinity,
 //       decoration: BoxDecoration(
-//         border: Border.all(width: 2.0, color:Colors.green),
+//         border: Border.all(width: 2.0, color:Colors.purple),
 //         color: Colors.black87,
 //       ),
 //       child: Row(
@@ -89,7 +89,7 @@
 //             decoration: BoxDecoration(
 //               shape: BoxShape.circle,
 //               color: Colors.white,
-//               border: Border.all(width: 2.0, color: Colors.red),
+//               border: Border.all(width: 2.0, color: Colors.pink),
 //               image: DecorationImage(
 //                 fit: BoxFit.cover,
 //                 image: NetworkImage(
@@ -104,7 +104,7 @@
 //             decoration: BoxDecoration(
 //               shape:BoxShape.circle,
 //               color: Colors.black,
-//               border: Border.all(width:2.0, color: Colors.black),),
+//               border: Border.all(width:2.0, color: Colors.cyan),),
 //               child: 
 //                 Text("01",
 //                 style: TextStyle(

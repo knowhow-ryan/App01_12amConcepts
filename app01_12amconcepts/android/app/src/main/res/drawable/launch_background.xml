@@ -5,25 +5,10 @@
     
 
     <!-- You can insert your own image assets here -->
-    Container( //Starting Gradient with Smoke Background
-                      decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        end: FractionalOffset.topCenter,
-                        begin: FractionalOffset.bottomCenter,
-                        stops: [.05, .45,],
-                        colors: [Color(0xFFDDDDDD), Colors.black87,],
-                      ),
-                      ),
-                    child: Image.network("http://justcole.design/wp-content/uploads/2020/02/Smokey-Background-Side.png",
-                      height: double.maxFinite,
-                      width: double.maxFinite,
-                      fit: BoxFit.cover,
-                      colorBlendMode: BlendMode.overlay,
-                    ),
-                    ),
-    <!--<item>
+   
+    <item>
         <bitmap
             android:gravity="center"
-            android:src="@mipmap/launch_image" />
-    </item> -->
+            android:src="@drawable/highlyrated" />
+    </item> 
 </layer-list>
