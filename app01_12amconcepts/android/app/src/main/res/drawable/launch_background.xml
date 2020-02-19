@@ -9,6 +9,7 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/highlyrated" />
+            android:src="@drawable/highlyrated" 
+            android:scaleType="fitXY"/>
     </item> 
 </layer-list>
