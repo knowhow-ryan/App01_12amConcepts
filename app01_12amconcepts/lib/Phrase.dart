@@ -15,11 +15,14 @@ class Phrase {
   PhraseType phraseType; //which Phrase list will this go into?
 
   //basic constructor
-  Phrase(this.phraseString, this.phraseType);
+  Phrase(newPhraseString, this.phraseType) {
+    this.phraseString = _processString(newPhraseString);
+    strains.add(this);
+  }
 
   static Phrase save(String inputString, PhraseType phraseType) {
     /* determines if the phrase_string is unique within the phrase_type List
-    if it is unique, a new Phrase is created and returned
+    if it is unique, a new Phrase is created, added to the list, and returned
     if it is not unique, the matching Phrase is returned*/
     Phrase phrase;
     List<Phrase> phraseList = Phrase.getPhraseList(phraseType);
@@ -53,7 +56,7 @@ class Phrase {
     words.forEach((word) => processedString += word + ' ');
     processedString = processedString.trim();
 
-    processedString.toLowerCase();
+    processedString = processedString.toLowerCase();
 
     processedString.replaceAll("_and", '&');
     processedString.replaceAll("_sc", ';');
@@ -138,8 +141,8 @@ class Phrase {
           child: Row(
             children: <Widget>[
               Icon(
-                icon, //FontAwesomeIcons.smileBeam,
-                color: iconColor, //color: Colors.green,
+                icon,
+                color: iconColor,
                 size: 15,
               ),
               SizedBox(width: 3),
@@ -155,11 +158,6 @@ class Phrase {
     
     return phrasePill;
   }
-
-  Widget inputUI() {
-    //TODO: build Phrase.input_ui method
-    return null;
-  }
 }
 
 enum PhraseType {
@@ -168,4 +166,92 @@ enum PhraseType {
   Low,
   Location,
   Ingestion
+}
+
+class PhraseInputUI extends StatefulWidget {
+  final PhraseType phraseType;
+  Function callback;
+
+  PhraseInputUI({@required this.phraseType, this.callback});
+
+  @override
+  _PhraseInputUIState createState() => _PhraseInputUIState();
+}
+
+class _PhraseInputUIState extends State<PhraseInputUI> {
+  TextEditingController inputUIController = TextEditingController();
+
+  List<Widget> matchingPhrasePills;
+
+  @override
+  void initState() {
+    super.initState();
+    matchingPhrasePills = [];
+    inputUIController.addListener(_inputUIListener);
   }
+
+  void dispose() {
+    inputUIController.dispose();
+    super.dispose();
+  }
+
+  _inputUIListener() {
+    _getMatchingPhrasePills(inputUIController.text, widget.phraseType, callback: widget.callback);
+    widget.callback(inputUIController.text);
+  }
+
+  void _getMatchingPhrasePills(String inputString, PhraseType phraseType, {Function callback}){
+    //returns the Phrase Pills of all Phrases whose phraseStrings contain the inputString
+    
+    List<Phrase> phraseList = Phrase.getPhraseList(phraseType);
+    List<Widget> matchingPillList = [];
+
+    phraseList.forEach((phrase) {
+      if(phrase.phraseString.contains(Phrase._processString(inputString))) {
+        Widget pill = InkWell(
+          child: phrase.displayPill(),
+          onTap: () => setState(() { //autofill the Strain TextField when the user taps a Strain name Phrase Pill
+              inputUIController.text = phrase.phraseString;
+          }),
+          onLongPress: () {}, //TODO: define this onLongPress behavior -> offer deletion options
+        );
+
+        matchingPillList.add(pill);
+      }
+    });
+
+    setState(() {
+      matchingPhrasePills = matchingPillList;
+    });
+  }
+
+  Widget build(BuildContext buildContext) {
+    return Container( child:
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white54,
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+            ),
+            child: TextField( 
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.all(15),
+                hintText: "strain name",
+                hintStyle: TextStyle(fontSize: 18),
+              ),
+              controller: inputUIController,
+            ),
+          ),
+          Container(height: 50.0, child: ListView( //Auto-generated list of matching Phrase Pills
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              children: matchingPhrasePills,
+          ))
+        ]
+      )
+    );
+  }
+}

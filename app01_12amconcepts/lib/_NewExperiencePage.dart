@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'StrainPageNoPicture.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Strain.dart';
-import 'Phrase.dart';
-//import 'Experience.dart';
 
 
 class NewExperiencePage extends StatefulWidget {
@@ -16,21 +14,8 @@ class NewExperiencePage extends StatefulWidget {
 class NewExperiencePageState extends State<NewExperiencePage> {
   int currentStep = 0;
   double _sliderValue = 0.0;
-  String userStrain;
-
-  @override
-  void initState() {
-    //DEBUG TODO: remove dummy Strains
-    Strain dummyHybrid = Strain.getDummyHybrid;
-    Strain dummyIndica = Strain.getDummyIndica;
-    Strain dummySativa = Strain.getDummySativa;
-  }
- 
-  // setState(()=> _myOpacity = 0.0);//TODO Where does this go?
-  
-  @override
-  Widget build(BuildContext context) {
-    List<Step> steps = [Step(
+  List<Step> steps() {
+    return [Step(
       title: Text('What Strain?',
         style: TextStyle(
           color: Colors.white,
@@ -42,24 +27,73 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          PhraseInputUI(
-            phraseType: PhraseType.Strain,
-            callback: (userInput) {
-              userStrain = userInput;
-            }
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white54,
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+            ),
+            child: TextField( 
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.all(15),
+                hintText: "strain name",
+                hintStyle: TextStyle(fontSize: 18),
+              )
+            ),
           ),
+          Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadiusDirectional.circular(50),
+                        color: Colors.white70,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(12,8,12,8),
+                        child: Center(
+                          child: Text("Jedi Killer",
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 13,
+                              )),
+                        ),
+                      )),
+                ),
+                Padding(
+                      padding: const EdgeInsets.only(left:4,right:4,),
+                      child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadiusDirectional.circular(50),
+                            color: Colors.white70,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(12,8,12,8),
+                            child: Center(
+                              child: Text("Hindu Kush",
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontSize: 13,
+                                  )),
+                            ),
+                          )),
+                    ),
+              ],
+            ),
           Row(
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 15, 0, 8),
                 child: Text('THC',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold,
-                  )
-                ),
+      
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 18,
+        fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.bold,
+      )
+      ),
               ),
             ],
           ),
@@ -545,7 +579,10 @@ SizedBox(height:20),
     
     ),
   ];
-
+  }
+ // setState(()=> _myOpacity = 0.0);//TODO Where does this go?
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       
       floatingActionButton: FloatingActionButton(
@@ -558,6 +595,7 @@ SizedBox(height:20),
     ),
       // Body
       body: Stack(
+
         children: <Widget>[
           Container( //Starting Gradient with Smoke Background
               decoration: BoxDecoration(
@@ -609,7 +647,7 @@ SizedBox(height:20),
                     );
                   },
                 currentStep: this.currentStep,
-                steps: steps,
+                steps: steps(),
                 type: StepperType.vertical,
                 onStepTapped: (step) {
                   setState(() {
@@ -618,7 +656,7 @@ SizedBox(height:20),
                 },
                 onStepContinue: () {
                   setState(() {
-                    if (currentStep < steps.length - 1) {
+                    if (currentStep < steps().length - 1) {
                       currentStep = currentStep + 1;
                     } else {
                       currentStep = 0;
