@@ -30,6 +30,18 @@ class Strain {
     Strain.allStrains.add(this); //add this new Strain to the List of all Strains
   }
 
+  static Strain getStrainByName(String strainName) {
+    //returns the Strain whose name matches strainName or returns null
+    
+    Strain matchingStrain;
+    for(int i = 0; i < allStrains.length && matchingStrain == null; i++) {
+      if(allStrains[i].name.phraseString == strainName) {
+        matchingStrain = allStrains[i];
+      }
+    }
+    return matchingStrain;
+  }
+
   Strain.fromString (String strainString) {
     //creates a new Strain from the semi-colon-delimited String created by Strain.toString()
     List strainValues = strainString.split(";");

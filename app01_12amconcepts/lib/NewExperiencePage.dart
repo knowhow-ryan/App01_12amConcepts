@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'StrainPageNoPicture.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Strain.dart';
@@ -15,11 +16,43 @@ class NewExperiencePage extends StatefulWidget {
 
 class NewExperiencePageState extends State<NewExperiencePage> {
   int currentStep = 0;
-  double _sliderValue = 0.0;
-  String userStrain;
+  double _thcSliderValue = 0.0;
+  double _cbdSliderValue = 0.0;
+  double _ratingSliderValue = 0.0;
+  Strain userStrain;
+
+  Function setTHC;
+  Function setCBD;
+
+  TextEditingController thcPercentController = new TextEditingController();
+  TextEditingController cbdPercentController = new TextEditingController();
 
   @override
   void initState() {
+    super.initState();
+    
+    setTHC = (newPercentage) {
+      setState(() {
+        _thcSliderValue = newPercentage;
+        thcPercentController.text = newPercentage.toString();
+        });
+    };
+
+    setCBD = (newPercentage) {
+      setState(() {
+        _cbdSliderValue = newPercentage;
+        cbdPercentController.text = newPercentage.toString();
+      });
+    };
+
+    thcPercentController.addListener(() {
+      setState(() => _thcSliderValue = double.tryParse(thcPercentController.text));
+    });
+
+    thcPercentController.addListener(() {
+      setState(() => _cbdSliderValue = double.tryParse(cbdPercentController.text));
+    });
+
     //DEBUG TODO: remove dummy Strains
     Strain dummyHybrid = Strain.getDummyHybrid;
     Strain dummyIndica = Strain.getDummyIndica;
@@ -44,8 +77,29 @@ class NewExperiencePageState extends State<NewExperiencePage> {
         children: <Widget>[
           PhraseInputUI(
             phraseType: PhraseType.Strain,
-            callback: (userInput) {
-              userStrain = userInput;
+            callback: (String userInput) {//returns the matching Strain from the PhraseInputUI widget
+              userStrain = Strain.getStrainByName(userInput);
+
+              //if the userStrain exists already, preset _thcSliderValue and _cbdSliderValue
+              if(userStrain != null) {
+                setState(() {
+                  _thcSliderValue = userStrain.thcPercent;
+                  _cbdSliderValue = userStrain.cbdPercent;
+
+                  //disable the sliders
+                  setTHC = null;
+                  setCBD = null;
+                });
+              }
+              else {
+                setTHC = (newPercentage) {
+                  setState(() => _thcSliderValue = newPercentage);
+                };
+
+                setCBD = (newPercentage) {
+                  setState(() => _cbdSliderValue = newPercentage);
+                };
+              }
             }
           ),
           Row(
@@ -73,12 +127,16 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
                     child: TextField(
+                      controller: thcPercentController,
+                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                      //onChanged: ,//TODO: write a function to clear the text field if the input is not a decimal number
                       decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.all(15),
                     
                       hintText: "thc%",
                       hintStyle: TextStyle(fontSize: 15),
+                      
               )
 
                     ),
@@ -87,22 +145,19 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 Expanded(
                   flex:4,
                   child: SliderTheme(
-                     data: SliderTheme.of(context).copyWith(
-        activeTrackColor: Color(0xFFbfd7c9),
-        inactiveTrackColor: Color(0xFF3e865d),
-        trackShape: RectangularSliderTrackShape(),
-        trackHeight: 3.0,
+                    data: SliderTheme.of(context).copyWith(
+                      activeTrackColor: Color(0xFFbfd7c9),
+                      inactiveTrackColor: Color(0xFF3e865d),
+                      trackShape: RectangularSliderTrackShape(),
+                      trackHeight: 3.0,
                      ),
                     child: Slider(
                           activeColor:  Colors.white, 
-                          
                           min: 0.0,
                           max: 100.0,
                           label: 'THC',
-                          onChanged: (newPercentage) {//Do not change
-                            setState(() => _sliderValue = newPercentage);//do not change
-                          },
-                          value: _sliderValue,//Do not change
+                          onChanged: setTHC,
+                          value: _thcSliderValue,
                         ),
                   ),
                 ),
@@ -134,6 +189,9 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
                     child: TextField(
+                      controller: cbdPercentController,
+                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                      //onChanged: ,//TODO: write a function to clear the text field if the input is not a decimal number
                       decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.all(15),
@@ -160,10 +218,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                           min: 0.0,
                           max: 100.0,
                           label: 'CBD',
-                          onChanged: (newPercentage) {//Do not change
-                            setState(() => _sliderValue = newPercentage);//do not change
-                          },
-                          value: _sliderValue,//Do not change
+                          onChanged: setCBD,
+                          value: _cbdSliderValue,
                         ),
                   ),
                 ),
@@ -493,12 +549,12 @@ SizedBox(height:20),
                           activeColor:  Colors.white, 
                           
                           min: 0.0,
-                          max: 10.0,
+                          max: 5.0,
                           label: 'rating',
                           onChanged: (newPercentage) {//Do not change
-                            setState(() => _sliderValue = newPercentage);//do not change
+                            setState(() => _ratingSliderValue = newPercentage);//do not change
                           },
-                          value: _sliderValue,//Do not change
+                          value: _ratingSliderValue,//Do not change
                         ),
                   ),
                 ),

@@ -170,7 +170,7 @@ enum PhraseType {
 
 class PhraseInputUI extends StatefulWidget {
   final PhraseType phraseType;
-  Function callback;
+  final Function callback;
 
   PhraseInputUI({@required this.phraseType, this.callback});
 
