@@ -32,6 +32,9 @@ class NewExperiencePageState extends State<NewExperiencePage> {
     super.initState();
     
     setTHC = (newPercentage) {
+      if (newPercentage == null) {
+        newPercentage = 0.0;
+      }
       setState(() {
         _thcSliderValue = newPercentage;
         thcPercentController.text = newPercentage.toString();
@@ -39,6 +42,9 @@ class NewExperiencePageState extends State<NewExperiencePage> {
     };
 
     setCBD = (newPercentage) {
+      if (newPercentage == null) {
+        newPercentage = 0.0;
+      }
       setState(() {
         _cbdSliderValue = newPercentage;
         cbdPercentController.text = newPercentage.toString();
@@ -46,10 +52,16 @@ class NewExperiencePageState extends State<NewExperiencePage> {
     };
 
     thcPercentController.addListener(() {
+      if (double.tryParse(thcPercentController.text) == null) {
+        thcPercentController.text = "0.0";
+      }
       setState(() => _thcSliderValue = double.tryParse(thcPercentController.text));
     });
 
-    thcPercentController.addListener(() {
+    cbdPercentController.addListener(() {
+      if (double.tryParse(cbdPercentController.text) == null) {
+        cbdPercentController.text = "0.0";
+      }
       setState(() => _cbdSliderValue = double.tryParse(cbdPercentController.text));
     });
 
