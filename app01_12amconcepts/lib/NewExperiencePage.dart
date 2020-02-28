@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'StrainPageNoPicture.dart';
@@ -20,6 +22,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   double _cbdSliderValue = 0.0;
   double _ratingSliderValue = 0.0;
   Strain userStrain;
+  bool textFieldsActive = true;
 
   Function setTHC;
   Function setCBD;
@@ -37,7 +40,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       }
       setState(() {
         _thcSliderValue = newPercentage;
-        thcPercentController.text = newPercentage.toString();
+        thcPercentController.text = newPercentage.toStringAsFixed(2);
         });
     };
 
@@ -47,7 +50,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       }
       setState(() {
         _cbdSliderValue = newPercentage;
-        cbdPercentController.text = newPercentage.toString();
+        cbdPercentController.text = newPercentage.toStringAsFixed(2);
       });
     };
 
@@ -92,25 +95,41 @@ class NewExperiencePageState extends State<NewExperiencePage> {
             callback: (String userInput) {//returns the matching Strain from the PhraseInputUI widget
               userStrain = Strain.getStrainByName(userInput);
 
-              //if the userStrain exists already, preset _thcSliderValue and _cbdSliderValue
+              //if the userStrain exists already, preset _thcSliderValue, _cbdSliderValue, thc
               if(userStrain != null) {
                 setState(() {
                   _thcSliderValue = userStrain.thcPercent;
                   _cbdSliderValue = userStrain.cbdPercent;
 
-                  //disable the sliders
+                  thcPercentController.text = userStrain.thcPercent.toStringAsFixed(2);
+                  cbdPercentController.text = userStrain.cbdPercent.toStringAsFixed(2);
+
+                  //disable the THC and CBD sliders
                   setTHC = null;
                   setCBD = null;
+
+                  //disable the THC and CBD TextFields
+                  textFieldsActive = false;
                 });
               }
               else {
-                setTHC = (newPercentage) {
-                  setState(() => _thcSliderValue = newPercentage);
-                };
+                setState(() {
+                  textFieldsActive = true;
 
-                setCBD = (newPercentage) {
-                  setState(() => _cbdSliderValue = newPercentage);
-                };
+                  setTHC = (newPercentage) {
+                    setState(() { 
+                      _thcSliderValue = newPercentage;
+                      thcPercentController.text = newPercentage.toStringAsFixed(2);
+                    });
+                  };
+
+                  setCBD = (newPercentage) {
+                    setState(() {
+                      _cbdSliderValue = newPercentage;
+                      thcPercentController.text = newPercentage.toStringAsFixed(2);
+                    });
+                  };
+                });
               }
             }
           ),
@@ -140,6 +159,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
               ),
                     child: TextField(
                       controller: thcPercentController,
+                      enabled: textFieldsActive,
+                      enableInteractiveSelection: textFieldsActive,
                       keyboardType: TextInputType.numberWithOptions(decimal: true),
                       //onChanged: ,//TODO: write a function to clear the text field if the input is not a decimal number
                       decoration: InputDecoration(
@@ -202,6 +223,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
               ),
                     child: TextField(
                       controller: cbdPercentController,
+                      enabled: textFieldsActive,
+                      enableInteractiveSelection: textFieldsActive,
                       keyboardType: TextInputType.numberWithOptions(decimal: true),
                       //onChanged: ,//TODO: write a function to clear the text field if the input is not a decimal number
                       decoration: InputDecoration(
