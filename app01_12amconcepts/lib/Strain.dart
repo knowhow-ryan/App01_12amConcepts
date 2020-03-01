@@ -19,7 +19,7 @@ class Strain {
   static Strain _dummyIndica;
   static Strain _dummySativa;
 
-  Strain(String name, double thc, double cbd, Sub_species subSpecies) {
+  Strain(String name, double thc, double cbd, {Sub_species subSpecies = Sub_species.unknown}) {
     this.name = Phrase.save(name, PhraseType.Strain);
     this.thcPercent = thc;
     this.cbdPercent = cbd;
@@ -84,6 +84,11 @@ class Strain {
       
       case Sub_species.Sativa: {
         gradientColor = Color(0xFFedccb3); //Sativa Orange
+      }
+      break;
+
+      case Sub_species.unknown: {
+        gradientColor = Color(0xFFffffff); //unknown white
       }
       break;
     }
@@ -259,21 +264,21 @@ class Strain {
 
   static Strain get getDummyHybrid {
     if(_dummyHybrid == null) {
-      _dummyHybrid = Strain("Hybrid Dummy Strain",18.7,0.2,Sub_species.Hybrid);
+      _dummyHybrid = Strain("Hybrid Dummy Strain",18.7,0.2, subSpecies: Sub_species.Hybrid);
     }
     return _dummyHybrid;
   }
 
   static Strain get getDummyIndica {
     if(_dummyIndica == null) {
-      _dummyIndica = Strain("Indica Dummy Strain",15.0,5.3,Sub_species.Indica);
+      _dummyIndica = Strain("Indica Dummy Strain",15.0,5.3, subSpecies: Sub_species.Indica);
     }
     return _dummyIndica;
   }
 
   static Strain get getDummySativa {
     if(_dummySativa == null) {
-      _dummySativa = Strain("Sativa Dummy Strain",22.1,3.5,Sub_species.Sativa);
+      _dummySativa = Strain("Sativa Dummy Strain",22.1,3.5, subSpecies: Sub_species.Sativa);
     }
     return _dummySativa;
   }
@@ -282,5 +287,6 @@ class Strain {
 enum Sub_species {
   Indica,
   Sativa,
-  Hybrid
+  Hybrid,
+  unknown
 }

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'StrainPageNoPicture.dart';
@@ -22,7 +20,10 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   double _cbdSliderValue = 0.0;
   double _ratingSliderValue = 0.0;
   Strain userStrain;
+  String userStrainName;
   bool textFieldsActive = true;
+  String _thcValidValue ="0.0"; //the most recent valid value for the THC percentage TextField
+  String _cbdValidValue = "0.0"; //the most recent valid value for the CBD percentage TextField
 
   Function setTHC;
   Function setCBD;
@@ -40,8 +41,13 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       }
       setState(() {
         _thcSliderValue = newPercentage;
-        thcPercentController.text = newPercentage.toStringAsFixed(2);
-        });
+        if (newPercentage == 0.0) {
+          thcPercentController.text = "";
+        }
+        else {
+          thcPercentController.text = newPercentage.toStringAsFixed(2);
+        }
+      });
     };
 
     setCBD = (newPercentage) {
@@ -50,22 +56,33 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       }
       setState(() {
         _cbdSliderValue = newPercentage;
-        cbdPercentController.text = newPercentage.toStringAsFixed(2);
+        if (newPercentage == 0.0) {
+          cbdPercentController.text = "";
+        }
+        else {
+          cbdPercentController.text = newPercentage.toStringAsFixed(2);
+        }
       });
     };
 
     thcPercentController.addListener(() {
       if (double.tryParse(thcPercentController.text) == null) {
-        thcPercentController.text = "0.0";
+        thcPercentController.text = "";
+        setState(() => _thcSliderValue = 0.0);
       }
-      setState(() => _thcSliderValue = double.tryParse(thcPercentController.text));
+      else {
+        setState(() => _thcSliderValue = double.tryParse(thcPercentController.text));
+      }
     });
 
     cbdPercentController.addListener(() {
       if (double.tryParse(cbdPercentController.text) == null) {
-        cbdPercentController.text = "0.0";
+        cbdPercentController.text = "";
+        setState(() => _cbdSliderValue = 0.0);
       }
-      setState(() => _cbdSliderValue = double.tryParse(cbdPercentController.text));
+      else {
+        setState(() => _cbdSliderValue = double.tryParse(cbdPercentController.text));
+      }
     });
 
     //DEBUG TODO: remove dummy Strains
@@ -73,8 +90,23 @@ class NewExperiencePageState extends State<NewExperiencePage> {
     Strain dummyIndica = Strain.getDummyIndica;
     Strain dummySativa = Strain.getDummySativa;
   }
- 
-  // setState(()=> _myOpacity = 0.0);//TODO Where does this go?
+
+  String validatePercentInput(inputString, validString) {
+    /*validate that the inputString represents a double value between 0 and 100, inclusive.
+    If the value is invalid, return the input validString*/
+    double inputDouble = double.tryParse(inputString);
+
+    if (inputString == "") {
+      validString = inputString;
+    }
+    else if( inputDouble != null) {
+      if (inputDouble >= 0.0 && inputDouble <= 100.0) {
+        validString = inputString;
+      }
+    }
+
+    return validString;
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -94,6 +126,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
             phraseType: PhraseType.Strain,
             callback: (String userInput) {//returns the matching Strain from the PhraseInputUI widget
               userStrain = Strain.getStrainByName(userInput);
+              userStrainName = userInput;
 
               //if the userStrain exists already, preset _thcSliderValue, _cbdSliderValue, thc
               if(userStrain != null) {
@@ -126,7 +159,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                   setCBD = (newPercentage) {
                     setState(() {
                       _cbdSliderValue = newPercentage;
-                      thcPercentController.text = newPercentage.toStringAsFixed(2);
+                      cbdPercentController.text = newPercentage.toStringAsFixed(2);
                     });
                   };
                 });
@@ -162,7 +195,13 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                       enabled: textFieldsActive,
                       enableInteractiveSelection: textFieldsActive,
                       keyboardType: TextInputType.numberWithOptions(decimal: true),
-                      //onChanged: ,//TODO: write a function to clear the text field if the input is not a decimal number
+                      onChanged: (String inputString) { //Validate the input text as only a double
+                        setState(() {
+                          _thcValidValue = validatePercentInput(inputString, _thcValidValue);
+                          thcPercentController.text = _thcValidValue;
+                          thcPercentController.selection = TextSelection.fromPosition(TextPosition(offset: thcPercentController.text.length));
+                        });
+                      },
                       decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.all(15),
@@ -226,7 +265,13 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                       enabled: textFieldsActive,
                       enableInteractiveSelection: textFieldsActive,
                       keyboardType: TextInputType.numberWithOptions(decimal: true),
-                      //onChanged: ,//TODO: write a function to clear the text field if the input is not a decimal number
+                      onChanged: (String inputString) { //Validate the input text as only a double
+                        setState(() {
+                          _cbdValidValue = validatePercentInput(inputString, _cbdValidValue);
+                          cbdPercentController.text = _cbdValidValue;
+                          cbdPercentController.selection = TextSelection.fromPosition(TextPosition(offset: cbdPercentController.text.length));
+                        });
+                      },
                       decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.all(15),
@@ -659,7 +704,7 @@ SizedBox(height:20),
                 colors: [Color(0xFFDDDDDD), Colors.black87,],
               ),
               ),
-            child: Image.network("http://justcole.design/wp-content/uploads/2020/02/Smokey-Background-Side.png",
+            child: Image.network("http://justcole.design/wp-content/uploads/2020/02/Smokey-Background-Side.png", //TODO: update this to an assett image
               height: double.maxFinite,
               width: double.maxFinite,
               fit: BoxFit.cover,
@@ -704,11 +749,25 @@ SizedBox(height:20),
                 type: StepperType.vertical,
                 onStepTapped: (step) {
                   setState(() {
+                    //when the user advances past the first step, save the Strain
+                    if (currentStep == 0 && step != 0) {
+                      if (userStrain != null) {
+                        userStrain = new Strain(userStrainName, _thcSliderValue, _cbdSliderValue); //TODO: pass subSpecies type when UI implemented
+                      }
+                    }
+
                     currentStep = step;
                   });
                 },
                 onStepContinue: () {
                   setState(() {
+                    //when the user advances past the first step, save the Strain
+                    if (currentStep == 0) {
+                      if (userStrain != null) {
+                        userStrain = new Strain(userStrainName, _thcSliderValue, _cbdSliderValue); //TODO: pass subSpecies type when UI implemented
+                      }
+                    }
+                    
                     if (currentStep < steps.length - 1) {
                       currentStep = currentStep + 1;
                     } else {
