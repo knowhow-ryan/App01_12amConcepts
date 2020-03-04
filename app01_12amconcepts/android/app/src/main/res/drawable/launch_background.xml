@@ -8,8 +8,8 @@
    
     <item>
         <bitmap
-            android:gravity="center"
+            android:layout_width="fill_parent"
             android:src="@drawable/highlyrated" 
-            android:scaleType="fitXY"/>
+            android:scaleType="centerInside"/>
     </item> 
 </layer-list>
