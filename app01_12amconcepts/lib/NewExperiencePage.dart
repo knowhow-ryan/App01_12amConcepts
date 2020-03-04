@@ -181,131 +181,124 @@ class NewExperiencePageState extends State<NewExperiencePage> {
               ),
             ],
           ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex:1,
-                  child: Container(
-                    decoration: BoxDecoration(
-                color: Colors.white54,
-                borderRadius: BorderRadius.all(Radius.circular(12)),
+          Row(
+            children: <Widget>[
+              Expanded(
+                flex:1,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white54,
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  child: TextField(
+                    controller: thcPercentController,
+                    enabled: textFieldsActive,
+                    enableInteractiveSelection: textFieldsActive,
+                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                    onChanged: (String inputString) { //Validate the input text as only a double
+                      setState(() {
+                        _thcValidValue = validatePercentInput(inputString, _thcValidValue);
+                        thcPercentController.text = _thcValidValue;
+                        thcPercentController.selection = TextSelection.fromPosition(TextPosition(offset: thcPercentController.text.length));
+                      });
+                    }, // onChanged
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.all(15),
+                        hintText: "thc%",
+                        hintStyle: TextStyle(fontSize: 15),
+                    )
+                  ),
+                ),
               ),
-                    child: TextField(
-                      controller: thcPercentController,
-                      enabled: textFieldsActive,
-                      enableInteractiveSelection: textFieldsActive,
-                      keyboardType: TextInputType.numberWithOptions(decimal: true),
-                      onChanged: (String inputString) { //Validate the input text as only a double
-                        setState(() {
-                          _thcValidValue = validatePercentInput(inputString, _thcValidValue);
-                          thcPercentController.text = _thcValidValue;
-                          thcPercentController.selection = TextSelection.fromPosition(TextPosition(offset: thcPercentController.text.length));
-                        });
-                      },
-                      decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.all(15),
-                    
-                      hintText: "thc%",
-                      hintStyle: TextStyle(fontSize: 15),
-                      
-              )
-
-                    ),
+              Expanded(
+                flex:4,
+                child: SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    activeTrackColor: Color(0xFFbfd7c9),
+                    inactiveTrackColor: Color(0xFF3e865d),
+                    trackShape: RectangularSliderTrackShape(),
+                    trackHeight: 3.0,
+                  ),
+                  child: Slider(
+                    activeColor:  Colors.white, 
+                    min: 0.0,
+                    max: 100.0,
+                    label: 'THC',
+                    onChanged: setTHC,
+                    value: _thcSliderValue,
                   ),
                 ),
-                Expanded(
-                  flex:4,
-                  child: SliderTheme(
-                    data: SliderTheme.of(context).copyWith(
-                      activeTrackColor: Color(0xFFbfd7c9),
-                      inactiveTrackColor: Color(0xFF3e865d),
-                      trackShape: RectangularSliderTrackShape(),
-                      trackHeight: 3.0,
-                     ),
-                    child: Slider(
-                          activeColor:  Colors.white, 
-                          min: 0.0,
-                          max: 100.0,
-                          label: 'THC',
-                          onChanged: setTHC,
-                          value: _thcSliderValue,
-                        ),
-                  ),
-                ),
-              ],
-            ),
-               Row(
+              ),
+            ],
+          ),
+          Row(
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 15, 0, 8),
                 child: Text('CBD',
-      
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: 18,
-        fontStyle: FontStyle.italic,
-        fontWeight: FontWeight.bold,
-      )
-      ),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                  )
+                ),
               ),
             ],
           ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex:1,
-                  child: Container(
-                    decoration: BoxDecoration(
-                color: Colors.white54,
-                borderRadius: BorderRadius.all(Radius.circular(12)),
-              ),
-                    child: TextField(
-                      controller: cbdPercentController,
-                      enabled: textFieldsActive,
-                      enableInteractiveSelection: textFieldsActive,
-                      keyboardType: TextInputType.numberWithOptions(decimal: true),
-                      onChanged: (String inputString) { //Validate the input text as only a double
-                        setState(() {
-                          _cbdValidValue = validatePercentInput(inputString, _cbdValidValue);
-                          cbdPercentController.text = _cbdValidValue;
-                          cbdPercentController.selection = TextSelection.fromPosition(TextPosition(offset: cbdPercentController.text.length));
-                        });
-                      },
-                      decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.all(15),
-                    
+          Row(
+            children: <Widget>[
+              Expanded(
+                flex:1,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white54,
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  child: TextField(
+                    controller: cbdPercentController,
+                    enabled: textFieldsActive,
+                    enableInteractiveSelection: textFieldsActive,
+                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                    onChanged: (String inputString) { //Validate the input text as only a double
+                      setState(() {
+                        _cbdValidValue = validatePercentInput(inputString, _cbdValidValue);
+                        cbdPercentController.text = _cbdValidValue;
+                        cbdPercentController.selection = TextSelection.fromPosition(TextPosition(offset: cbdPercentController.text.length));
+                      });
+                    }, // onChanged
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.all(15),
                       hintText: "cbd%",
                       hintStyle: TextStyle(fontSize: 15),
-              )
-
-                    ),
+                    )
                   ),
                 ),
-                Expanded(
-                  flex:4,
-                  child: SliderTheme(
-                     data: SliderTheme.of(context).copyWith(
-        activeTrackColor: Color(0xFFbfd7c9),
-        inactiveTrackColor: Color(0xFF3e865d),
-        trackShape: RectangularSliderTrackShape(),
-        trackHeight: 3.0,
-                     ),
-                    child: Slider(
-                          activeColor:  Colors.white, 
-                          
-                          min: 0.0,
-                          max: 100.0,
-                          label: 'CBD',
-                          onChanged: setCBD,
-                          value: _cbdSliderValue,
-                        ),
+              ),
+              Expanded(
+                flex:4,
+                child: SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    activeTrackColor: Color(0xFFbfd7c9),
+                    inactiveTrackColor: Color(0xFF3e865d),
+                    trackShape: RectangularSliderTrackShape(),
+                    trackHeight: 3.0,
+                  ), // data
+                  child: Slider(
+                    activeColor:  Colors.white,       
+                    min: 0.0,
+                    max: 100.0,
+                    label: 'CBD',
+                    onChanged: setCBD,
+                    value: _cbdSliderValue,
                   ),
                 ),
-              ],
-            ),
-               SizedBox(height:20,)
+              ),
+            ],
+          ),
+          SizedBox(height:20,)
         ],
       ),
       isActive: true,
