@@ -4,6 +4,7 @@ import 'StrainPageNoPicture.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Strain.dart';
 import 'Phrase.dart';
+import 'SubspeciesPickerButton.dart';
 //import 'Experience.dart';
 
 
@@ -21,9 +22,14 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   double _ratingSliderValue = 0.0;
   Strain userStrain;
   String userStrainName;
-  bool textFieldsActive = true;
+  Sub_species subspecies = Sub_species.unknown;
+  bool userInputActive = true;
   String _thcValidValue ="0.0"; //the most recent valid value for the THC percentage TextField
   String _cbdValidValue = "0.0"; //the most recent valid value for the CBD percentage TextField
+
+  Widget sativaButton;
+  Widget indicaButton;
+  Widget hybridButton;
 
   Function setTHC;
   Function setCBD;
@@ -85,6 +91,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       }
     });
 
+    toggleSubSpeciesButtons(); //set all of the Sub_species buttons to deselected
+
     //DEBUG TODO: remove dummy Strains
     Strain dummyHybrid = Strain.getDummyHybrid;
     Strain dummyIndica = Strain.getDummyIndica;
@@ -107,6 +115,35 @@ class NewExperiencePageState extends State<NewExperiencePage> {
 
     return validString;
   }
+
+  void toggleSubSpeciesButtons({Sub_species subSpecies = Sub_species.unknown}) {
+    //deactivates all of the SubspeciesPickerButtons, then activates the button for the input sub_species
+    //if sub_species is unknown, then no button is activated
+
+    sativaButton = SubspeciesPickerButton(subspecies: Sub_species.Sativa, selected: false);
+    indicaButton = SubspeciesPickerButton(subspecies: Sub_species.Indica, selected: false);
+    hybridButton = SubspeciesPickerButton(subspecies: Sub_species.Hybrid, selected: false);
+
+    switch(subSpecies) {
+      case Sub_species.Hybrid: {
+        hybridButton = SubspeciesPickerButton(subspecies: Sub_species.Hybrid, selected: true);
+      }
+      break;
+
+      case Sub_species.Indica: {
+        indicaButton = SubspeciesPickerButton(subspecies: Sub_species.Indica, selected: true);
+      }
+      break;
+      
+      case Sub_species.Sativa: {
+        sativaButton = SubspeciesPickerButton(subspecies: Sub_species.Sativa, selected: true);
+      }
+      break;
+
+      case Sub_species.unknown:
+      break;
+    }
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -128,9 +165,12 @@ class NewExperiencePageState extends State<NewExperiencePage> {
               userStrain = Strain.getStrainByName(userInput);
               userStrainName = userInput;
 
-              //if the userStrain exists already, preset _thcSliderValue, _cbdSliderValue, thc
+              //if the userStrain exists already, preset _thcSliderValue, _cbdSliderValue
               if(userStrain != null) {
                 setState(() {
+                  this.subspecies = userStrain.subSpecies;
+                  toggleSubSpeciesButtons(subSpecies: this.subspecies);
+
                   _thcSliderValue = userStrain.thcPercent;
                   _cbdSliderValue = userStrain.cbdPercent;
 
@@ -141,13 +181,16 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                   setTHC = null;
                   setCBD = null;
 
-                  //disable the THC and CBD TextFields
-                  textFieldsActive = false;
+                  //disable user input
+                  userInputActive = false;
                 });
               }
               else {
                 setState(() {
-                  textFieldsActive = true;
+                  userInputActive = true;
+
+                  this.subspecies = Sub_species.unknown;
+                  toggleSubSpeciesButtons();
 
                   setTHC = (newPercentage) {
                     setState(() { 
@@ -165,6 +208,67 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 });
               }
             }
+          ),
+          Row( // Subspecies picker
+            children: <Widget>[
+              GestureDetector( // Sativa button
+                child: sativaButton,
+                onTap: () {
+                  if(userInputActive) {
+                    if(this.subspecies != Sub_species.Sativa) {
+                      this.subspecies = Sub_species.Sativa;
+                      setState(() {
+                        toggleSubSpeciesButtons(subSpecies: this.subspecies);
+                      });
+                    }
+                    else {
+                      this.subspecies = Sub_species.unknown;
+                      setState(() {
+                        toggleSubSpeciesButtons();
+                      });
+                    }
+                  }
+                },
+              ),
+              GestureDetector( // Indica button
+                child: indicaButton,
+                onTap: () {
+                  if(userInputActive) {
+                    if(this.subspecies != Sub_species.Indica) {
+                      this.subspecies = Sub_species.Indica;
+                      setState(() {
+                        toggleSubSpeciesButtons(subSpecies: this.subspecies);
+                      });
+                    }
+                    else {
+                      this.subspecies = Sub_species.unknown;
+                      setState(() {
+                        toggleSubSpeciesButtons();
+                      });
+                    }
+                  }
+                },
+              ),
+              GestureDetector( // Hybrid button
+                child: hybridButton,
+                onTap: () {
+                  if(userInputActive) {
+                    if(this.subspecies != Sub_species.Hybrid) {
+                      this.subspecies = Sub_species.Hybrid;
+                      setState(() {
+                        toggleSubSpeciesButtons(subSpecies: this.subspecies);
+                      });
+                    }
+                    else {
+                      this.subspecies = Sub_species.unknown;
+                      setState(() {
+                        toggleSubSpeciesButtons();
+                      });
+                    }
+                  }
+                },
+              ),
+            ],
           ),
           Row(
             children: <Widget>[
@@ -192,8 +296,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                   ),
                   child: TextField(
                     controller: thcPercentController,
-                    enabled: textFieldsActive,
-                    enableInteractiveSelection: textFieldsActive,
+                    enabled: userInputActive,
+                    enableInteractiveSelection: userInputActive,
                     keyboardType: TextInputType.numberWithOptions(decimal: true),
                     onChanged: (String inputString) { //Validate the input text as only a double
                       setState(() {
@@ -258,8 +362,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                   ),
                   child: TextField(
                     controller: cbdPercentController,
-                    enabled: textFieldsActive,
-                    enableInteractiveSelection: textFieldsActive,
+                    enabled: userInputActive,
+                    enableInteractiveSelection: userInputActive,
                     keyboardType: TextInputType.numberWithOptions(decimal: true),
                     onChanged: (String inputString) { //Validate the input text as only a double
                       setState(() {
@@ -745,7 +849,7 @@ SizedBox(height:20),
                     //when the user advances past the first step, save the Strain
                     if (currentStep == 0 && step != 0) {
                       if (userStrain != null) {
-                        userStrain = new Strain(userStrainName, _thcSliderValue, _cbdSliderValue); //TODO: pass subSpecies type when UI implemented
+                        userStrain = new Strain(userStrainName, _thcSliderValue, _cbdSliderValue, subSpecies: subspecies); //TODO: pass subSpecies type when UI implemented
                       }
                     }
 
@@ -757,7 +861,7 @@ SizedBox(height:20),
                     //when the user advances past the first step, save the Strain
                     if (currentStep == 0) {
                       if (userStrain != null) {
-                        userStrain = new Strain(userStrainName, _thcSliderValue, _cbdSliderValue); //TODO: pass subSpecies type when UI implemented
+                        userStrain = new Strain(userStrainName, _thcSliderValue, _cbdSliderValue, subSpecies: subspecies); //TODO: pass subSpecies type when UI implemented
                       }
                     }
                     

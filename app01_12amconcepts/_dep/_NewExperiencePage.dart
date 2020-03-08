@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'StrainPageNoPicture.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -699,3 +700,4 @@ Route _createRoute() {
     },
   );
 }
+*/
