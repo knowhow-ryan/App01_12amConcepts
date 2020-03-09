@@ -171,8 +171,9 @@ enum PhraseType {
 class PhraseInputUI extends StatefulWidget {
   final PhraseType phraseType;
   final Function callback;
+  final String hint;
 
-  PhraseInputUI({@required this.phraseType, this.callback});
+  PhraseInputUI({@required this.phraseType, this.callback, this.hint});
 
   @override
   _PhraseInputUIState createState() => _PhraseInputUIState();
@@ -239,7 +240,7 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.all(15),
-                hintText: "strain name",
+                hintText: widget.hint,
                 hintStyle: TextStyle(fontSize: 18),
               ),
               controller: inputUIController,
