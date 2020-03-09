@@ -41,8 +41,11 @@ class SubspeciesPickerButton extends StatelessWidget {
         color: fill,
         border: Border.all(color: border,),
       ),
-      child: Text(subspecies,
-        style: TextStyle(color: text),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(10, 8,10, 8),
+        child: Text(subspecies,
+          style: TextStyle(color: text),
+        ),
       ),
     );
   }

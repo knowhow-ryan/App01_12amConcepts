@@ -277,7 +277,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 child: Text('THC',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 15,
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.bold,
                   )
@@ -295,6 +295,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                   ),
                   child: TextField(
+
                     controller: thcPercentController,
                     enabled: userInputActive,
                     enableInteractiveSelection: userInputActive,
@@ -308,8 +309,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                     }, // onChanged
                     decoration: InputDecoration(
                         border: InputBorder.none,
-                        contentPadding: EdgeInsets.all(15),
-                        hintText: "thc%",
+                        contentPadding: EdgeInsets.all(10),
+                        hintText: "00%",
                         hintStyle: TextStyle(fontSize: 15),
                     )
                   ),
@@ -343,7 +344,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 child: Text('CBD',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 15,
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.bold,
                   )
@@ -374,8 +375,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                     }, // onChanged
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.all(15),
-                      hintText: "cbd%",
+                      contentPadding: EdgeInsets.all(10),
+                      hintText: "00%",
                       hintStyle: TextStyle(fontSize: 15),
                     )
                   ),
@@ -426,10 +427,10 @@ class NewExperiencePageState extends State<NewExperiencePage> {
              
               decoration: InputDecoration(
                 border: InputBorder.none,
-                contentPadding: EdgeInsets.all(15),
+                contentPadding: EdgeInsets.fromLTRB(10,5,10,5),
                 
                   hintText: "location",
-                  hintStyle: TextStyle(fontSize: 18),
+                  hintStyle: TextStyle(fontSize: 15),
               )
             ),
           ),
@@ -501,7 +502,7 @@ SizedBox(height:20),
                 contentPadding: EdgeInsets.all(15),
                 
                   hintText: "how so",
-                  hintStyle: TextStyle(fontSize: 18),
+                  hintStyle: TextStyle(fontSize: 15),
               )
             ),
           ),
@@ -574,7 +575,7 @@ SizedBox(height:20),
                 contentPadding: EdgeInsets.all(15),
                 
                   hintText: "highs",
-                  hintStyle: TextStyle(fontSize: 18),
+                  hintStyle: TextStyle(fontSize: 15),
               )
             ),
           ),
@@ -631,7 +632,7 @@ SizedBox(height:20),
                 contentPadding: EdgeInsets.all(15),
                 
                   hintText: "lows",
-                  hintStyle: TextStyle(fontSize: 18),
+                  hintStyle: TextStyle(fontSize: 15),
               )
             ),
           ),
@@ -684,7 +685,7 @@ SizedBox(height:20),
       
       style: TextStyle(
         color: Colors.white,
-        fontSize: 18,
+        fontSize: 15,
         fontStyle: FontStyle.italic,
         fontWeight: FontWeight.bold,
       )
@@ -766,7 +767,7 @@ SizedBox(height:20),
                 contentPadding: EdgeInsets.all(15),
                 
                   hintText: "tell me more",
-                  hintStyle: TextStyle(fontSize: 22),
+                  hintStyle: TextStyle(fontSize: 15),
               )
             ),
           ),

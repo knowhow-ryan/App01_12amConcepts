@@ -137,19 +137,19 @@ class Phrase {
           color: Colors.white70,
           ),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+          padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
           child: Row(
             children: <Widget>[
               Icon(
                 icon,
                 color: iconColor,
-                size: 15,
+                size: 13,
               ),
               SizedBox(width: 3),
               Text(this.phraseString,
                 style: TextStyle(
                   color: Colors.black54,
-                  fontSize: 15,
+                  fontSize: 13,
               )),
             ],
           ),
@@ -237,10 +237,12 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
             ),
             child: TextField( 
               decoration: InputDecoration(
+                fillColor: Colors.white24,
+                focusColor: Colors.green,
                 border: InputBorder.none,
-                contentPadding: EdgeInsets.all(15),
+                contentPadding: EdgeInsets.all(10),
                 hintText: "strain name",
-                hintStyle: TextStyle(fontSize: 18),
+                hintStyle: TextStyle(fontSize: 15),
               ),
               controller: inputUIController,
             ),
