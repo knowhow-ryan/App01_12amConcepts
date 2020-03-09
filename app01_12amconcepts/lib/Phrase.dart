@@ -174,8 +174,9 @@ class PhraseInputUI extends StatefulWidget {
   final PhraseType phraseType;
   final Function callback;
   final String hint;
+  final bool multipleSelection;
 
-  PhraseInputUI({@required this.phraseType, this.callback, this.hint});
+  PhraseInputUI({@required this.phraseType, this.callback, this.hint, this.multipleSelection = false});
 
   @override
   _PhraseInputUIState createState() => _PhraseInputUIState();
@@ -185,6 +186,7 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
   TextEditingController inputUIController = TextEditingController();
 
   List<Widget> matchingPhrasePills;
+  List<Widget> selectedPhrases;
 
   @override
   void initState() {
@@ -229,35 +231,78 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
   }
 
   Widget build(BuildContext buildContext) {
-    return Container( child:
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              // color: Colors.white54,
-              // borderRadius: BorderRadius.all(Radius.circular(8)),
-            ),
-            child: TextField( 
-              decoration: InputDecoration(
-                
-                fillColor: Colors.white24,
-                focusColor: Colors.white70,
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.all(10),
-                hintText: widget.hint,
-                hintStyle: TextStyle(fontSize: 15),
+    Widget inputUI;
+    
+    if(widget.multipleSelection) {
+      inputUI = Container( child:
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                // color: Colors.white54,
+                // borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
-              controller: inputUIController,
+              child: TextField( 
+                decoration: InputDecoration(
+                  
+                  fillColor: Colors.white24,
+                  focusColor: Colors.white70,
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(10),
+                  hintText: widget.hint,
+                  hintStyle: TextStyle(fontSize: 15),
+                ),
+                controller: inputUIController,
+              ),
             ),
-          ),
-          Container(height: 50.0, child: ListView( //Auto-generated list of matching Phrase Pills
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              children: matchingPhrasePills,
-          ))
-        ]
-      )
-    );
+            Container(height: 50.0, child: ListView( //Auto-generated list of matching Phrase Pills
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                children: matchingPhrasePills,
+            ))
+          ]
+        )
+      );
+    }
+    else {
+      inputUI = Container( child:
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                // color: Colors.white54,
+                // borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: TextField( 
+                decoration: InputDecoration(
+                  
+                  fillColor: Colors.white24,
+                  focusColor: Colors.white70,
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(10),
+                  hintText: widget.hint,
+                  hintStyle: TextStyle(fontSize: 15),
+                ),
+                controller: inputUIController,
+              ),
+            ),
+            Container(height: 50.0, child: ListView( //Auto-generated list of matching Phrase Pills
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                children: matchingPhrasePills,
+            )),
+            Container(height: 50.0, child: ListView( //List of user's selected Phrases
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                children: selectedPhrases,
+            ))
+          ]
+        )
+      );
+    }
+
+    return inputUI;
   }
 }

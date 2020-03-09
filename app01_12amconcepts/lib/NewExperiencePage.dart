@@ -28,6 +28,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   String _cbdValidValue = "0.0"; //the most recent valid value for the CBD percentage TextField
 
   String userLocation = "";
+  String userIngestion = "";
 
   Widget sativaButton;
   Widget indicaButton;
@@ -150,7 +151,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   
   @override
   Widget build(BuildContext context) {
-    List<Step> steps = [Step(
+    List<Step> steps = [Step( // Step 1: Strain info
       title: Text('What Strain?',
         style: TextStyle(
           color: Colors.white,
@@ -412,7 +413,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       ),
       isActive: true,
     ),
-    Step(
+    Step( // Step 2: Location
       title: Text('Where at?',
       style: TextStyle(
         color: Colors.white,
@@ -433,79 +434,27 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       ),
     ),
     
-    Step(
+    Step( // Step 3: Ingestion method
       title: Text('How?',
        style: TextStyle(
         color: Colors.white,
         fontSize: 22,
         fontStyle: FontStyle.italic,
       )),
+      isActive: true,
       content: Column(
         children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-                color: Colors.white54,
-                borderRadius: BorderRadius.all(Radius.circular(12)),
-              ),
-            child: TextField(
-             
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.all(15),
-                
-                  hintText: "how so",
-                  hintStyle: TextStyle(fontSize: 15),
-              )
-            ),
+          PhraseInputUI(
+            phraseType: PhraseType.Ingestion,
+            hint: "how so",
+            callback: (String userInput) => userIngestion = userInput,
           ),
-          Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadiusDirectional.circular(50),
-                        color: Colors.white70,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(12,8,12,8),
-                        child: Center(
-                          child: Text("bong",
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 15,
-                              )),
-                        ),
-                      )),
-                ),
-                Padding(
-                      padding: const EdgeInsets.only(left:4,right:4,),
-                      child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadiusDirectional.circular(50),
-                            color: Colors.white70,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(12,8,12,8),
-                            child: Center(
-                              child: Text("pipe",
-                                  style: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 15,
-                                  )),
-                            ),
-                          )),
-                    ),
-              ],
-            ),
-            SizedBox(height:20),
+          SizedBox(height:20),
         ],
-      ),
-      
-      isActive: true,
+      ),      
     ),
 
-    Step(
+    Step( // Step 4: Experience
       title: Text('Experience',
       style: TextStyle(
         color: Colors.white,
@@ -697,7 +646,7 @@ SizedBox(height:20),
     
     ),
     
-    Step(
+    Step( // Step 5: Notes
       title: Text('Notes',
       style: TextStyle(
         color: Colors.white,
