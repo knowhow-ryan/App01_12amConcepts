@@ -161,6 +161,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
         children: <Widget>[
           PhraseInputUI(
             phraseType: PhraseType.Strain,
+            hint: "strain name",
             callback: (String userInput) {//returns the matching Strain from the PhraseInputUI widget
               userStrain = Strain.getStrainByName(userInput);
               userStrainName = userInput;
@@ -416,69 +417,16 @@ class NewExperiencePageState extends State<NewExperiencePage> {
         fontStyle: FontStyle.italic,
       )
       ),
+      isActive: true,
       content: Column(
         children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-                color: Colors.white54,
-                borderRadius: BorderRadius.all(Radius.circular(12)),
-              ),
-            child: TextField(
-             
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.fromLTRB(10,5,10,5),
-                
-                  hintText: "location",
-                  hintStyle: TextStyle(fontSize: 15),
-              )
-            ),
+          PhraseInputUI(
+            phraseType: PhraseType.Location,
+            
           ),
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadiusDirectional.circular(50),
-                        color: Colors.white70,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(12,8,12,8),
-                        child: Center(
-                          child: Text("home",
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 15,
-                              )),
-                        ),
-                      )),
-                ),
-                Padding(
-                      padding: const EdgeInsets.only(left:4,right:4,),
-                      child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadiusDirectional.circular(50),
-                            color: Colors.white70,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(12,8,12,8),
-                            child: Center(
-                              child: Text("apartment",
-                                  style: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 15,
-                                  )),
-                            ),
-                          )),
-                    ),
-              ],
-            ),
-SizedBox(height:20),
+          SizedBox(height:20),
         ],
       ),
-      isActive: true,
-    
     ),
     
     Step(
