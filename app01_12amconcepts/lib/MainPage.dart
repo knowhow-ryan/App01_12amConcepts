@@ -57,7 +57,7 @@ class MainPage extends StatelessWidget {
                     Strain.getDummySativa.displayCard(),
                     Strain.getDummyIndica.displayCard(),
                     Strain.getDummyHybrid.displayCard(),
-                    Strain.getDummySativa.displayCard()
+                    Strain.getDummySativa.displayCard(),
                   ],
                 ),
               ),

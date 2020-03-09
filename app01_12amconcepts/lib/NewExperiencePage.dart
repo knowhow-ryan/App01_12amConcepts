@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Strain.dart';
 import 'Phrase.dart';
 import 'SubspeciesPickerButton.dart';
-//import 'Experience.dart';
+import 'Experience.dart';
 
 
 class NewExperiencePage extends StatefulWidget {
@@ -26,6 +26,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   bool userInputActive = true;
   String _thcValidValue ="0.0"; //the most recent valid value for the THC percentage TextField
   String _cbdValidValue = "0.0"; //the most recent valid value for the CBD percentage TextField
+
+  String userLocation = "";
 
   Widget sativaButton;
   Widget indicaButton;
@@ -51,7 +53,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
           thcPercentController.text = "";
         }
         else {
-          thcPercentController.text = newPercentage.toStringAsFixed(2);
+          thcPercentController.text = newPercentage.toStringAsFixed(1);
         }
       });
     };
@@ -66,7 +68,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
           cbdPercentController.text = "";
         }
         else {
-          cbdPercentController.text = newPercentage.toStringAsFixed(2);
+          cbdPercentController.text = newPercentage.toStringAsFixed(1);
         }
       });
     };
@@ -93,10 +95,11 @@ class NewExperiencePageState extends State<NewExperiencePage> {
 
     toggleSubSpeciesButtons(); //set all of the Sub_species buttons to deselected
 
-    //DEBUG TODO: remove dummy Strains
+    //DEBUG TODO: remove dummy Strains and Experience
     Strain dummyHybrid = Strain.getDummyHybrid;
     Strain dummyIndica = Strain.getDummyIndica;
     Strain dummySativa = Strain.getDummySativa;
+    Experience dummyExperience = Experience.dummyExperience;
   }
 
   String validatePercentInput(inputString, validString) {
@@ -175,8 +178,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                   _thcSliderValue = userStrain.thcPercent;
                   _cbdSliderValue = userStrain.cbdPercent;
 
-                  thcPercentController.text = userStrain.thcPercent.toStringAsFixed(2);
-                  cbdPercentController.text = userStrain.cbdPercent.toStringAsFixed(2);
+                  thcPercentController.text = userStrain.thcPercent.toStringAsFixed(1);
+                  cbdPercentController.text = userStrain.cbdPercent.toStringAsFixed(1);
 
                   //disable the THC and CBD sliders
                   setTHC = null;
@@ -196,14 +199,14 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                   setTHC = (newPercentage) {
                     setState(() { 
                       _thcSliderValue = newPercentage;
-                      thcPercentController.text = newPercentage.toStringAsFixed(2);
+                      thcPercentController.text = newPercentage.toStringAsFixed(1);
                     });
                   };
 
                   setCBD = (newPercentage) {
                     setState(() {
                       _cbdSliderValue = newPercentage;
-                      cbdPercentController.text = newPercentage.toStringAsFixed(2);
+                      cbdPercentController.text = newPercentage.toStringAsFixed(1);
                     });
                   };
                 });
@@ -311,7 +314,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.all(10),
-                        hintText: "00%",
+                        hintText: "%",
                         hintStyle: TextStyle(fontSize: 15),
                     )
                   ),
@@ -377,7 +380,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.all(10),
-                      hintText: "00%",
+                      hintText: "%",
                       hintStyle: TextStyle(fontSize: 15),
                     )
                   ),
@@ -422,7 +425,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
         children: <Widget>[
           PhraseInputUI(
             phraseType: PhraseType.Location,
-            
+            hint: "location",
+            callback: (String userInput) => userLocation = userInput,
           ),
           SizedBox(height:20),
         ],
