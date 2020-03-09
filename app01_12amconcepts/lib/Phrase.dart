@@ -134,7 +134,7 @@ class Phrase {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadiusDirectional.circular(50),
-          color: Colors.white70,
+          color: Colors.white54,
           ),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
@@ -233,17 +233,18 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
-              color: Colors.white54,
-              borderRadius: BorderRadius.all(Radius.circular(12)),
+              // color: Colors.white54,
+              // borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
             child: TextField( 
               decoration: InputDecoration(
+                
                 fillColor: Colors.white24,
-                focusColor: Colors.green,
+                focusColor: Colors.white70,
                 border: InputBorder.none,
-                contentPadding: EdgeInsets.all(15),
+                contentPadding: EdgeInsets.all(10),
                 hintText: widget.hint,
-                hintStyle: TextStyle(fontSize: 18),
+                hintStyle: TextStyle(fontSize: 15),
               ),
               controller: inputUIController,
             ),

@@ -5,10 +5,10 @@ class SubspeciesPickerButton extends StatelessWidget {
   final Sub_species subspecies;
   final bool selected;
 
-  final Color borderSelected = Colors.black;
-  final Color borderDeselected = Colors.white;
-  final Color fillSelected = Colors.white;
-  final Color fillDeselected = Colors.black;
+  final Color borderSelected = Colors.white70;
+  final Color borderDeselected = Colors.white70;
+  final Color fillSelected = Colors.white70;
+  final Color fillDeselected = Colors.black54;
   final Color textSelected = Colors.black;
   final Color textDeselected = Colors.white;
 
@@ -36,15 +36,18 @@ class SubspeciesPickerButton extends StatelessWidget {
   }
 
   Widget button(subspecies, fill, border, text) {
-    return Container(
-      decoration: BoxDecoration(
-        color: fill,
-        border: Border.all(color: border,),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 8,10, 8),
-        child: Text(subspecies,
-          style: TextStyle(color: text),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0,15,4,10),
+      child: Container(
+        decoration: BoxDecoration(
+          color: fill,
+          border: Border.all(color: border,),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 8,12, 8),
+          child: Text(subspecies,
+            style: TextStyle(color: text),
+          ),
         ),
       ),
     );
