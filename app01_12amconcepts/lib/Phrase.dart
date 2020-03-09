@@ -17,12 +17,14 @@ class Phrase {
   //basic constructor
   Phrase(newPhraseString, this.phraseType) {
     this.phraseString = _processString(newPhraseString);
-    strains.add(this);
+
+    //add the Phrase to the appropriate list
+    getPhraseList(this.phraseType).add(this);
   }
 
   static Phrase save(String inputString, PhraseType phraseType) {
     /* determines if the phrase_string is unique within the phrase_type List
-    if it is unique, a new Phrase is created, added to the list, and returned
+    if it is unique, a new Phrase is created and returned
     if it is not unique, the matching Phrase is returned*/
     Phrase phrase;
     List<Phrase> phraseList = Phrase.getPhraseList(phraseType);
@@ -32,7 +34,7 @@ class Phrase {
     //search the appropriate Phrase List based on the Phrase type
     //return either the matching Phrase or a new Phrase
     phrase = phraseList.firstWhere((phraseItem) => phraseItem.phraseString == inputString, orElse: () => new Phrase(inputString, phraseType));
-
+    
     return phrase;
   }
 
