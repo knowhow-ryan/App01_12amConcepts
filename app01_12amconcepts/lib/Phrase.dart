@@ -88,7 +88,7 @@ class Phrase {
     return null;
   }
 
-  Widget displayPill() {
+  Widget displayPill({deleteButton = false}) {
     IconData icon;
     MaterialColor iconColor;
 
@@ -131,6 +131,29 @@ class Phrase {
       break;
     }
 
+    List<Widget> pillContents = <Widget>[
+      Icon(
+        icon,
+        color: iconColor,
+        size: 13,
+      ),
+      SizedBox(width: 3),
+      Text(this.phraseString,
+        style: TextStyle(
+          color: Colors.black54,
+          fontSize: 13,
+      )),
+    ];
+
+    if (deleteButton) {
+      pillContents.add(
+        InkWell(
+          child: Icon(Icons.remove_circle_outline),
+          onTap: () {} //TODO: delete the Phrase from selectedPhrases then update the selectedPhrasePills
+        )
+      );
+    }
+
     Widget phrasePill = Padding(
       padding: EdgeInsets.fromLTRB(0, 5, 5, 5),
       child: Container(
@@ -141,19 +164,7 @@ class Phrase {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
           child: Row(
-            children: <Widget>[
-              Icon(
-                icon,
-                color: iconColor,
-                size: 13,
-              ),
-              SizedBox(width: 3),
-              Text(this.phraseString,
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 13,
-              )),
-            ],
+            children: pillContents,
           ),
       )),
     );
@@ -202,6 +213,12 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
 
   _inputUIListener() {
     _getMatchingPhrasePills(inputUIController.text, widget.phraseType, callback: widget.callback);
+
+    if(widget.multipleSelection) {
+      //TODO: when the user hits enter, add the phrase to the selectedPhrases List and clear the TextField
+        //updating the selectedPhrases List should trigger a setState rebuild so that the ListView of selectedPhrasePills updates
+    }
+
     widget.callback(inputUIController.text);
   }
 
@@ -217,6 +234,7 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
           child: phrase.displayPill(),
           onTap: () => setState(() { //autofill the Strain TextField when the user taps a Strain name Phrase Pill
               inputUIController.text = phrase.phraseString;
+              //add the phrase to the selectedPhrases
           }),
           onLongPress: () {}, //TODO: define this onLongPress behavior -> offer deletion options
         );
@@ -257,6 +275,11 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
               ),
             ),
             Container(height: 50.0, child: ListView( //Auto-generated list of matching Phrase Pills
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                children: matchingPhrasePills,
+            )),
+            Container(height: 50.0, child: ListView( //list of user-selected Phrases
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 children: matchingPhrasePills,
