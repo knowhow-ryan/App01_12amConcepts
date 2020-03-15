@@ -40,6 +40,9 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   TextEditingController thcPercentController = new TextEditingController();
   TextEditingController cbdPercentController = new TextEditingController();
 
+  List<Phrase> userHighs;
+  List<Phrase> userLows;
+
   @override
   void initState() {
     super.initState();
@@ -95,6 +98,9 @@ class NewExperiencePageState extends State<NewExperiencePage> {
     });
 
     toggleSubSpeciesButtons(); //set all of the Sub_species buttons to deselected
+
+    userHighs = [];
+    userLows = [];
 
     //DEBUG TODO: remove dummy Strains and Experience
     Strain dummyHybrid = Strain.getDummyHybrid;
@@ -456,194 +462,91 @@ class NewExperiencePageState extends State<NewExperiencePage> {
 
     Step( // Step 4: Experience
       title: Text('Experience',
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: 22,
-        fontStyle: FontStyle.italic,
-      )
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 22,
+          fontStyle: FontStyle.italic,
+        )
       ),
       content: Column(
         children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-                color: Colors.white54,
-                borderRadius: BorderRadius.all(Radius.circular(12)),
-              ),
-            child: TextField(
-             
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.all(15),
-                
-                  hintText: "highs",
-                  hintStyle: TextStyle(fontSize: 15),
-              )
-            ),
+          PhraseInputUI(
+            phraseType: PhraseType.High,
+            hint: 'highs',
+            multipleSelection: true,
+            callback: (String high) {setState(() {//TODO: define highs callback
+              userHighs.add(Phrase.save(high, PhraseType.High));
+            });}, // call back // setState
           ),
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadiusDirectional.circular(50),
-                        color: Colors.white70,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(12,8,12,8),
-                        child: Center(
-                          child: Text("stoney",
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 15,
-                              )),
-                        ),
-                      )),
-                ),
-                Padding(
-                      padding: const EdgeInsets.only(left:4,right:4,),
-                      child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadiusDirectional.circular(50),
-                            color: Colors.white70,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(12,8,12,8),
-                            child: Center(
-                              child: Text("relaxed",
-                                  style: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 15,
-                                  )),
-                            ),
-                          )),
-                    ),
-              ],
-            ),
-           SizedBox(height:20),
-            Container(
-            decoration: BoxDecoration(
-                color: Colors.white54,
-                borderRadius: BorderRadius.all(Radius.circular(12)),
-              ),
-            child: TextField(
-             
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.all(15),
-                
-                  hintText: "lows",
-                  hintStyle: TextStyle(fontSize: 15),
-              )
-            ),
+          PhraseInputUI(
+            phraseType: PhraseType.Low,
+            hint: 'lows',
+            multipleSelection: true,
+            callback: (String low) {setState(() {//TODO: define highs callback
+              userLows.add(Phrase.save(low, PhraseType.Low));
+            });}, // call back // setState
           ),
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadiusDirectional.circular(50),
-                        color: Colors.white70,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(12,8,12,8),
-                        child: Center(
-                          child: Text("couchlocked",
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 15,
-                              )),
-                        ),
-                      )),
-                ),
-                Padding(
-                      padding: const EdgeInsets.only(left:4,right:4,),
-                      child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadiusDirectional.circular(50),
-                            color: Colors.white70,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(12,8,12,8),
-                            child: Center(
-                              child: Text("anxious",
-                                  style: TextStyle(
-                                    color: Colors.black54,
-                                    fontSize: 15,
-                                  )),
-                            ),
-                          )),
-                    ),
-              ],
-            ),
-            
-             Row(
+          Row(
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 15, 0, 8),
                 child: Text('Overall Rating',
-      
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: 15,
-        fontStyle: FontStyle.italic,
-        fontWeight: FontWeight.bold,
-      )
-      ),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                  )
+                ),
               ),
             ],
           ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex:1,
-                  child: Container(
-                    decoration: BoxDecoration(
-                color: Colors.white54,
-                borderRadius: BorderRadius.all(Radius.circular(12)),
-              ),
-                    child: TextField(
-                      decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.all(15),
-                    
+          Row(
+            children: <Widget>[
+              Expanded(
+                flex:1,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white54,
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.all(15),
                       hintText: "-",
                       hintStyle: TextStyle(fontSize: 15),
-              )
-
-                    ),
+                    )
                   ),
                 ),
-                Expanded(
-                  flex:4,
-                  child: SliderTheme(
-                     data: SliderTheme.of(context).copyWith(
-        activeTrackColor: Color(0xFFbfd7c9),
-        inactiveTrackColor: Color(0xFF3e865d),
-        trackShape: RectangularSliderTrackShape(),
-        trackHeight: 3.0,
-                     ),
-                    child: Slider(
-                          activeColor:  Colors.white, 
-                          
-                          min: 0.0,
-                          max: 5.0,
-                          label: 'rating',
-                          onChanged: (newPercentage) {//Do not change
-                            setState(() => _ratingSliderValue = newPercentage);//do not change
-                          },
-                          value: _ratingSliderValue,//Do not change
-                        ),
+              ),
+              Expanded(
+                flex:4,
+                child: SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    activeTrackColor: Color(0xFFbfd7c9),
+                    inactiveTrackColor: Color(0xFF3e865d),
+                    trackShape: RectangularSliderTrackShape(),
+                    trackHeight: 3.0,
+                  ), // data
+                  child: Slider(
+                    activeColor:  Colors.white,
+                    min: 0.0,
+                    max: 5.0,
+                    label: 'rating',
+                    onChanged: (newPercentage) {//Do not change
+                      setState(() => _ratingSliderValue = newPercentage);//do not change
+                    },
+                    value: _ratingSliderValue,//Do not change
                   ),
                 ),
-              ],
-            ),
-SizedBox(height:20),
+              ),
+            ],
+          ),
+          SizedBox(height:20),
         ],
       ),
       isActive: true,
-    
     ),
     
     Step( // Step 5: Notes

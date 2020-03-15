@@ -88,7 +88,7 @@ class Phrase {
     return null;
   }
 
-  Widget displayPill({deleteButton = false}) {
+  Widget displayPill({deleteButton = false, Function deleteCallback}) {
     IconData icon;
     MaterialColor iconColor;
 
@@ -149,7 +149,7 @@ class Phrase {
       pillContents.add(
         InkWell(
           child: Icon(Icons.remove_circle_outline),
-          onTap: () {} //TODO: delete the Phrase from selectedPhrases then update the selectedPhrasePills
+          onTap: () => deleteCallback(),
         )
       );
     }
@@ -183,7 +183,7 @@ enum PhraseType {
 
 class PhraseInputUI extends StatefulWidget {
   final PhraseType phraseType;
-  final Function callback;
+  final Function callback; //pass the input of the TextField back to the parent widget
   final String hint;
   final bool multipleSelection;
 
@@ -197,12 +197,13 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
   TextEditingController inputUIController = TextEditingController();
 
   List<Widget> matchingPhrasePills;
-  List<Widget> selectedPhrases;
+  List<Phrase> selectedPhrases;
 
   @override
   void initState() {
     super.initState();
     matchingPhrasePills = [];
+    selectedPhrases = [];
     inputUIController.addListener(_inputUIListener);
   }
 
@@ -212,40 +213,68 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
   }
 
   _inputUIListener() {
-    _getMatchingPhrasePills(inputUIController.text, widget.phraseType, callback: widget.callback);
+    setState(() {
+      matchingPhrasePills = getMatchingPhrasePills(inputUIController.text, widget.phraseType, callback: widget.callback);
+    });
 
     if(widget.multipleSelection) {
       //TODO: when the user hits enter, add the phrase to the selectedPhrases List and clear the TextField
         //updating the selectedPhrases List should trigger a setState rebuild so that the ListView of selectedPhrasePills updates
     }
 
-    widget.callback(inputUIController.text);
+    //widget.callback(inputUIController.text); //moved A1
   }
 
-  void _getMatchingPhrasePills(String inputString, PhraseType phraseType, {Function callback}){
+  List<Widget> getMatchingPhrasePills(String inputString, PhraseType phraseType, {Function callback}){
     //returns the Phrase Pills of all Phrases whose phraseStrings contain the inputString
     
     List<Phrase> phraseList = Phrase.getPhraseList(phraseType);
     List<Widget> matchingPillList = [];
 
     phraseList.forEach((phrase) {
-      if(phrase.phraseString.contains(Phrase._processString(inputString))) {
+      if(phrase.phraseString.contains(Phrase._processString(inputString)) && !selectedPhrases.contains(phrase)) {
         Widget pill = InkWell(
           child: phrase.displayPill(),
-          onTap: () => setState(() { //autofill the Strain TextField when the user taps a Strain name Phrase Pill
-              inputUIController.text = phrase.phraseString;
-              //add the phrase to the selectedPhrases
+          onTap: () => setState(() { //autofill the TextField when the user taps a Phrase Pill
+              if (widget.multipleSelection && !selectedPhrases.contains(phrase)) {
+                inputUIController.text = "";
+
+                //add the tapped phrase to the beginning of the selected phrase list
+                selectedPhrases.insert(0, phrase);
+                widget.callback(phrase.phraseString);
+              }
+              else {
+                inputUIController.text = phrase.phraseString;
+                widget.callback(inputUIController.text); //moved A1
+              }
+
           }),
           onLongPress: () {}, //TODO: define this onLongPress behavior -> offer deletion options
         );
 
         matchingPillList.add(pill);
+
       }
     });
 
+    return matchingPillList;
+  }
+
+  List<Widget> getSelectedPhrasePills() {
+    List<Widget> selectedPhrasePills = [];
+
     setState(() {
-      matchingPhrasePills = matchingPillList;
+      selectedPhrases.forEach((phrase) => selectedPhrasePills.add(phrase.displayPill(
+        deleteButton: true,
+        deleteCallback: () {
+          setState(() {
+           selectedPhrases.remove(phrase);
+          });
+        }
+      )));
     });
+
+    return selectedPhrasePills;
   }
 
   Widget build(BuildContext buildContext) {
@@ -258,8 +287,8 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
-                // color: Colors.white54,
-                // borderRadius: BorderRadius.all(Radius.circular(8)),
+                color: Colors.white54,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
               child: TextField( 
                 decoration: InputDecoration(
@@ -277,12 +306,12 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
             Container(height: 50.0, child: ListView( //Auto-generated list of matching Phrase Pills
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                children: matchingPhrasePills,
+                children: getMatchingPhrasePills(inputUIController.text, widget.phraseType),
             )),
             Container(height: 50.0, child: ListView( //list of user-selected Phrases
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                children: matchingPhrasePills,
+                children: getSelectedPhrasePills(),
             ))
           ]
         )
@@ -295,8 +324,8 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
-                // color: Colors.white54,
-                // borderRadius: BorderRadius.all(Radius.circular(8)),
+                color: Colors.white54,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
               child: TextField( 
                 decoration: InputDecoration(
@@ -316,11 +345,6 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
                 scrollDirection: Axis.horizontal,
                 children: matchingPhrasePills,
             )),
-            Container(height: 50.0, child: ListView( //List of user's selected Phrases
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                children: selectedPhrases,
-            ))
           ]
         )
       );
