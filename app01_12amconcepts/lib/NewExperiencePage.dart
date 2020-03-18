@@ -19,13 +19,14 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   int currentStep = 0;
   double _thcSliderValue = 0.0;
   double _cbdSliderValue = 0.0;
-  double _ratingSliderValue = 0.0;
+  double _ratingSliderValue = 1;
   Strain userStrain;
   String userStrainName;
   Sub_species subspecies = Sub_species.unknown;
   bool userInputActive = true;
   String _thcValidValue ="0.0"; //the most recent valid value for the THC percentage TextField
   String _cbdValidValue = "0.0"; //the most recent valid value for the CBD percentage TextField
+  String _ratingValidValue = "1"; //the most recent valid value for the Overall Rating TextField
 
   String userLocation = "";
   String userIngestion = "";
@@ -36,9 +37,12 @@ class NewExperiencePageState extends State<NewExperiencePage> {
 
   Function setTHC;
   Function setCBD;
+  Function setRating;
 
   TextEditingController thcPercentController = new TextEditingController();
   TextEditingController cbdPercentController = new TextEditingController();
+  TextEditingController ratingController = new TextEditingController();
+  TextEditingController notesController = new TextEditingController();
 
   List<Phrase> userHighs;
   List<Phrase> userLows;
@@ -77,6 +81,21 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       });
     };
 
+    setRating = (newRating) {
+      if (newRating == null) {
+        newRating = 1;
+      }
+      setState(() {
+        _ratingSliderValue = newRating;
+        if (newRating == 0.0) {
+          ratingController.text = "";
+        }
+        else {
+          ratingController.text = newRating.toStringAsFixed(0);
+        }
+      });
+    };
+
     thcPercentController.addListener(() {
       if (double.tryParse(thcPercentController.text) == null) {
         thcPercentController.text = "";
@@ -94,6 +113,16 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       }
       else {
         setState(() => _cbdSliderValue = double.tryParse(cbdPercentController.text));
+      }
+    });
+
+    ratingController.addListener(() {
+      if (double.tryParse(ratingController.text) == null) {
+        ratingController.text = "";
+        setState(() => _ratingSliderValue = 1);
+      }
+      else {
+        setState(() => _ratingSliderValue = double.tryParse(ratingController.text));
       }
     });
 
@@ -119,6 +148,23 @@ class NewExperiencePageState extends State<NewExperiencePage> {
     }
     else if( inputDouble != null) {
       if (inputDouble >= 0.0 && inputDouble <= 100.0) {
+        validString = inputString;
+      }
+    }
+
+    return validString;
+  }
+
+  String validateRatingInput(inputString, validString) {
+    /*validate that the inputString represents a double value between 0 and 100, inclusive.
+    If the value is invalid, return the input validString*/
+    double inputDouble = double.tryParse(inputString);
+
+    if (inputString == "") {
+      validString = inputString;
+    }
+    else if( inputDouble != null) {
+      if (inputDouble >= 1.0 && inputDouble <= 5.0) {
         validString = inputString;
       }
     }
@@ -173,8 +219,13 @@ class NewExperiencePageState extends State<NewExperiencePage> {
             phraseType: PhraseType.Strain,
             hint: "strain name",
             callback: (String userInput) {//returns the matching Strain from the PhraseInputUI widget
+              userStrain = null;
               userStrain = Strain.getStrainByName(userInput);
-              userStrainName = userInput;
+              if (userInput == "") {
+                userStrainName = null;
+              } else {
+                userStrainName = userInput;
+              }
 
               //if the userStrain exists already, preset _thcSliderValue, _cbdSliderValue
               if(userStrain != null) {
@@ -511,6 +562,15 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                   ),
                   child: TextField(
+                    controller: ratingController,
+                    keyboardType: TextInputType.numberWithOptions(decimal: false),
+                    onChanged: (String inputString) { //Validate the input text as only a double
+                      setState(() {
+                        _ratingValidValue = validateRatingInput(inputString, _ratingValidValue);
+                        ratingController.text = _ratingValidValue;
+                        ratingController.selection = TextSelection.fromPosition(TextPosition(offset: ratingController.text.length));
+                      });
+                    },
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.all(15),
@@ -531,12 +591,11 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                   ), // data
                   child: Slider(
                     activeColor:  Colors.white,
-                    min: 0.0,
+                    min: 1.0,
                     max: 5.0,
+                    divisions: 4,
                     label: 'rating',
-                    onChanged: (newPercentage) {//Do not change
-                      setState(() => _ratingSliderValue = newPercentage);//do not change
-                    },
+                    onChanged: setRating,
                     value: _ratingSliderValue,//Do not change
                   ),
                 ),
@@ -551,27 +610,26 @@ class NewExperiencePageState extends State<NewExperiencePage> {
     
     Step( // Step 5: Notes
       title: Text('Notes',
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: 22,
-        fontStyle: FontStyle.italic,
-      )
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 22,
+          fontStyle: FontStyle.italic,
+        )
       ),
       content: Column(
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
-                color: Colors.white54,
-                borderRadius: BorderRadius.all(Radius.circular(12)),
-              ),
+              color: Colors.white54,
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+            ),
             child: TextField(
-             
+              controller: notesController,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.all(15),
-                
-                  hintText: "tell me more",
-                  hintStyle: TextStyle(fontSize: 15),
+                hintText: "tell me more",
+                hintStyle: TextStyle(fontSize: 15),
               )
             ),
           ),
@@ -585,67 +643,67 @@ SizedBox(height:20),
   ];
 
     return Scaffold(
-      
       floatingActionButton: FloatingActionButton(
-      onPressed: () {
-            Navigator.of(context).push(_createRoute());//telling button what to do
-          },
-          
-      child: Icon(FontAwesomeIcons.check),
-      backgroundColor: Color(0xFF8BD3A8),
-    ),
-      // Body
+        onPressed: () { if(userStrain != null) {
+          //Navigator.of(context).push(_createRoute());//telling button what to do
+
+          //TODO: remove the debug code below
+          //DEBUG: print the Strain and Experience information to the console from the generated Strain and Experience objects
+          print("***DEBUG***\nStrain: ${userStrain.name.phraseString}\nSubspecies: ${userStrain.subSpecies.toString()}\nTHC: ${userStrain.thcPercent}\tCBD: ${userStrain.cbdPercent}\nAverage Rating: ${userStrain.averageRating}\nExperiences: ${userStrain.experiences.length}");
+        }},
+            
+        child: Icon(FontAwesomeIcons.check),
+        backgroundColor: Color(0xFF8BD3A8),
+      ),
+
       body: Stack(
         children: <Widget>[
           Container( //Starting Gradient with Smoke Background
-              decoration: BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 end: FractionalOffset.topCenter,
                 begin: FractionalOffset.bottomCenter,
                 stops: [.05, .45,],
                 colors: [Color(0xFFDDDDDD), Colors.black87,],
               ),
-              ),
+            ),
             child: Image.network("http://justcole.design/wp-content/uploads/2020/02/Smokey-Background-Side.png", //TODO: update this to an assett image
               height: double.maxFinite,
               width: double.maxFinite,
               fit: BoxFit.cover,
               colorBlendMode: BlendMode.overlay,
             ),
-            ),
+          ),
           Theme(
             data: ThemeData(
-      primaryColor: Color(0xFF51B579),
-      
-    ),
+              primaryColor: Color(0xFF51B579),
+            ),
             child: AnimatedOpacity(
-              
               opacity: 1,//_myOpacity,
               curve: Interval(0.8, 1.0, curve: Curves.fastOutSlowIn),
               duration: Duration(seconds:1),
               child: Stepper(
                 controlsBuilder: (BuildContext context,
-                      {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
-                    return Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: FlatButton(
-                            onPressed: onStepContinue,
-                            child: Icon(FontAwesomeIcons.arrowAltCircleDown, color: Color(0xFF51B579),),
-                            color: Colors.black54,
-                          ),
+                  {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
+                  return Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: FlatButton(
+                          onPressed: onStepContinue,
+                          child: Icon(FontAwesomeIcons.arrowAltCircleDown, color: Color(0xFF51B579),),
+                          color: Colors.black54,
                         ),
-                        
-                        Expanded(
-                          child: FlatButton(
-                            onPressed: onStepCancel,
-                            child: Icon(FontAwesomeIcons.arrowAltCircleUp, color: Color(0xFF51B579),),
-                            color: Colors.black54,
-                          ),
+                      ),
+                      Expanded(
+                        child: FlatButton(
+                          onPressed: onStepCancel,
+                          child: Icon(FontAwesomeIcons.arrowAltCircleUp, color: Color(0xFF51B579),),
+                          color: Colors.black54,
                         ),
-                      ],
-                    );
-                  },
+                      ),
+                    ],
+                  );
+                },
                 currentStep: this.currentStep,
                 steps: steps,
                 type: StepperType.vertical,
@@ -653,24 +711,26 @@ SizedBox(height:20),
                   setState(() {
                     //when the user advances past the first step, save the Strain
                     if (currentStep == 0 && step != 0) {
-                      if (userStrain != null) {
+                      if (userStrain == null && userStrainName != null) {
                         userStrain = new Strain(userStrainName, _thcSliderValue, _cbdSliderValue, subSpecies: subspecies); //TODO: pass subSpecies type when UI implemented
                       }
                     }
 
-                    currentStep = step;
+                    if (userStrainName != null) {
+                      currentStep = step;
+                    }
                   });
                 },
                 onStepContinue: () {
                   setState(() {
                     //when the user advances past the first step, save the Strain
                     if (currentStep == 0) {
-                      if (userStrain != null) {
+                      if (userStrain == null && userStrainName != null) {
                         userStrain = new Strain(userStrainName, _thcSliderValue, _cbdSliderValue, subSpecies: subspecies); //TODO: pass subSpecies type when UI implemented
                       }
                     }
                     
-                    if (currentStep < steps.length - 1) {
+                    if (currentStep < steps.length - 1 && userStrainName != null) {
                       currentStep = currentStep + 1;
                     } else {
                       currentStep = 0;
