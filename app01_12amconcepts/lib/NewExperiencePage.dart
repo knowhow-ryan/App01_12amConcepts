@@ -585,7 +585,6 @@ class NewExperiencePageState extends State<NewExperiencePage> {
               multipleSelection: true,
               callback: (String high) {
                 setState(() {
-                  //TODO: define highs callback
                   userHighs.add(Phrase.save(high, PhraseType.High));
                 });
               }, // call back // setState
@@ -596,7 +595,6 @@ class NewExperiencePageState extends State<NewExperiencePage> {
               multipleSelection: true,
               callback: (String low) {
                 setState(() {
-                  //TODO: define highs callback
                   userLows.add(Phrase.save(low, PhraseType.Low));
                 });
               }, // call back // setState
@@ -747,12 +745,12 @@ class NewExperiencePageState extends State<NewExperiencePage> {
             userLows,
             notesController.text,
           );
-          //Navigator.of(context).push(_createRoute());//telling button what to do
+          Navigator.of(context).push(_createRoute());//telling button what to do
 
           //TODO: remove the debug code below
           //DEBUG: print the Strain and Experience information to the console from the generated Strain and Experience objects
-          print("***DEBUG***\nStrain: ${userStrain.name.phraseString}\nSubspecies: ${userStrain.subSpecies.toString()}\nTHC: ${userStrain.thcPercent}\tCBD: ${userStrain.cbdPercent}\nAverage Rating: ${userStrain.averageRating}\nExperiences: ${userStrain.experiences.length}");
-          print("***EXPERIENCE***\nDate: ${userExperience.date}\nLocation: ${userExperience.location.phraseString}\nIngestion: ${userExperience.ingestion.phraseString}\nRating: ${userExperience.overallRating}\nHighs: ${userExperience.highs}\nLows: ${userExperience.lows}\nNotes: ${userExperience.notes}\n*** *** *** *** ***");
+          //print("***DEBUG***\nStrain: ${userStrain.name.phraseString}\nSubspecies: ${userStrain.subSpecies.toString()}\nTHC: ${userStrain.thcPercent}\tCBD: ${userStrain.cbdPercent}\nAverage Rating: ${userStrain.averageRating}\nExperiences: ${userStrain.experiences.length}");
+          //print("***EXPERIENCE***\nDate: ${userExperience.date}\nLocation: ${userExperience.location.phraseString}\nIngestion: ${userExperience.ingestion.phraseString}\nRating: ${userExperience.overallRating}\nHighs: ${userExperience.highs}\nLows: ${userExperience.lows}\nNotes: ${userExperience.notes}\n*** *** *** *** ***");
         }},
             
         child: Icon(FontAwesomeIcons.check),
@@ -830,9 +828,9 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                     if (currentStep == 0 && step != 0) {
                       if (userStrain == null && userStrainName != null) {
                         userStrain = new Strain(
-                            userStrainName, _thcSliderValue, _cbdSliderValue,
-                            subSpecies:
-                                subspecies); //TODO: pass subSpecies type when UI implemented
+                          userStrainName, _thcSliderValue, _cbdSliderValue,
+                          subSpecies: subspecies
+                        );
                       }
                     }
 
@@ -847,9 +845,9 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                     if (currentStep == 0) {
                       if (userStrain == null && userStrainName != null) {
                         userStrain = new Strain(
-                            userStrainName, _thcSliderValue, _cbdSliderValue,
-                            subSpecies:
-                                subspecies); //TODO: pass subSpecies type when UI implemented
+                          userStrainName, _thcSliderValue, _cbdSliderValue,
+                          subSpecies: subspecies
+                        );
                       }
                     }
 
