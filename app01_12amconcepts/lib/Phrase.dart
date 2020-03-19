@@ -215,7 +215,9 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
   _inputUIListener() {
     setState(() {
       matchingPhrasePills = getMatchingPhrasePills(inputUIController.text, widget.phraseType);
-      widget.callback(inputUIController.text);
+      if(!widget.multipleSelection) {
+        widget.callback(inputUIController.text);
+      }
     });
 
     //widget.callback(inputUIController.text); //moved A1
@@ -298,10 +300,11 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
                 ),
                 controller: inputUIController,
                 onSubmitted: (String userInput) {
-                  //TODO: when the user hits enter, add the phrase to the selectedPhrases List and clear the TextField
-                    //updating the selectedPhrases List should trigger a setState rebuild so that the ListView of selectedPhrasePills updates
                   setState( () {
-                    selectedPhrases.insert(0, Phrase.save(userInput, widget.phraseType));
+                    Phrase inputPhrase = Phrase.save(userInput, widget.phraseType);
+                    if (!selectedPhrases.contains(inputPhrase)) {
+                      selectedPhrases.insert(0, inputPhrase);
+                    }
                     inputUIController.text = "";
                   });
                 }, // onSubmitted
@@ -342,6 +345,7 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
                   hintStyle: TextStyle(fontSize: 15),
                 ),
                 controller: inputUIController,
+                onSubmitted: (userInput) => setState(() => widget.callback(userInput)),
               ),
             ),
             Container(height: 50.0, child: ListView( //Auto-generated list of matching Phrase Pills

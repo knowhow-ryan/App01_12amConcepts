@@ -16,17 +16,19 @@ class NewExperiencePage extends StatefulWidget {
 }
 
 class NewExperiencePageState extends State<NewExperiencePage> {
+  Strain userStrain;
+  Experience userExperience;
+  
   int currentStep = 0;
   double _thcSliderValue = 0.0;
   double _cbdSliderValue = 0.0;
-  double _ratingSliderValue = 1;
-  Strain userStrain;
+  double _ratingSliderValue = 3;
   String userStrainName;
   Sub_species subspecies = Sub_species.unknown;
   bool userInputActive = true;
   String _thcValidValue ="0.0"; //the most recent valid value for the THC percentage TextField
   String _cbdValidValue = "0.0"; //the most recent valid value for the CBD percentage TextField
-  String _ratingValidValue = "1"; //the most recent valid value for the Overall Rating TextField
+  String _ratingValidValue = "3"; //the most recent valid value for the Overall Rating TextField
 
   String userLocation = "";
   String userIngestion = "";
@@ -83,7 +85,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
 
     setRating = (newRating) {
       if (newRating == null) {
-        newRating = 1;
+        newRating = 3;
       }
       setState(() {
         _ratingSliderValue = newRating;
@@ -119,7 +121,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
     ratingController.addListener(() {
       if (double.tryParse(ratingController.text) == null) {
         ratingController.text = "";
-        setState(() => _ratingSliderValue = 1);
+        setState(() => _ratingSliderValue = 3);
       }
       else {
         setState(() => _ratingSliderValue = double.tryParse(ratingController.text));
@@ -533,7 +535,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
             phraseType: PhraseType.Low,
             hint: 'lows',
             multipleSelection: true,
-            callback: (String low) {setState(() {//TODO: define highs callback
+            callback: (String low) {setState(() {//TODO: define lows callback
               userLows.add(Phrase.save(low, PhraseType.Low));
             });}, // call back // setState
           ),
@@ -628,7 +630,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.all(15),
-                hintText: "tell me more",
+                hintText: "what else?",
                 hintStyle: TextStyle(fontSize: 15),
               )
             ),
@@ -645,11 +647,23 @@ SizedBox(height:20),
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () { if(userStrain != null) {
+          //create a new Experience from the user's input
+          userExperience = new Experience(
+            userStrain,
+            DateTime.now(),
+            Phrase.save(userLocation, PhraseType.Location),
+            Phrase.save(userIngestion, PhraseType.Ingestion),
+            int.tryParse(ratingController.text),
+            userHighs,
+            userLows,
+            notesController.text,
+          );
           //Navigator.of(context).push(_createRoute());//telling button what to do
 
           //TODO: remove the debug code below
           //DEBUG: print the Strain and Experience information to the console from the generated Strain and Experience objects
           print("***DEBUG***\nStrain: ${userStrain.name.phraseString}\nSubspecies: ${userStrain.subSpecies.toString()}\nTHC: ${userStrain.thcPercent}\tCBD: ${userStrain.cbdPercent}\nAverage Rating: ${userStrain.averageRating}\nExperiences: ${userStrain.experiences.length}");
+          print("***EXPERIENCE***\nDate: ${userExperience.date}\nLocation: ${userExperience.location.phraseString}\nIngestion: ${userExperience.ingestion.phraseString}\nRating: ${userExperience.overallRating}\nHighs: ${userExperience.highs}\nLows: ${userExperience.lows}\nNotes: ${userExperience.notes}\n*** *** *** *** ***");
         }},
             
         child: Icon(FontAwesomeIcons.check),
