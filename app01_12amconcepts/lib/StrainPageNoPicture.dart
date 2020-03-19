@@ -16,152 +16,106 @@ class StrainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              end: FractionalOffset.topCenter,
-              begin: FractionalOffset.bottomCenter,
-              stops: [
-                .3,
-                .8,
-                .9,
-              ],
-              colors: [
-                Color(0xFFDDDDDD), //Light Gray
-                // Color(0xFFda8f57), //Orange
-                Color(0xFF3e865d), //Green
-                // Color(0xFF914d8c), //Purple
-                Colors.black87,
-              ], //Dark Gray
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              TopSearch(),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    // Stack(
-                    //   children: <Widget>[
-                        // Container(
-                        //   height: 250,
-                        //   decoration: BoxDecoration(
-                        //       borderRadius: BorderRadius.all(
-                        //         Radius.circular(12.0),
-                        //       ),
-                        //       image: DecorationImage(
-                        //         fit: BoxFit.cover,
-                        //         image: NetworkImage(
-                        //             "https://images.pexels.com/photos/1466335/pexels-photo-1466335.jpeg"),
-                        //       ),
-                        //       boxShadow: [
-                        //         BoxShadow(
-                        //           color: Colors.black38,
-                        //           blurRadius: 8.0,
-                        //         ),
-                        //       ]),
-                        // ),
-                        // Positioned(
-                        //   // padding: const EdgeInsets.all(8.0),
-                        //   bottom: 15,
-                        //   right: 15,
-                        //   child: Container(
-                        //     decoration: BoxDecoration(
-                        //       borderRadius:
-                        //           BorderRadiusDirectional.circular(50),
-                        //       color: Colors.white60,
-                        //     ),
-                        //     child: Padding(
-                        //       padding: const EdgeInsets.all(10.0),
-                        //       child: Text(strain.subSpecies.toString(),
-                        //           style: TextStyle(
-                        //             color: Colors.black87,
-                        //             fontSize: 14,
-                        //             fontWeight: FontWeight.bold,
-                        //           )),
-                        //     ),
-                        //   ),
-                        // ),
-                    //   ],
-                    // ),
-                    Row(
-                      children: <Widget>[
-                        Padding(
-                          //Strain Title
-                          padding: const EdgeInsets.only(
-                            bottom: 5,
-                            top: 15,
-                            right: 8,
-                          ),
-                          child: Text(strain.name.phraseString,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 38,
-                              )),
-                        ),
-                        Icon(
-                          FontAwesomeIcons.pencilAlt,
-                          color: Colors.white54,
-                          size: 18,
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        right: 28.0,
-                        bottom: 10,
-                      ),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: Text('THC: ${strain.thcPercent}%',
-                                style: TextStyle(
-                                  color: Colors.white70,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25,
-                                )),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Text(
-                              'CBD: ${strain.cbdPercent}%',
-                              style: TextStyle(
-                                color: Colors.white70,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25,
-                              ),
-                            ),
-                          ),
-                          Icon(
-                            Icons.star,
-                            color: Colors.white70,
-                            size: 22,
-                          ),
-                          Text('${strain.averageRating}',
-                              style: TextStyle(
-                                color: Colors.white70,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25,
-                              )),
-                        ],
-                      ),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                            child: Divider(
-                          color: Colors.black87,
-                        ))
-                      ],
-                    ),
+      child: Stack(
+        children: <Widget>[
+          Container(
+              //Starting Gradient with Smoke Background
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  end: FractionalOffset.topCenter,
+                  begin: FractionalOffset.bottomCenter,
+                  stops: [
+                    .05,
+                    .45,
+                  ],
+                  colors: [
+                    Color(0xFF55B57D),
+                    Color(0xFF000000)
                   ],
                 ),
               ),
+              child: Image.network(
+                "http://justcole.design/wp-content/uploads/2020/02/Smokey-Background-Side.png", //TODO: update this to an assett image
+                height: double.maxFinite,
+                width: double.maxFinite,
+                fit: BoxFit.fill,
+                alignment: Alignment.topCenter,
+                colorBlendMode: BlendMode.overlay,
+              ),
+            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              TopSearch(),
+              // Padding(
+              //   padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 5),
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: <Widget>[
+                    
+              //       Row(
+              //         children: <Widget>[
+              //           Padding(
+              //             //Strain Title
+              //             padding: const EdgeInsets.only(
+              //               bottom: 5,
+              //               top: 15,
+              //               right: 8,
+              //             ),
+              //             child: Text(strain.name.phraseString,
+              //                 style: TextStyle(
+              //                   color: Colors.white,
+              //                   fontWeight: FontWeight.bold,
+              //                   fontSize: 38,
+              //                 )),
+              //           ),
+              //           Icon(
+              //             FontAwesomeIcons.pencilAlt,
+              //             color: Colors.white70,
+              //             size: 18,
+              //           ),
+              //         ],
+              //       ),
+              //       Padding(
+              //         padding: const EdgeInsets.only(
+              //           right: 8.0,
+              //           bottom: 10,
+              //         ),
+              //         child: Row(
+              //           children: <Widget>[
+              //             Text('THC: ${strain.thcPercent}%',
+              //                 style: TextStyle(
+              //                   color: Colors.white70,
+              //                   fontWeight: FontWeight.bold,
+              //                   fontSize: 25,
+              //                 )),
+              //             Padding(
+              //               padding: const EdgeInsets.only(left:15.0, right:15,),
+              //               child: Text(
+              //                 'CBD: ${strain.cbdPercent}%',
+              //                 style: TextStyle(
+              //                   color: Colors.white70,
+              //                   fontWeight: FontWeight.bold,
+              //                   fontSize: 25,
+              //                 ),
+              //               ),
+              //             ),
+              //             Icon(
+              //               Icons.star,
+              //               color: Colors.white70,
+              //               size: 22,
+              //             ),
+              //             Text('${strain.averageRating}',
+              //                 style: TextStyle(
+              //                   color: Colors.white70,
+              //                   fontWeight: FontWeight.bold,
+              //                   fontSize: 25,
+              //                 )),
+              //           ],
+              //         ),
+              //       ),
+                    Strain.getDummyHybrid.displayCard(),
+                    
               Expanded(
                 child: ListView(
                   padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -174,7 +128,9 @@ class StrainPage extends StatelessWidget {
                 ),
               ),
             ],
-          )),
+          ),
+        ],
+      ),
     );
   }
 }
