@@ -7,7 +7,7 @@ class TopSearch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(12, 45, 12, 15),
+      padding: const EdgeInsets.fromLTRB(8, 45, 8, 10),
       child: Container(
         height:50,
           child: Row(
@@ -27,17 +27,28 @@ class TopSearch extends StatelessWidget {
            flex:6,
             child: Container(
               decoration: BoxDecoration(
-        color: Colors.white30,
-        borderRadius: BorderRadius.all(Radius.circular(12)),
+        color: Colors.white12,
+        
       ),
               child: TextField(
                
                 decoration: InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.all(15),
+                  contentPadding:
+                              EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                      width: 0,
+                      color: Colors.transparent,
+                    )),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 3,
+                        color: Color(0xFF51B579),
+                      ),
+                    ),
                   suffixIcon: Icon(Icons.search) ,
                     hintText: "Highly Rated",
-                    hintStyle: TextStyle(fontSize: 17),
+                    hintStyle: TextStyle(fontSize: 19, color: Colors.white54,),
                 )
               ),
             ),

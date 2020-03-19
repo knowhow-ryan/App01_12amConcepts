@@ -93,13 +93,13 @@ class Strain {
       break;
     }
     return Padding(
-      padding: EdgeInsets.fromLTRB(18, 0, 18, 15),
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
       child: Container(
         //Sativa Orange Card
-        height: 95,
+        
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(
-            Radius.circular(14.0),
+            Radius.circular(5.0),
           ),
           boxShadow: [
             new BoxShadow(
@@ -111,7 +111,7 @@ class Strain {
             end: FractionalOffset.bottomCenter,
             begin: FractionalOffset.topLeft,
             stops: [
-              .6,
+              0.2,
               1,
             ],
             colors: [
@@ -128,7 +128,7 @@ class Strain {
               child: Stack(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.all(12),
+                    padding: EdgeInsets.all(15),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       // mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -137,29 +137,29 @@ class Strain {
                             style: TextStyle(
                               color: Colors.black87,
                               fontWeight: FontWeight.bold,
-                              fontSize: 28,
+                              fontSize: 31,
                             )),
-                        SizedBox(
-                          height: 2,
-                        ),
+                        // SizedBox(
+                        //   height: 2,
+                        // ),
                         /* Strain.mostRecentLocation() is not built yet
                         TODO: uncomment Most Recent Location widget
                         Text(strain.mostRecentLocation(),
                             style: TextStyle(
                               color: Colors.black54,
                               fontWeight: FontWeight.bold,
-                              fontSize: 19,
+                              fontSize: 22,
                             )),*/
-                        SizedBox(
-                          height: 5,
-                        ),
+                        // SizedBox(
+                        //   height: 5,
+                        // ),
                         Row(
                           children: <Widget>[
                             Text('THC: ${this.thcPercent}%',
                                 style: TextStyle(
                                   color: Colors.black54,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 20,
+                                  fontSize: 22,
                                 )),
                             SizedBox(
                               width: 15,
@@ -169,7 +169,7 @@ class Strain {
                               style: TextStyle(
                                 color: Colors.black54,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 20,
+                                fontSize: 22,
                               ),
                             ),
                             SizedBox(
@@ -178,13 +178,13 @@ class Strain {
                             Icon(
                               Icons.star,
                               color: Colors.black54,
-                              size: 20,
+                              size: 22,
                             ),
                             Text(': ${this.averageRating}',
                                 style: TextStyle(
                                   color: Colors.black54,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 20,
+                                  fontSize: 22,
                                 )),
                           ],
                         )

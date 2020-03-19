@@ -98,6 +98,7 @@ class Experience {
                 Padding(
                   //date - location - rating
                   padding: const EdgeInsets.only(
+                    top:10,
                     right: 10,
                   ),
                   child: Text(
@@ -106,7 +107,7 @@ class Experience {
                     this.date.year.toString() +
                     ' - ' + this.location.phraseString + ' - 4.2', //TODO: add rating variable to experience card
                     style: TextStyle(
-                      color: Colors.black87,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 24,
                     ),
@@ -115,7 +116,7 @@ class Experience {
                 Icon(
                   //edit icon
                   FontAwesomeIcons.pencilAlt,
-                  color: Colors.black26,
+                  color: Colors.white70,
                   size: 13,
                   
                 ),
@@ -131,15 +132,23 @@ class Experience {
             children: this.lowsPillList
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom:20.0,top:5,),
+            padding: const EdgeInsets.only(bottom:10,top:5,),
             child: Text(
               //notes
               this.notes,
               style: TextStyle(
-              color: Colors.black54,
+              color: Colors.white70,
               fontSize: 18,
             )),
           ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                                child: Divider(
+                              color: Colors.white,
+                            )),
+            ],
+          )
       ]),
     );
 

@@ -5,11 +5,16 @@ class Phrase {
   /* short phrase the user has input to describe their Experiences
   This class makes it easy for the user to use the same phrasing consistently
   This allows for auto-fill features as well as searching across the app by particular Phrases*/
-  static List<Phrase> strains = []; //all of the Phrases used in the Strain name field of all Experiences
-  static List<Phrase> highs = []; //all of the Phrases used in the highs field of all Experiences
-  static List<Phrase> lows = []; //all of the Phrases used in the lows field of all Experiences
-  static List<Phrase> locations = []; //all of the Phrases used in the location field of all Experiences
-  static List<Phrase> ingestions= []; //all of the Phrases used in the ingestion field of all Experiences
+  static List<Phrase> strains =
+      []; //all of the Phrases used in the Strain name field of all Experiences
+  static List<Phrase> highs =
+      []; //all of the Phrases used in the highs field of all Experiences
+  static List<Phrase> lows =
+      []; //all of the Phrases used in the lows field of all Experiences
+  static List<Phrase> locations =
+      []; //all of the Phrases used in the location field of all Experiences
+  static List<Phrase> ingestions =
+      []; //all of the Phrases used in the ingestion field of all Experiences
 
   String phraseString; //the actual short phrase provided by the user
   PhraseType phraseType; //which Phrase list will this go into?
@@ -30,11 +35,13 @@ class Phrase {
     List<Phrase> phraseList = Phrase.getPhraseList(phraseType);
 
     inputString = _processString(inputString);
-    
+
     //search the appropriate Phrase List based on the Phrase type
     //return either the matching Phrase or a new Phrase
-    phrase = phraseList.firstWhere((phraseItem) => phraseItem.phraseString == inputString, orElse: () => new Phrase(inputString, phraseType));
-    
+    phrase = phraseList.firstWhere(
+        (phraseItem) => phraseItem.phraseString == inputString,
+        orElse: () => new Phrase(inputString, phraseType));
+
     return phrase;
   }
 
@@ -68,21 +75,36 @@ class Phrase {
 
   static List<Phrase> getPhraseList(PhraseType phraseType) {
     //returns the Phrase List associated with the input PhraseTypes
-    switch(phraseType) {
-      case PhraseType.Strain: {return Phrase.strains;}
-      break;
+    switch (phraseType) {
+      case PhraseType.Strain:
+        {
+          return Phrase.strains;
+        }
+        break;
 
-      case PhraseType.High: {return Phrase.highs;}
-      break;
+      case PhraseType.High:
+        {
+          return Phrase.highs;
+        }
+        break;
 
-      case PhraseType.Low: {return Phrase.lows;}
-      break;
+      case PhraseType.Low:
+        {
+          return Phrase.lows;
+        }
+        break;
 
-      case PhraseType.Location: {return Phrase.locations;}
-      break;
+      case PhraseType.Location:
+        {
+          return Phrase.locations;
+        }
+        break;
 
-      case PhraseType.Ingestion: {return Phrase.ingestions;}
-      break;
+      case PhraseType.Ingestion:
+        {
+          return Phrase.ingestions;
+        }
+        break;
     }
 
     return null;
@@ -93,42 +115,48 @@ class Phrase {
     MaterialColor iconColor;
 
     //set the icon and iconColor based on the PhraseType
-    switch(this.phraseType) {
-      case PhraseType.Strain: {
-        icon = FontAwesomeIcons.acquisitionsIncorporated;
-        iconColor = Colors.yellow;
-      }
-      break;
+    switch (this.phraseType) {
+      case PhraseType.Strain:
+        {
+          icon = FontAwesomeIcons.cannabis;
+          iconColor = Colors.grey;
+        }
+        break;
 
-      case PhraseType.High: {
-        icon = FontAwesomeIcons.smileBeam;
-        iconColor = Colors.green;
-      }
-      break;
+      case PhraseType.High:
+        {
+          icon = FontAwesomeIcons.smileBeam;
+          iconColor = Colors.lightGreen;
+        }
+        break;
 
-      case PhraseType.Low: {
-        icon = FontAwesomeIcons.mehBlank;
-        iconColor = Colors.red;
-      }
-      break;
+      case PhraseType.Low:
+        {
+          icon = FontAwesomeIcons.mehBlank;
+          iconColor = Colors.deepOrange;
+        }
+        break;
 
-      case PhraseType.Location: {
-        icon = FontAwesomeIcons.home;
-        iconColor = Colors.brown;
-      }
-      break;
+      case PhraseType.Location:
+        {
+          icon = FontAwesomeIcons.mapMarkerAlt;
+          iconColor = Colors.deepPurple;
+        }
+        break;
 
-      case PhraseType.Ingestion: {
-        icon = FontAwesomeIcons.bong;
-        iconColor = Colors.teal;
-      }
-      break;
+      case PhraseType.Ingestion:
+        {
+          icon = FontAwesomeIcons.fireAlt;
+          iconColor = Colors.amber;
+        }
+        break;
 
-      default: {
-        icon = FontAwesomeIcons.fire;
-        iconColor = Colors.orange;
-      }
-      break;
+      default:
+        {
+          icon = FontAwesomeIcons.joint;
+          iconColor = Colors.orange;
+        }
+        break;
     }
 
     List<Widget> pillContents = <Widget>[
@@ -137,57 +165,63 @@ class Phrase {
         color: iconColor,
         size: 13,
       ),
-      SizedBox(width: 3),
-      Text(this.phraseString,
-        style: TextStyle(
-          color: Colors.black54,
-          fontSize: 13,
-      )),
+      //SizedBox(width: 15),
+      Padding(
+        padding: const EdgeInsets.only(left:4.0),
+        child: Text(this.phraseString,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 13,
+            )),
+      ),
     ];
 
     if (deleteButton) {
-      pillContents.add(
-        InkWell(
-          child: Icon(Icons.remove_circle_outline),
-          onTap: () => deleteCallback(),
-        )
-      );
+      pillContents.add(InkWell(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 4.0),
+          child: Icon(
+            Icons.remove_circle_outline,
+            color: Colors.white,
+          ),
+        ),
+        onTap: () => deleteCallback(),
+      ));
     }
 
     Widget phrasePill = Padding(
       padding: EdgeInsets.fromLTRB(0, 5, 5, 5),
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadiusDirectional.circular(50),
-          color: Colors.white54,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadiusDirectional.circular(50),
+            color: Colors.black87,
           ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-          child: Row(
-            children: pillContents,
-          ),
-      )),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+            child: Row(
+              children: pillContents,
+            ),
+          )),
     );
-    
+
     return phrasePill;
   }
 }
 
-enum PhraseType {
-  Strain,
-  High,
-  Low,
-  Location,
-  Ingestion
-}
+enum PhraseType { Strain, High, Low, Location, Ingestion }
 
 class PhraseInputUI extends StatefulWidget {
   final PhraseType phraseType;
-  final Function callback; //pass the input of the TextField back to the parent widget
+  final Function
+      callback; //pass the input of the TextField back to the parent widget
   final String hint;
   final bool multipleSelection;
 
-  PhraseInputUI({@required this.phraseType, this.callback, this.hint, this.multipleSelection = false});
+  PhraseInputUI(
+      {@required this.phraseType,
+      this.callback,
+      this.hint,
+      this.multipleSelection = false});
 
   @override
   _PhraseInputUIState createState() => _PhraseInputUIState();
@@ -214,42 +248,44 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
 
   _inputUIListener() {
     setState(() {
-      matchingPhrasePills = getMatchingPhrasePills(inputUIController.text, widget.phraseType);
+      matchingPhrasePills =
+          getMatchingPhrasePills(inputUIController.text, widget.phraseType);
       widget.callback(inputUIController.text);
     });
 
     //widget.callback(inputUIController.text); //moved A1
   }
 
-  List<Widget> getMatchingPhrasePills(String inputString, PhraseType phraseType){
+  List<Widget> getMatchingPhrasePills(
+      String inputString, PhraseType phraseType) {
     //returns the Phrase Pills of all Phrases whose phraseStrings contain the inputString
-    
+
     List<Phrase> phraseList = Phrase.getPhraseList(phraseType);
     List<Widget> matchingPillList = [];
 
     phraseList.forEach((phrase) {
-      if(phrase.phraseString.contains(Phrase._processString(inputString)) && !selectedPhrases.contains(phrase)) {
+      if (phrase.phraseString.contains(Phrase._processString(inputString)) &&
+          !selectedPhrases.contains(phrase)) {
         Widget pill = InkWell(
           child: phrase.displayPill(),
-          onTap: () => setState(() { //autofill the TextField when the user taps a Phrase Pill
-              if (widget.multipleSelection && !selectedPhrases.contains(phrase)) {
-                inputUIController.text = "";
+          onTap: () => setState(() {
+            //autofill the TextField when the user taps a Phrase Pill
+            if (widget.multipleSelection && !selectedPhrases.contains(phrase)) {
+              inputUIController.text = "";
 
-                //add the tapped phrase to the beginning of the selected phrase list
-                selectedPhrases.insert(0, phrase);
-                widget.callback(phrase.phraseString);
-              }
-              else {
-                inputUIController.text = phrase.phraseString;
-                widget.callback(inputUIController.text); //moved A1
-              }
-
+              //add the tapped phrase to the beginning of the selected phrase list
+              selectedPhrases.insert(0, phrase);
+              widget.callback(phrase.phraseString);
+            } else {
+              inputUIController.text = phrase.phraseString;
+              widget.callback(inputUIController.text); //moved A1
+            }
           }),
-          onLongPress: () {}, //TODO: define this onLongPress behavior -> offer deletion options
+          onLongPress:
+              () {}, //TODO: define this onLongPress behavior -> offer deletion options
         );
 
         matchingPillList.add(pill);
-
       }
     });
 
@@ -260,14 +296,14 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
     List<Widget> selectedPhrasePills = [];
 
     setState(() {
-      selectedPhrases.forEach((phrase) => selectedPhrasePills.add(phrase.displayPill(
-        deleteButton: true,
-        deleteCallback: () {
-          setState(() {
-           selectedPhrases.remove(phrase);
-          });
-        }
-      )));
+      selectedPhrases
+          .forEach((phrase) => selectedPhrasePills.add(phrase.displayPill(
+              deleteButton: true,
+              deleteCallback: () {
+                setState(() {
+                  selectedPhrases.remove(phrase);
+                });
+              })));
     });
 
     return selectedPhrasePills;
@@ -275,83 +311,108 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
 
   Widget build(BuildContext buildContext) {
     Widget inputUI;
-    
-    if(widget.multipleSelection) {
-      inputUI = Container( child:
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+
+    if (widget.multipleSelection) {
+      inputUI = Container(
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
             Container(
               decoration: BoxDecoration(
-                color: Colors.white54,
-                borderRadius: BorderRadius.all(Radius.circular(8)),
+                color: Colors.white12,
               ),
-              child: TextField( 
+              child: TextField(
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                  
-                  fillColor: Colors.white24,
-                  focusColor: Colors.white70,
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.all(10),
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                    width: 0,
+                    color: Colors.transparent,
+                  )),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 3,
+                      color: Color(0xFF51B579),
+                    ),
+                  ),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                   hintText: widget.hint,
-                  hintStyle: TextStyle(fontSize: 15),
+                  hintStyle: TextStyle(fontSize: 15, color: Colors.white54),
                 ),
                 controller: inputUIController,
                 onSubmitted: (String userInput) {
                   //TODO: when the user hits enter, add the phrase to the selectedPhrases List and clear the TextField
-                    //updating the selectedPhrases List should trigger a setState rebuild so that the ListView of selectedPhrasePills updates
-                  setState( () {
-                    selectedPhrases.insert(0, Phrase.save(userInput, widget.phraseType));
+                  //updating the selectedPhrases List should trigger a setState rebuild so that the ListView of selectedPhrasePills updates
+                  setState(() {
+                    selectedPhrases.insert(
+                        0, Phrase.save(userInput, widget.phraseType));
                     inputUIController.text = "";
                   });
                 }, // onSubmitted
               ),
             ),
-            Container(height: 50.0, child: ListView( //Auto-generated list of matching Phrase Pills
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                children: getMatchingPhrasePills(inputUIController.text, widget.phraseType),
-            )),
-            Container(height: 50.0, child: ListView( //list of user-selected Phrases
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                children: getSelectedPhrasePills(),
-            ))
-          ]
-        )
-      );
-    }
-    else {
-      inputUI = Container( child:
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+            Container(
+                height: 50.0,
+                child: ListView(
+                  //Auto-generated list of matching Phrase Pills
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  children: getMatchingPhrasePills(
+                      inputUIController.text, widget.phraseType),
+                )),
+            Container(
+                height: 50.0,
+                child: ListView(
+                  //list of user-selected Phrases
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  children: getSelectedPhrasePills(),
+                ))
+          ]));
+    } else {
+      inputUI = Container(
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
             Container(
               decoration: BoxDecoration(
-                color: Colors.white54,
-                borderRadius: BorderRadius.all(Radius.circular(8)),
+                color: Colors.white12,
               ),
-              child: TextField( 
+              child: TextField(
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                  
-                  fillColor: Colors.white24,
-                  focusColor: Colors.white70,
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.all(10),
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                    width: 0,
+                    color: Colors.transparent,
+                  )),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 3,
+                      color: Color(0xFF51B579),
+                    ),
+                  ),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                   hintText: widget.hint,
-                  hintStyle: TextStyle(fontSize: 15),
+                  hintStyle: TextStyle(fontSize: 15, color: Colors.white54),
                 ),
                 controller: inputUIController,
               ),
             ),
-            Container(height: 50.0, child: ListView( //Auto-generated list of matching Phrase Pills
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                children: matchingPhrasePills,
-            )),
-          ]
-        )
-      );
+            Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: Container(
+                  height: 50.0,
+                  child: ListView(
+                    //Auto-generated list of matching Phrase Pills
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    children: matchingPhrasePills,
+                  )),
+            ),
+          ]));
     }
 
     return inputUI;
