@@ -1,7 +1,6 @@
-//import 'package:app01_12amconcepts/StrainPage.dart';
 import 'package:flutter/material.dart';
 import 'CreditsPage.dart';
-import 'StrainPageNoPicture.dart';
+import 'StrainPage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Strain.dart';
 
@@ -63,10 +62,7 @@ class TopSearchHome extends StatelessWidget {
               icon: Icon(FontAwesomeIcons.sortAlphaDown, color: Colors.white,),
               iconSize: 28,
               color: Colors.white,
-              onPressed: () {
-            
-            
-          },
+              onPressed: () {}, //TODO: build sorting algorithms
             ),
           )
         ],
@@ -76,13 +72,13 @@ class TopSearchHome extends StatelessWidget {
 }
 Route _createRoute() {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => StrainPage(Strain.getDummyHybrid),
+    pageBuilder: (context, animation, secondaryAnimation) => CreditsPage(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       var begin = 0;
       var end = 1;
       var curve = Curves.decelerate;
 
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve)); //what does this do?
 
       return FadeTransition(
        // duration: Duration(seconds:1),

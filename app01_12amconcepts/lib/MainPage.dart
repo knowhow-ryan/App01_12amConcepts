@@ -1,68 +1,90 @@
-import 'package:app01_12amconcepts/Strain.dart';
 import 'package:flutter/material.dart';
-// import 'StrainPage.dart';
+import 'StrainPage.dart';
 import 'NewExperiencePage.dart';
 import 'TopSearchHome.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Strain.dart';
 // import 'ExperienceInputStep2.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
+  MainPage() : super();
+
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  
+  @override
+  void initState() {
+    super.initState();
+
+    //TODO: remove dummy data below
+    Strain.getDummyHybrid;
+    Strain.getDummyIndica;
+    Strain.getDummySativa;
+  }
+  
+  List<Widget> getStrainCards() {
+    List<Widget> strainCards = [];
+
+    //TODO: add onTap functionality to each Strain to load the Strain page associated with that Strain
+    Strain.allStrains.forEach((strain) {
+      strainCards.add( InkWell(
+        child: strain.displayCard(),
+        onTap: () {
+          Navigator.of(context).push(_createRoute(destination: StrainPage(strain)));//telling button what to do
+        },
+      ));
+    });
+    
+    return strainCards;
+  }
+  
   @override
   Widget build(BuildContext context) {
- 
-    
     return Scaffold(
-     floatingActionButton: FloatingActionButton(
-      onPressed: () {
-            Navigator.of(context).push(_createRoute());//telling button what to do
-            
-          },
-          
-      child: Icon(FontAwesomeIcons.bong),
-      backgroundColor: Color(0xFF3e865d),
-    ),
-    
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(_createRoute(destination: NewExperiencePage()));//telling button what to do
+        },
+        child: Icon(FontAwesomeIcons.bong),
+        backgroundColor: Color(0xFF3e865d),
+      ),
+
       body:  Stack(
         children: <Widget>[
           Container( //Starting Gradient with Smoke Background
-                      decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        end: FractionalOffset.topCenter,
-                        begin: FractionalOffset.bottomCenter,
-                        stops: [.05, .45,],
-                        colors: [Color(0xFFDDDDDD), Colors.black87,],
-                      ),
-                      ),
-                    child: Image.network("http://justcole.design/wp-content/uploads/2020/02/Smokey-Background-Side.png",
-                      height: double.maxFinite,
-                      width: double.maxFinite,
-                      fit: BoxFit.cover,
-                      colorBlendMode: BlendMode.overlay,
-                    ),
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TopSearchHome(),
-                        ),
-                        Expanded(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                end: FractionalOffset.topCenter,
+                begin: FractionalOffset.bottomCenter,
+                stops: [.05, .45,],
+                colors: [Color(0xFFDDDDDD), Colors.black87,],
+              ),
+            ),
+            child: Image.network("http://justcole.design/wp-content/uploads/2020/02/Smokey-Background-Side.png",
+              height: double.maxFinite,
+              width: double.maxFinite,
+              fit: BoxFit.cover,
+              colorBlendMode: BlendMode.overlay,
+            ),
+          ),
+          Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TopSearchHome(),
+              ),
+              Expanded(
                 child: ListView(
                   padding: EdgeInsets.only(top: 0.0),
                   shrinkWrap: true,
-                  children: <Widget>[
-                    Strain.getDummyHybrid.displayCard(),
-                    Strain.getDummyIndica.displayCard(),
-                    Strain.getDummySativa.displayCard(),
-                    Strain.getDummyIndica.displayCard(),
-                    Strain.getDummyHybrid.displayCard(),
-                    Strain.getDummySativa.displayCard(),
-                  ],
+                  children: getStrainCards(),
                 ),
               ),
-                      ],
-                    ),
+            ],
+          ),
         ],
       ),
     );
@@ -88,15 +110,15 @@ class MainPage extends StatelessWidget {
 // }
 
 //Fourth Fade Transistion
-Route _createRoute() {
+Route _createRoute({destination}) {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => NewExperiencePage(),
+    pageBuilder: (context, animation, secondaryAnimation) => destination,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       var begin = 0;
       var end = 1;
       var curve = Curves.decelerate;
 
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve)); //what is this for?
 
       return FadeTransition(
        // duration: Duration(seconds:1),
