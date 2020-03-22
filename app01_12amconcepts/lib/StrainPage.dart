@@ -38,7 +38,7 @@ class StrainPage extends StatelessWidget {
                   .45,
                 ],
                 colors: [
-                  Color(0xFF55B57D),
+                  strain.getSubSpeciesColor(),
                   Color(0xFF000000),
                 ],
               ),

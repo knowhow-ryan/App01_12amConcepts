@@ -13,6 +13,11 @@ class Strain {
 
   static List<Strain> allStrains = []; //All the Strains the user has created
 
+  static final Color HYBRID_GREEN = Color(0xFFbfd7c9);
+  static final Color INDICA_PURPLE = Color(0xFFceafcc);
+  static final Color SATIVA_ORANGE = Color(0xFFedccb3);
+  static final Color UNKNOWN_WHITE = Color(0xFFffffff);
+
   //TODO: remove
   //dummy Strains for testing
   static Strain _dummyHybrid;
@@ -70,28 +75,8 @@ class Strain {
     //The Strain information displayed as a card-like widget
 
     //sets the color of the background gradient based on the Sub_Species
-    Color gradientColor;
-    switch(this.subSpecies) {
-      case Sub_species.Hybrid: {
-        gradientColor = Color(0xFFbfd7c9); //Hybrid Green
-      }
-      break;
-
-      case Sub_species.Indica: {
-        gradientColor = Color(0xFFceafcc); //Indica Purple
-      }
-      break;
-      
-      case Sub_species.Sativa: {
-        gradientColor = Color(0xFFedccb3); //Sativa Orange
-      }
-      break;
-
-      case Sub_species.unknown: {
-        gradientColor = Color(0xFFffffff); //unknown white
-      }
-      break;
-    }
+    Color gradientColor = getSubSpeciesColor();
+    
     return Padding(
       padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
       child: Container(
@@ -218,6 +203,34 @@ class Strain {
         ),
       ),
     );
+  }
+
+  Color getSubSpeciesColor() {
+    Color color;
+
+    switch(this.subSpecies) {
+      case Sub_species.Hybrid: {
+        color = HYBRID_GREEN;
+      }
+      break;
+
+      case Sub_species.Indica: {
+        color = INDICA_PURPLE;
+      }
+      break;
+      
+      case Sub_species.Sativa: {
+        color = SATIVA_ORANGE;
+      }
+      break;
+
+      case Sub_species.unknown: {
+        color = UNKNOWN_WHITE;
+      }
+      break;
+    }
+
+    return color;
   }
 
   Widget displayFull() {
