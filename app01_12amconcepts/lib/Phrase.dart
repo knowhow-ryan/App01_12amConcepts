@@ -200,8 +200,9 @@ class Phrase {
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
             child: Row(
               children: pillContents,
+              mainAxisSize: MainAxisSize.min,
             ),
-          )),
+          ))
     );
 
     return phrasePill;
@@ -347,6 +348,7 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
                     Phrase inputPhrase = Phrase.save(userInput, widget.phraseType);
                     if (!selectedPhrases.contains(inputPhrase)) {
                       selectedPhrases.insert(0, inputPhrase);
+                      widget.callback(inputPhrase);
                     }
                     inputUIController.text = "";
                   });

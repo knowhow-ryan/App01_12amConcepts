@@ -9,7 +9,7 @@ class Experience {
   DateTime date; //the date this Experience happened on
   Phrase location; //where this Experience took place
   Phrase ingestion; //the means of ingesting the cannabis for this experience (e.g. bong, dab, joint, etc.)
-  int overallRating; //a 1-5 rating for this Experience
+  int overallRating; //a 1-5 integer rating for this Experience
   List<Phrase> highs; //short phrases describing the good parts of this Experience
   List<Phrase> lows; //short phrases describing the bad parts of this Experience
   String notes; //any extra information the user wants to attach to this Experience.
@@ -95,8 +95,8 @@ class Experience {
             padding: const EdgeInsets.only(bottom:5.0),
             child: Row(
               children: <Widget>[
-                Padding(
-                  //date - location - rating
+                //TODO: add the ingestion method to this card
+                Padding( //date - location - rating
                   padding: const EdgeInsets.only(
                     top:10,
                     right: 10,
@@ -105,7 +105,7 @@ class Experience {
                     this.date.month.toString() + '/' +
                     this.date.day.toString() + '/' +
                     this.date.year.toString() +
-                    ' - ' + this.location.phraseString + ' - 4.2', //TODO: add rating variable to experience card
+                    ' - ' + this.location.phraseString + ' ' + this.overallRating.toString(),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -113,40 +113,36 @@ class Experience {
                     ),
                   ),
                 ),
-                Icon(
-                  //edit icon
+                //TODO: add an InkWell around this icon and an onTap behavior that allows the user to edit the values
+                Icon( //edit icon
                   FontAwesomeIcons.pencilAlt,
                   color: Colors.white70,
                   size: 13,
-                  
                 ),
               ],
             ),
           ),
-          Row(
-            //highs
-            children: this.highsPillList
+          Wrap( //highs
+            children: this.highsPillList,
           ),
-          Row(
-            //lows
+          Wrap( //lows
             children: this.lowsPillList
           ),
           Padding(
             padding: const EdgeInsets.only(bottom:10,top:5,),
-            child: Text(
-              //notes
+            child: Text( //notes
               this.notes,
               style: TextStyle(
-              color: Colors.white70,
-              fontSize: 18,
+                color: Colors.white70,
+                fontSize: 18,
             )),
           ),
           Row(
             children: <Widget>[
               Expanded(
-                                child: Divider(
-                              color: Colors.white,
-                            )),
+                child: Divider(
+                  color: Colors.white,
+              )),
             ],
           )
       ]),

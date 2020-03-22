@@ -583,9 +583,14 @@ class NewExperiencePageState extends State<NewExperiencePage> {
               phraseType: PhraseType.High,
               hint: 'highs',
               multipleSelection: true,
-              callback: (String high) {
+              callback: (high) {
                 setState(() {
-                  userHighs.add(Phrase.save(high, PhraseType.High));
+                  if (high.runtimeType == Phrase) {
+                    userHighs.add(high);
+                  }
+                  else if (high.runtimeType == String) {
+                    userHighs.add(Phrase.save(high, PhraseType.High));
+                  }
                 });
               }, // call back // setState
             ),
@@ -593,9 +598,14 @@ class NewExperiencePageState extends State<NewExperiencePage> {
               phraseType: PhraseType.Low,
               hint: 'lows',
               multipleSelection: true,
-              callback: (String low) {
+              callback: (low) {
                 setState(() {
-                  userLows.add(Phrase.save(low, PhraseType.Low));
+                  if (low.runtimeType == Phrase) {
+                    userLows.add(low);
+                  }
+                  else if (low.runtimeType == String) {
+                    userLows.add(Phrase.save(low, PhraseType.Low));
+                  }
                 });
               }, // call back // setState
             ),
@@ -745,12 +755,12 @@ class NewExperiencePageState extends State<NewExperiencePage> {
             userLows,
             notesController.text,
           );
-          Navigator.of(context).push(_createRoute());//telling button what to do
+          Navigator.of(context).push(_createRoute(userStrain));//telling button what to do
 
           //TODO: remove the debug code below
           //DEBUG: print the Strain and Experience information to the console from the generated Strain and Experience objects
-          //print("***DEBUG***\nStrain: ${userStrain.name.phraseString}\nSubspecies: ${userStrain.subSpecies.toString()}\nTHC: ${userStrain.thcPercent}\tCBD: ${userStrain.cbdPercent}\nAverage Rating: ${userStrain.averageRating}\nExperiences: ${userStrain.experiences.length}");
-          //print("***EXPERIENCE***\nDate: ${userExperience.date}\nLocation: ${userExperience.location.phraseString}\nIngestion: ${userExperience.ingestion.phraseString}\nRating: ${userExperience.overallRating}\nHighs: ${userExperience.highs}\nLows: ${userExperience.lows}\nNotes: ${userExperience.notes}\n*** *** *** *** ***");
+          print("***DEBUG***\nStrain: ${userStrain.name.phraseString}\nSubspecies: ${userStrain.subSpecies.toString()}\nTHC: ${userStrain.thcPercent}\tCBD: ${userStrain.cbdPercent}\nAverage Rating: ${userStrain.averageRating}\nExperiences: ${userStrain.experiences.length}");
+          print("***EXPERIENCE***\nDate: ${userExperience.date}\nLocation: ${userExperience.location.phraseString}\nIngestion: ${userExperience.ingestion.phraseString}\nRating: ${userExperience.overallRating}\nHighs: ${userExperience.highs}\nLows: ${userExperience.lows}\nNotes: ${userExperience.notes}\n*** *** *** *** ***");
         }},
             
         child: Icon(FontAwesomeIcons.check),
@@ -877,10 +887,10 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   }
 }
 
-Route _createRoute() {
+Route _createRoute(Strain strain) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) =>
-        StrainPage(Strain.getDummyHybrid),
+        StrainPage(strain),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       var begin = 0;
       var end = 1;
