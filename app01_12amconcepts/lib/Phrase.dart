@@ -194,7 +194,7 @@ class Phrase {
       child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadiusDirectional.circular(50),
-            color: Colors.black87,
+            color: Colors.white12,
           ),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
