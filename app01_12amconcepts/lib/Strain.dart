@@ -118,12 +118,32 @@ class Strain {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       // mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        Text(this.name.phraseString,
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 31,
-                            )),
+                        Row(
+                          children: <Widget>[
+                            Text(this.name.phraseString,
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 28,
+                                )),
+                          SizedBox(width:5),
+                            Container(
+                            decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black45,),
+          borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: Text(this.getSubSpecies,
+                                    style: TextStyle(
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    )),
+                            ),
+                          ),
+                          ],
+                        ),
                         // SizedBox(
                         //   height: 2,
                         // ),
@@ -172,30 +192,12 @@ class Strain {
                                   fontSize: 22,
                                 )),
                           ],
-                        )
+                        ),
+                        
                       ],
                     ),
                   ),
-                  // Positioned(
-                  //   right: 0,
-                  //   top: 0,
-                  //   width: 120,
-                  //   height: 95,
-                  //   child: Container(
-                  //       decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.only(
-                  //             topRight: Radius.circular(14.0),
-                  //             bottomRight: Radius.circular(14.0),
-                  //             bottomLeft: Radius.circular(50.0),
-                  //             topLeft: Radius.circular(50.0),
-                  //           ),
-                  //           color: Colors.green,
-                  //           image: DecorationImage(
-                  //             fit: BoxFit.cover,
-                  //             image: NetworkImage(
-                  //                 "https://images.pexels.com/photos/1466335/pexels-photo-1466335.jpeg"),
-                  //           ))),
-                  // ),
+                 
                 ],
               ),
             ),
