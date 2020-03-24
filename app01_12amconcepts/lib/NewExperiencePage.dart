@@ -8,13 +8,22 @@ import 'SubspeciesPickerButton.dart';
 import 'Experience.dart';
 
 class NewExperiencePage extends StatefulWidget {
-  NewExperiencePage() : super();
+  final Experience editExperience;
+
+  NewExperiencePage({this.editExperience}) : super();
+    //if an Experience is included, then NewExperiencePage opens in editMode
 
   @override
   NewExperiencePageState createState() => NewExperiencePageState();
 }
 
 class NewExperiencePageState extends State<NewExperiencePage> {
+  bool editMode = false; //editMode is enabled if NewExperiencePage was called with in input Experience parameter
+  /*When editMode is true, then all of the information in the Stepper will be prefilled with the values from the input Experience
+  **When the user presses the submit FAB, a new Experience will not be created, but rather, the information will saved to the input Experience*/
+  
+  bool userInputActive = true;
+  
   Strain userStrain;
   Experience userExperience;
   
@@ -24,7 +33,6 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   double _ratingSliderValue = 3;
   String userStrainName;
   Sub_species subspecies = Sub_species.unknown;
-  bool userInputActive = true;
   String _thcValidValue ="0.0"; //the most recent valid value for the THC percentage TextField
   String _cbdValidValue = "0.0"; //the most recent valid value for the CBD percentage TextField
   String _ratingValidValue = "3"; //the most recent valid value for the Overall Rating TextField
@@ -51,6 +59,13 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   @override
   void initState() {
     super.initState();
+
+    if(widget.editExperience != null) {
+      //if the NewExperiencePage was called with an input Experience, enable Edit Mode
+      //Edit Mode is initialized at the bottom of this initState function
+      userExperience = widget.editExperience;
+      editMode = true; //
+    }
 
     setTHC = (newPercentage) {
       if (newPercentage == null) {
@@ -128,6 +143,26 @@ class NewExperiencePageState extends State<NewExperiencePage> {
 
     userHighs = [];
     userLows = [];
+
+    if(editMode) {
+      //initialize Edit Mode:
+      //initialize all Stepper fields to the values from the input Experience
+      //set the initial Step to 1 so the user is put right into Experience information
+
+      userStrain = userExperience.strain;
+      userStrainName = userStrain.name.phraseString;
+      
+      _ratingSliderValue = userExperience.overallRating.toDouble();
+      _ratingValidValue = _ratingSliderValue.toString();
+      ratingController.text = _ratingValidValue;
+      userLocation = userExperience.location.phraseString;
+      userIngestion = userExperience.ingestion.phraseString;
+      userHighs = userExperience.highs;
+      userLows = userExperience.lows;
+      notesController.text = userExperience.notes;
+
+      currentStep = 1;
+    }
 
     //DEBUG TODO: remove dummy Strains and Experience
     Strain dummyHybrid = Strain.getDummyHybrid;
@@ -745,16 +780,29 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () { if(userStrain != null) {
           //create a new Experience from the user's input
-          userExperience = new Experience(
-            userStrain,
-            DateTime.now(),
-            Phrase.save(userLocation, PhraseType.Location),
-            Phrase.save(userIngestion, PhraseType.Ingestion),
-            int.tryParse(ratingController.text),
-            userHighs,
-            userLows,
-            notesController.text,
-          );
+          
+          if(editMode) {
+            userExperience = new Experience(
+              userStrain,
+              DateTime.now(),
+              Phrase.save(userLocation, PhraseType.Location),
+              Phrase.save(userIngestion, PhraseType.Ingestion),
+              int.tryParse(ratingController.text),
+              userHighs,
+              userLows,
+              notesController.text,
+            );
+          }
+          else {
+            userExperience.strain = userStrain;
+            userExperience.location = Phrase.save(userLocation, PhraseType.Location);
+            userExperience.ingestion = Phrase.save(userIngestion, PhraseType.Ingestion);
+            userExperience.overallRating = int.tryParse(ratingController.text);
+            userExperience.highs = userHighs;
+            userExperience.lows = userLows;
+            userExperience.notes = notesController.text;
+          }
+          
           Navigator.of(context).push(_createRoute(userStrain));//telling button what to do
 
           //TODO: remove the debug code below

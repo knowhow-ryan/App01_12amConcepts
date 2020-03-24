@@ -13,12 +13,12 @@ class StrainPage extends StatelessWidget {
 
   StrainPage(this.strain); //constructor that pulls in Strain object information and puts it in the strain container above
 
-  List<Widget> getExperiences() {
+  List<Widget> getExperiences(BuildContext context) {
     //generate a List of Experience Cards to display below the Strain information
     List<Widget> experiences = [];
 
     //TODO: when this becomes a StatefulWidget, this will need to be wrapped in a setState()
-    strain.experiences.forEach((experience) => experiences.add(experience.displayCard()));
+    strain.experiences.forEach((experience) => experiences.add(experience.displayCard(context)));
 
     return experiences;
   }
@@ -63,7 +63,7 @@ class StrainPage extends StatelessWidget {
               Expanded(// list of all of the Strain's Experiences
                 child: ListView(
                   padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  children: getExperiences(),
+                  children: getExperiences(context),
                 ),
               ),
             ],

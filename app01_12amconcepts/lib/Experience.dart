@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'Phrase.dart';
 import 'Strain.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'NewExperiencePage.dart';
 
 class Experience {
   /* A single user cannabis experience */
@@ -86,7 +87,7 @@ class Experience {
     return widgetList;
   }
 
-  Widget displayCard() {
+  Widget displayCard(BuildContext context) {
     Widget card = Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,11 +114,13 @@ class Experience {
                     ),
                   ),
                 ),
-                //TODO: add an InkWell around this icon and an onTap behavior that allows the user to edit the values
-                Icon( //edit icon
-                  FontAwesomeIcons.pencilAlt,
-                  color: Colors.white70,
-                  size: 13,
+                InkWell(
+                  child: Icon( //edit icon
+                    FontAwesomeIcons.pencilAlt,
+                    color: Colors.white70,
+                    size: 13,
+                  ),
+                  onTap: () => Navigator.of(context).push(_createRoute(destination: NewExperiencePage(editExperience: this))),
                 ),
               ],
             ),
@@ -164,4 +167,23 @@ class Experience {
     }
     return _dummyExperience;
   }
+}
+
+Route _createRoute({destination}) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => destination,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = 0;
+      var end = 1;
+      var curve = Curves.decelerate;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve)); //what is this for?
+
+      return FadeTransition(
+       // duration: Duration(seconds:1),
+        opacity: animation,
+        child: child,
+      );
+    },
+  );
 }

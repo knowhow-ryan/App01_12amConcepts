@@ -165,7 +165,7 @@ class Strain {
                               color: Colors.black54,
                               size: 22,
                             ),
-                            Text(': ${this.averageRating}',
+                            Text(': ${this.averageRating.toStringAsFixed(1)}',
                                 style: TextStyle(
                                   color: Colors.black54,
                                   fontWeight: FontWeight.bold,
@@ -263,6 +263,10 @@ class Strain {
         return "Sativa";
       }
       break;
+
+      case Sub_species.unknown: {
+        return "unknown";
+      }
       
       default:
     }
