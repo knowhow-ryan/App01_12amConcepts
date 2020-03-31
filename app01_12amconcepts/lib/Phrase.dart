@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 
@@ -211,18 +213,26 @@ class Phrase {
 
 enum PhraseType { Strain, High, Low, Location, Ingestion }
 
+class InitialValueException implements Exception {
+  static get errorMessage => "InitialValueException - multipleSelection set to false, but iniitalValues contains more than one element.";
+}
+
 class PhraseInputUI extends StatefulWidget {
   final PhraseType phraseType;
-  final Function
-      callback; //pass the input of the TextField back to the parent widget
+  final Function callback; //pass the input of the TextField back to the parent widget
+  final Function deleteCallback; //notify the parent Widget that a Phrase has been deleted from the selectedPhrases
   final String hint;
   final bool multipleSelection;
+  final List<Phrase> initialValues; //optional initial values for the user input TextField or the selectedPhrases
+  //multipleSelecion must be true to accept more than one initial value
 
   PhraseInputUI(
       {@required this.phraseType,
       this.callback,
+      this.deleteCallback,
       this.hint,
-      this.multipleSelection = false});
+      this.multipleSelection = false,
+      this.initialValues});
 
   @override
   _PhraseInputUIState createState() => _PhraseInputUIState();
@@ -238,8 +248,31 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
   void initState() {
     super.initState();
     matchingPhrasePills = [];
-    selectedPhrases = [];
+    
+    //check if there are initialValues that need to be distrubuted to the inputUIController.text or the selectedPhrases
+    if(widget.initialValues != null && widget.initialValues != []) { //if there are initialvalues
+      if(widget.initialValues.length == 1 && !widget.multipleSelection) { //and if there is only one for a single selection UI
+        inputUIController.text = widget.initialValues[0].phraseString; //put that initialValue in the TextField
+        selectedPhrases = [];
+      }
+      else if (widget.multipleSelection) { //or if multipleSelection is on
+        selectedPhrases = widget.initialValues;//put the initialValues in the selectedPhrases
+      }
+      else {
+        selectedPhrases = []; //initialize selectedPhrases
+        try { //throw an exception if there is more than one initialValue but multipleSelection is off/false
+          if(widget.multipleSelection == false && widget.initialValues.length > 1) {throw InitialValueException;}
+        }
+        on InitialValueException {log(InitialValueException.errorMessage);}
+      }
+    }
+    else {
+      selectedPhrases = []; //initialize selectedPhrases
+    }
+    
     inputUIController.addListener(_inputUIListener);
+
+
   }
 
   void dispose() {
@@ -250,7 +283,7 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
   _inputUIListener() {
     setState(() {
       matchingPhrasePills = getMatchingPhrasePills(inputUIController.text, widget.phraseType);
-      if(!widget.multipleSelection) {
+      if(widget.multipleSelection == false) {
         widget.callback(inputUIController.text);
       }
     });
@@ -258,16 +291,14 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
     //widget.callback(inputUIController.text); //moved A1
   }
 
-  List<Widget> getMatchingPhrasePills(
-      String inputString, PhraseType phraseType) {
+  List<Widget> getMatchingPhrasePills( String inputString, PhraseType phraseType) {
     //returns the Phrase Pills of all Phrases whose phraseStrings contain the inputString
 
     List<Phrase> phraseList = Phrase.getPhraseList(phraseType);
     List<Widget> matchingPillList = [];
 
     phraseList.forEach((phrase) {
-      if (phrase.phraseString.contains(Phrase._processString(inputString)) &&
-          !selectedPhrases.contains(phrase)) {
+      if (phrase.phraseString.contains(Phrase._processString(inputString)) && !selectedPhrases.contains(phrase)) {
         Widget pill = InkWell(
           child: phrase.displayPill(),
           onTap: () => setState(() {
@@ -278,7 +309,7 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
               //add the tapped phrase to the beginning of the selected phrase list
               selectedPhrases.insert(0, phrase);
               widget.callback(phrase.phraseString);
-            } else {
+            } else if(widget.multipleSelection == false) {
               inputUIController.text = phrase.phraseString;
               widget.callback(inputUIController.text); //moved A1
             }
@@ -297,16 +328,18 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
   List<Widget> getSelectedPhrasePills() {
     List<Widget> selectedPhrasePills = [];
 
-    setState(() {
-      selectedPhrases
-          .forEach((phrase) => selectedPhrasePills.add(phrase.displayPill(
-              deleteButton: true,
-              deleteCallback: () {
-                setState(() {
-                  selectedPhrases.remove(phrase);
-                });
-              })));
-    });
+    if (selectedPhrases != null) {
+      setState(() {
+        selectedPhrases.forEach((phrase) => selectedPhrasePills.add(phrase.displayPill(
+                deleteButton: true,
+                deleteCallback: () {
+                  setState(() {
+                    selectedPhrases.remove(phrase);
+                    widget.deleteCallback(phrase);
+                  });
+        })));
+      });
+    }
 
     return selectedPhrasePills;
   }
@@ -416,9 +449,9 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
                     children: matchingPhrasePills,
                   )),
             ),
-          ]));
+      ]));
     }
-
+    
     return inputUI;
   }
 }

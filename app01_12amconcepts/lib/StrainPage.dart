@@ -1,24 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'TopSearch.dart';
 import 'Experience.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Strain.dart';
 
-class StrainPage extends StatelessWidget {
-  //based on the tutorial: https://flutterbyexample.com/reusable-custom-card-widget/
-
-  //TODO: does this need to be a StatefulWidget so that the user can edit the various Strain and Experience fields?
+class StrainPage extends StatefulWidget {
+  //displays the Strain information along with cards for each Experience with this Strain
 
   final Strain strain; //container for all of the strain information, like name, location, thc, etc.
 
   StrainPage(this.strain); //constructor that pulls in Strain object information and puts it in the strain container above
 
+  @override
+  StrainPageState createState() => StrainPageState();
+}
+
+class StrainPageState extends State<StrainPage> {
+
+  Strain strain;
+
+  @override
+  void initState() {
+    super.initState();
+
+    strain = widget.strain;
+  }
+
+  void dispose() {
+    super.dispose();
+  }
+
   List<Widget> getExperiences(BuildContext context) {
     //generate a List of Experience Cards to display below the Strain information
     List<Widget> experiences = [];
 
-    //TODO: when this becomes a StatefulWidget, this will need to be wrapped in a setState()
-    strain.experiences.forEach((experience) => experiences.add(experience.displayCard(context)));
+    setState(() { //update the Experience card widgets
+      strain.experiences.forEach((experience) { //make a card widget for each experience
+        experiences.add(Dismissible(
+          key: Key(experience.date.toString()), //Dismissibles require a unique Key for its child; 
+          child: experience.displayCard(context),
+          onDismissed: (direction) {
+                // Remove the item from the data source.
+                setState(() {
+                  strain.experiences.remove(experience);
+                });
+
+                // Then show a snackbar.
+                //Scaffold.of(context).showSnackBar(SnackBar(content: Text("$item dismmissed")));
+              },
+          background: Container(
+            color: Colors.red,
+            child: Text("deleted"),
+          ),
+        ));
+      });
+    });
 
     return experiences;
   }

@@ -159,45 +159,11 @@ class Strain {
                         //   height: 5,
                         // ),
                         Row(
-                          children: <Widget>[
-                            Text('THC: ${this.thcPercent}%',
-                                style: TextStyle(
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 22,
-                                )),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Text(
-                              'CBD: ${this.cbdPercent}%',
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 22,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Icon(
-                              Icons.star,
-                              color: Colors.black54,
-                              size: 22,
-                            ),
-                            Text(': ${this.averageRating.toStringAsFixed(1)}',
-                                style: TextStyle(
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 22,
-                                )),
-                          ],
+                          children: bottomRowInformation(),
                         ),
-                        
                       ],
                     ),
                   ),
-                 
                 ],
               ),
             ),
@@ -205,6 +171,49 @@ class Strain {
         ),
       ),
     );
+  }
+
+  List<Widget> bottomRowInformation() {
+    List<Widget> infoWidgets = [
+      Text('THC: ${this.thcPercent}%',
+        style: TextStyle(
+          color: Colors.black54,
+          fontWeight: FontWeight.bold,
+          fontSize: 22,
+      )),
+      SizedBox(
+        width: 15,
+      ),
+      Text(
+        'CBD: ${this.cbdPercent}%',
+        style: TextStyle(
+          color: Colors.black54,
+          fontWeight: FontWeight.bold,
+          fontSize: 22,
+        ),
+      ),
+      SizedBox(
+        width: 15,
+      )
+    ];
+
+    if(averageRating != null) {
+      infoWidgets.add(Icon(
+        Icons.star,
+        color: Colors.black54,
+        size: 22,
+      ));
+
+      infoWidgets.add(Text(': ${averageRating.toStringAsFixed(1)}',
+        style: TextStyle(
+          color: Colors.black54,
+          fontWeight: FontWeight.bold,
+          fontSize: 22,
+        )
+      ));
+    }
+
+    return infoWidgets;
   }
 
   Color getSubSpeciesColor() {
@@ -243,9 +252,23 @@ class Strain {
   void addExperience(Experience newExperience) {
     //add an Experience object to the experiences property
     this.experiences.add(newExperience);
+    calculateAverageRating();
+  }
+
+  void removeExperience(Experience removeExperience) {
+    //remove the Experience object from the experiences property
+    this.experiences.remove(removeExperience);
+    calculateAverageRating();
+  }
+
+  void calculateAverageRating() {
     //calculate the average_rating property
     int sum = 0;
-    this.experiences.forEach((experience) => sum += experience.overallRating);
+    this.experiences.forEach((experience) {
+      if(experience.overallRating != null) {
+        sum += experience.overallRating;
+      }
+    });
     this.averageRating = sum.toDouble() / this.experiences.length.toDouble();
   }
 
