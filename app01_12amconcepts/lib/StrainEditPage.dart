@@ -17,7 +17,7 @@ class StrainEditPage extends StatefulWidget{
 
 class StrainEditPageState extends State<StrainEditPage> {
 
-  //bool userInputActive = true;
+  bool userInputActive = true;
 
   double _thcSliderValue = 0.0;
   double _cbdSliderValue = 0.0;
@@ -40,6 +40,8 @@ class StrainEditPageState extends State<StrainEditPage> {
 
   List<Phrase> userHighs;
   List<Phrase> userLows;
+
+  Color warningTextColor = Colors.white.withOpacity(0.9);
 
   @override
   void initState() {
@@ -95,6 +97,7 @@ class StrainEditPageState extends State<StrainEditPage> {
     
     //initialize all of the Strain field values
     userStrainName = widget.editStrain.name.phraseString;
+    subspecies = widget.editStrain.subSpecies;
     _thcSliderValue = widget.editStrain.thcPercent;
     thcPercentController.text = _thcSliderValue.toString();
     _thcValidValue = _thcSliderValue.toString();
@@ -171,14 +174,27 @@ class StrainEditPageState extends State<StrainEditPage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(_createRoute(widget.editStrain));//telling button what to do
+          //save all of the new Strain information so long as the Strain name is valid, otherwise do nothing
+          if(userInputActive) {
+            widget.editStrain.name = Phrase.save(userStrainName, PhraseType.Strain);
+            widget.editStrain.subSpecies = subspecies;
+            widget.editStrain.thcPercent = _thcSliderValue;
+            widget.editStrain.cbdPercent = _cbdSliderValue;
+            //go to the Strain page to display the newly updated information
+            Navigator.of(context).push(_createRoute(widget.editStrain));
+          }
+          else {
+            setState( () => warningTextColor = Colors.red[500]);
+          }
+
+          
 
           //TODO: remove the debug code below
           //DEBUG: print the Strain and Experience information to the console from the generated Strain and Experience objects
           print("***DEBUG***\nStrain: ${widget.editStrain.name.phraseString}\nSubspecies: ${widget.editStrain.subSpecies.toString()}\nTHC: ${widget.editStrain.thcPercent}\tCBD: ${widget.editStrain.cbdPercent}\nAverage Rating: ${widget.editStrain.averageRating}\nExperiences: ${widget.editStrain.experiences.length}");
         },
         child: Icon(FontAwesomeIcons.check),
-        backgroundColor: Color(0xFF8BD3A8),
+        backgroundColor: userInputActive ? Color(0xFF8BD3A8) : Colors.grey[300],
       ),
       body: Stack(
         children: <Widget>[
@@ -224,6 +240,8 @@ class StrainEditPageState extends State<StrainEditPage> {
                             hint: "strain name",
                             initialValues: [widget.editStrain.name],
                             enforceUniqueInput: true,
+                            warningText: "*Strain name already exists* Please enter a unique Strain name.",
+                            warningTextColor: warningTextColor,
                             callback: (String userInput) {
                               //returns the matching Strain from the PhraseInputUI widget
                               Strain userStrain;
@@ -236,7 +254,8 @@ class StrainEditPageState extends State<StrainEditPage> {
                               }
 
                               //if the userStrain exists already, preset _thcSliderValue, _cbdSliderValue
-                              if (userStrain != null) {
+                              //unless the existing Strain is the current Strain
+                              if (userStrain != null && userStrain != widget.editStrain) {
                                 setState(() {
                                   this.subspecies = userStrain.subSpecies;
                                   toggleSubSpeciesButtons(subSpecies: this.subspecies);
@@ -252,14 +271,13 @@ class StrainEditPageState extends State<StrainEditPage> {
                                   setCBD = null;
 
                                   //disable user input
-                                  //userInputActive = false;
+                                  userInputActive = false;
+
+                                  warningTextColor = Colors.white.withOpacity(0.9);
                                 });
                               } else {
                                 setState(() {
-                                  //userInputActive = true;
-
-                                  this.subspecies = Sub_species.unknown;
-                                  toggleSubSpeciesButtons();
+                                  userInputActive = true;
 
                                   setTHC = (newPercentage) {
                                     setState(() {
@@ -298,16 +316,18 @@ class StrainEditPageState extends State<StrainEditPage> {
                               // Sativa button
                               child: sativaButton,
                               onTap: () {
-                                if (this.subspecies != Sub_species.Sativa) {
-                                  this.subspecies = Sub_species.Sativa;
-                                  setState(() {
-                                    toggleSubSpeciesButtons(subSpecies: this.subspecies);
-                                  });
-                                } else {
-                                  this.subspecies = Sub_species.unknown;
-                                  setState(() {
-                                    toggleSubSpeciesButtons();
-                                  });
+                                if (userInputActive) {
+                                  if (this.subspecies != Sub_species.Sativa) { //selects the tapped Subspecies
+                                    this.subspecies = Sub_species.Sativa;
+                                    setState(() {
+                                      toggleSubSpeciesButtons(subSpecies: this.subspecies);
+                                    });
+                                  } else { //deselects the tapped Subspecies
+                                    this.subspecies = Sub_species.unknown;
+                                    setState(() {
+                                      toggleSubSpeciesButtons();
+                                    });
+                                  }
                                 }
                               },
                             ),
@@ -315,16 +335,18 @@ class StrainEditPageState extends State<StrainEditPage> {
                               // Indica button
                               child: indicaButton,
                               onTap: () {
-                                if (this.subspecies != Sub_species.Indica) {
-                                  this.subspecies = Sub_species.Indica;
-                                  setState(() {
-                                    toggleSubSpeciesButtons(subSpecies: this.subspecies);
-                                  });
-                                } else {
-                                  this.subspecies = Sub_species.unknown;
-                                  setState(() {
-                                    toggleSubSpeciesButtons();
-                                  });
+                                if (userInputActive) {
+                                  if (this.subspecies != Sub_species.Indica) { //selects the tapped Subspecies
+                                    this.subspecies = Sub_species.Indica;
+                                    setState(() {
+                                      toggleSubSpeciesButtons(subSpecies: this.subspecies);
+                                    });
+                                  } else { //deselects the tapped Subspecies
+                                    this.subspecies = Sub_species.unknown;
+                                    setState(() {
+                                      toggleSubSpeciesButtons();
+                                    });
+                                  }
                                 }
                               },
                             ),
@@ -332,16 +354,18 @@ class StrainEditPageState extends State<StrainEditPage> {
                               // Hybrid button
                               child: hybridButton,
                               onTap: () {
-                                if (this.subspecies != Sub_species.Hybrid) {
-                                  this.subspecies = Sub_species.Hybrid;
-                                  setState(() {
-                                    toggleSubSpeciesButtons(subSpecies: this.subspecies);
-                                  });
-                                } else {
-                                  this.subspecies = Sub_species.unknown;
-                                  setState(() {
-                                    toggleSubSpeciesButtons();
-                                  });
+                                if (userInputActive) {
+                                  if (this.subspecies != Sub_species.Hybrid) { //selects the tapped Subspecies
+                                    this.subspecies = Sub_species.Hybrid;
+                                    setState(() {
+                                      toggleSubSpeciesButtons(subSpecies: this.subspecies);
+                                    });
+                                  } else { //deselects the tapped Subspecies
+                                    this.subspecies = Sub_species.unknown;
+                                    setState(() {
+                                      toggleSubSpeciesButtons();
+                                    });
+                                  }
                                 }
                               },
                             ),
@@ -372,8 +396,8 @@ class StrainEditPageState extends State<StrainEditPage> {
                                 child: TextField(
                                     style: TextStyle(color: Colors.white),
                                     controller: thcPercentController,
-                                    //enabled: userInputActive,
-                                    //enableInteractiveSelection: userInputActive,
+                                    enabled: userInputActive,
+                                    enableInteractiveSelection: userInputActive,
                                     keyboardType:
                                         TextInputType.numberWithOptions(decimal: true),
                                     onChanged: (String inputString) {
@@ -456,8 +480,8 @@ class StrainEditPageState extends State<StrainEditPage> {
                                 child: TextField(
                                   style: TextStyle(color: Colors.white),
                                     controller: cbdPercentController,
-                                    //enabled: userInputActive,
-                                    //enableInteractiveSelection: userInputActive,
+                                    enabled: userInputActive,
+                                    enableInteractiveSelection: userInputActive,
                                     keyboardType:
                                         TextInputType.numberWithOptions(decimal: true),
                                     onChanged: (String inputString) {

@@ -227,11 +227,13 @@ class PhraseInputUI extends StatefulWidget {
   final PhraseType phraseType;
   final Function callback; //pass the input of the TextField back to the parent widget
   final Function deleteCallback; //notify the parent Widget that a Phrase has been deleted from the selectedPhrases
-  final String hint;
+  final String hint; //hint to display in the TextField before any user input
   final bool multipleSelection;
   final bool enforceUniqueInput;
   final List<Phrase> initialValues; //optional initial values for the user input TextField or the selectedPhrases
   //multipleSelecion must be true to accept more than one initial value
+  final Color warningTextColor;
+  final String warningText; //text to display if enforceUniqueInput is true and the user inputs a Phrase that already exists
 
   PhraseInputUI(
       {@required this.phraseType,
@@ -240,7 +242,9 @@ class PhraseInputUI extends StatefulWidget {
       this.hint,
       this.multipleSelection = false,
       this.enforceUniqueInput = false,
-      this.initialValues});
+      this.initialValues,
+      this.warningTextColor = Colors.white,
+      this.warningText = ""});
 
   @override
   _PhraseInputUIState createState() => _PhraseInputUIState();
@@ -357,13 +361,13 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
 
     //if the user input matches a Phrase other than the initial value phrase => set the warningText
     if(Phrase.getPhraseByString(userInput, widget.phraseType) != null && userInput != widget.initialValues[0].phraseString) {
-      warningText = "*Strain name already exists* Please enter a unique Strain name.";
+      warningText = widget.warningText;
     }
 
     return Container(
       child: Center( child: Text(
         warningText,
-        style: TextStyle(color: Colors.white.withOpacity(0.9)),
+        style: TextStyle(color: widget.warningTextColor),
       ))
     );
   }
