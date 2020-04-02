@@ -7,26 +7,20 @@ class Phrase {
   /* short phrase the user has input to describe their Experiences
   This class makes it easy for the user to use the same phrasing consistently
   This allows for auto-fill features as well as searching across the app by particular Phrases*/
-  static List<Phrase> strains =
-      []; //all of the Phrases used in the Strain name field of all Experiences
-  static List<Phrase> highs =
-      []; //all of the Phrases used in the highs field of all Experiences
-  static List<Phrase> lows =
-      []; //all of the Phrases used in the lows field of all Experiences
-  static List<Phrase> locations =
-      []; //all of the Phrases used in the location field of all Experiences
-  static List<Phrase> ingestions =
-      []; //all of the Phrases used in the ingestion field of all Experiences
+  static List<Phrase> strains = []; //all of the Phrases used in the Strain name field of all Experiences
+  static List<Phrase> highs = []; //all of the Phrases used in the highs field of all Experiences
+  static List<Phrase> lows = []; //all of the Phrases used in the lows field of all Experiences
+  static List<Phrase> locations = []; //all of the Phrases used in the location field of all Experiences
+  static List<Phrase> ingestions = []; //all of the Phrases used in the ingestion field of all Experiences
 
   String phraseString; //the actual short phrase provided by the user
   PhraseType phraseType; //which Phrase list will this go into?
 
   //basic constructor
   Phrase(newPhraseString, this.phraseType) {
+    //creates a Phase object, but does not add it to static Lists for each PhraseType
+    //to create a new Phrase object and add it to the appropriate static List, use Phrase.save
     this.phraseString = _processString(newPhraseString);
-
-    //add the Phrase to the appropriate list
-    getPhraseList(this.phraseType).add(this);
   }
 
   static Phrase save(String inputString, PhraseType phraseType) {
@@ -42,7 +36,12 @@ class Phrase {
     //return either the matching Phrase or a new Phrase
     phrase = phraseList.firstWhere(
         (phraseItem) => phraseItem.phraseString == inputString,
-        orElse: () => new Phrase(inputString, phraseType));
+        orElse: () {
+          Phrase newPhrase = (new Phrase(inputString, phraseType));
+          phraseList.add(newPhrase);
+          return newPhrase;
+        }
+      );
 
     return phrase;
   }
@@ -73,6 +72,13 @@ class Phrase {
     processedString.replaceAll("_sc", ';');
 
     return processedString;
+  }
+
+  static Phrase getPhraseByString(String targetString, PhraseType phraseType) {
+    return getPhraseList(phraseType).firstWhere(
+      (phraseItem) => phraseItem.phraseString == targetString,
+        orElse: () => null
+    );
   }
 
   static List<Phrase> getPhraseList(PhraseType phraseType) {
@@ -223,6 +229,7 @@ class PhraseInputUI extends StatefulWidget {
   final Function deleteCallback; //notify the parent Widget that a Phrase has been deleted from the selectedPhrases
   final String hint;
   final bool multipleSelection;
+  final bool enforceUniqueInput;
   final List<Phrase> initialValues; //optional initial values for the user input TextField or the selectedPhrases
   //multipleSelecion must be true to accept more than one initial value
 
@@ -232,6 +239,7 @@ class PhraseInputUI extends StatefulWidget {
       this.deleteCallback,
       this.hint,
       this.multipleSelection = false,
+      this.enforceUniqueInput = false,
       this.initialValues});
 
   @override
@@ -271,8 +279,6 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
     }
     
     inputUIController.addListener(_inputUIListener);
-
-
   }
 
   void dispose() {
@@ -344,6 +350,24 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
     return selectedPhrasePills;
   }
 
+  Widget getUniqueInputWarning() {
+    String warningText = "";
+
+    String userInput = Phrase._processString(inputUIController.text);
+
+    //if the user input matches a Phrase other than the initial value phrase => set the warningText
+    if(Phrase.getPhraseByString(userInput, widget.phraseType) != null && userInput != widget.initialValues[0].phraseString) {
+      warningText = "*Strain name already exists* Please enter a unique Strain name.";
+    }
+
+    return Container(
+      child: Center( child: Text(
+        warningText,
+        style: TextStyle(color: Colors.white.withOpacity(0.9)),
+      ))
+    );
+  }
+
   Widget build(BuildContext buildContext) {
     Widget inputUI;
 
@@ -406,7 +430,49 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
                   children: getSelectedPhrasePills(),
                 ))
           ]));
-    } else {
+    }
+    else if (widget.enforceUniqueInput) {
+      inputUI = Container(
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white12,
+              ),
+              child: TextField(
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                    width: 0,
+                    color: Colors.transparent,
+                  )),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 3,
+                      color: Color(0xFF51B579),
+                    ),
+                  ),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                  hintText: widget.hint,
+                  hintStyle: TextStyle(fontSize: 15, color: Colors.white54),
+                ),
+                controller: inputUIController,
+                onSubmitted: (userInput) => setState(() => widget.callback(userInput)),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: Container(
+                  height: 50.0,
+                  child: getUniqueInputWarning(),
+              ),
+            ),
+      ]));
+    }
+    else {
       inputUI = Container(
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -4,7 +4,8 @@ import 'NewExperiencePage.dart';
 import 'TopSearchHome.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Strain.dart';
-// import 'ExperienceInputStep2.dart';
+import 'dart:async';
+import 'StrainEditPage.dart';
 
 class MainPage extends StatefulWidget {
   MainPage() : super();
@@ -27,15 +28,55 @@ class _MainPageState extends State<MainPage> {
   
   List<Widget> getStrainCards() {
     List<Widget> strainCards = [];
+    Completer userDeleteReaction = new Completer();
 
-    //TODO: add onTap functionality to each Strain to load the Strain page associated with that Strain
     Strain.allStrains.forEach((strain) {
-      strainCards.add( InkWell(
-        child: strain.displayCard(),
-        onTap: () {
-          Navigator.of(context).push(_createRoute(destination: StrainPage(strain)));//telling button what to do
-        },
-      ));
+      strainCards.add( Dismissible(
+        key: Key(strain.name.phraseString), //Dismissibles require a unique Key for its child; 
+        child: InkWell(
+          child: strain.displayCard(),
+          onTap: () {Navigator.of(context).push(_createRoute(destination: StrainPage(strain)));},//telling button what to do
+        ),
+        direction: DismissDirection.endToStart,
+          onDismissed: (direction) {
+                // Remove the item from the data source.
+                setState(() {
+                  Strain.allStrains.remove(strain);
+                });
+              },
+          confirmDismiss: (direction) async {
+            userDeleteReaction = new Completer();
+
+            return await userDeleteReaction.future; //return the user's selection from the delete confirmation panel
+          },
+          background: Container( // delete confirmation panel
+            color: Colors.red,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                InkWell( // cancel the delete action
+                  child: Icon(Icons.cancel),
+                  onTap: (() => userDeleteReaction.complete(false)),
+                ),
+                InkWell( // edit the swiped Strain
+                  child: Icon(
+                    FontAwesomeIcons.pencilAlt,
+                    color: Colors.white70,
+                    size: 13,
+                  ),
+                  onTap: () {
+                    userDeleteReaction.complete(false);
+                    Navigator.of(context).push(_createRoute(destination: StrainEditPage(strain)));
+                  }
+                ),
+                InkWell( // confirm the delete action
+                  child: Icon(Icons.delete_outline),
+                  onTap: (() => userDeleteReaction.complete(true)),
+                )
+              ]
+            ),
+          ),
+        ));
     });
     
     return strainCards;

@@ -4,6 +4,9 @@ import 'TopSearch.dart';
 import 'Experience.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Strain.dart';
+import 'SwipeBackground.dart';
+import 'dart:async';
+import 'NewExperiencePage.dart';
 
 class StrainPage extends StatefulWidget {
   //displays the Strain information along with cards for each Experience with this Strain
@@ -33,13 +36,17 @@ class StrainPageState extends State<StrainPage> {
 
   List<Widget> getExperiences(BuildContext context) {
     //generate a List of Experience Cards to display below the Strain information
-    List<Widget> experiences = [];
+    List<Widget> experienceCards = [];
 
     setState(() { //update the Experience card widgets
       strain.experiences.forEach((experience) { //make a card widget for each experience
-        experiences.add(Dismissible(
+        //Completer and Future for connecting the Dismissible widget to the confirmation button in the Dismissble's background
+        Completer userDeleteReaction = new Completer();
+
+        experienceCards.add(Dismissible(
           key: Key(experience.date.toString()), //Dismissibles require a unique Key for its child; 
           child: experience.displayCard(context),
+          direction: DismissDirection.endToStart,
           onDismissed: (direction) {
                 // Remove the item from the data source.
                 setState(() {
@@ -49,15 +56,43 @@ class StrainPageState extends State<StrainPage> {
                 // Then show a snackbar.
                 //Scaffold.of(context).showSnackBar(SnackBar(content: Text("$item dismmissed")));
               },
-          background: Container(
+          confirmDismiss: (direction) async {
+            userDeleteReaction = new Completer();
+
+            return await userDeleteReaction.future; //return the user's selection from the delete confirmation panel
+          },
+          background: Container( // delete confirmation panel
             color: Colors.red,
-            child: Text("deleted"),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                InkWell( // cancel the delete action
+                  child: Icon(Icons.cancel),
+                  onTap: (() => userDeleteReaction.complete(false)),
+                ),
+                InkWell( // edit the swiped Experience
+                  child: Icon(
+                    FontAwesomeIcons.pencilAlt,
+                    color: Colors.white70,
+                    size: 13,
+                  ),
+                  onTap: () {
+                    userDeleteReaction.complete(false);
+                    Navigator.of(context).push(_createRoute(destination: NewExperiencePage(editExperience: experience)));
+                  }
+                ),
+                InkWell( // confirm the delete action
+                  child: Icon(Icons.delete_outline),
+                  onTap: (() => userDeleteReaction.complete(true)),
+                )
+              ]
+            ),
           ),
         ));
       });
     });
 
-    return experiences;
+    return experienceCards;
   }
 
   @override
@@ -109,4 +144,23 @@ class StrainPageState extends State<StrainPage> {
       ),
     );
   }
+}
+
+Route _createRoute({destination}) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => destination,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = 0;
+      var end = 1;
+      var curve = Curves.decelerate;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve)); //what is this for?
+
+      return FadeTransition(
+       // duration: Duration(seconds:1),
+        opacity: animation,
+        child: child,
+      );
+    },
+  );
 }
