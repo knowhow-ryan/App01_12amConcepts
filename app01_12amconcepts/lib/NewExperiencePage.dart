@@ -6,6 +6,7 @@ import 'Strain.dart';
 import 'Phrase.dart';
 import 'SubspeciesPickerButton.dart';
 import 'Experience.dart';
+import 'DataControl.dart';
 
 class NewExperiencePage extends StatefulWidget {
   final Experience editExperience;
@@ -175,9 +176,9 @@ class NewExperiencePageState extends State<NewExperiencePage> {
     }
 
     //DEBUG TODO: remove dummy Strains and Experience
-    Strain dummyHybrid = Strain.getDummyHybrid;
-    Strain dummyIndica = Strain.getDummyIndica;
-    Strain dummySativa = Strain.getDummySativa;
+    //Strain dummyHybrid = Strain.getDummyHybrid;
+    //Strain dummyIndica = Strain.getDummyIndica;
+    //Strain dummySativa = Strain.getDummySativa;
     //Experience dummyExperience = Experience.dummyExperience;
   }
 
@@ -847,7 +848,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
             );
           }
           else {
-             userExperience.strain.removeExperience(userExperience);
+            userExperience.strain.removeExperience(userExperience);
             userStrain.addExperience(userExperience);
             userExperience.strain = userStrain;
             userExperience.location = Phrase.save(userLocation, PhraseType.Location);
@@ -857,13 +858,21 @@ class NewExperiencePageState extends State<NewExperiencePage> {
             userExperience.lows = userLows;
             userExperience.notes = notesController.text;
           }
-          
-          Navigator.of(context).push(_createRoute(userStrain));//telling button what to do
+
+          DataControl.saveStrains().then((e) {
+            //TODO: remove debug code below101
+            //DEBUG: print the Strain info file to the console
+            DataControl.debugLoadStrains().then((strainFileString) =>
+              print("***DEBUG - Strain info file***\n$strainFileString")
+            );
+          });
+
+          Navigator.of(context).push(_createRoute(userStrain));//call the Route to the Strain page for the userStrain
 
           //TODO: remove the debug code below
           //DEBUG: print the Strain and Experience information to the console from the generated Strain and Experience objects
-          print("***DEBUG***\nStrain: ${userStrain.name.phraseString}\nSubspecies: ${userStrain.subSpecies.toString()}\nTHC: ${userStrain.thcPercent}\tCBD: ${userStrain.cbdPercent}\nAverage Rating: ${userStrain.averageRating}\nExperiences: ${userStrain.experiences.length}");
-          print("***EXPERIENCE***\nDate: ${userExperience.date}\nLocation: ${userExperience.location.phraseString}\nIngestion: ${userExperience.ingestion.phraseString}\nRating: ${userExperience.overallRating}\nHighs: ${userExperience.highs}\nLows: ${userExperience.lows}\nNotes: ${userExperience.notes}\n*** *** *** *** ***");
+          //print("***DEBUG***\nStrain: ${userStrain.name.phraseString}\nSubspecies: ${userStrain.subSpecies.toString()}\nTHC: ${userStrain.thcPercent}\tCBD: ${userStrain.cbdPercent}\nAverage Rating: ${userStrain.averageRating}\nExperiences: ${userStrain.experiences.length}");
+          //print("***EXPERIENCE***\nDate: ${userExperience.date}\nLocation: ${userExperience.location.phraseString}\nIngestion: ${userExperience.ingestion.phraseString}\nRating: ${userExperience.overallRating}\nHighs: ${userExperience.highs}\nLows: ${userExperience.lows}\nNotes: ${userExperience.notes}\n*** *** *** *** ***");
         }},
             
         child: Icon(FontAwesomeIcons.check),

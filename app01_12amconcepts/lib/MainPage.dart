@@ -21,9 +21,9 @@ class _MainPageState extends State<MainPage> {
     super.initState();
 
     //TODO: remove dummy data below
-    Strain.getDummyHybrid;
-    Strain.getDummyIndica;
-    Strain.getDummySativa;
+    //Strain.getDummyHybrid;
+    //Strain.getDummyIndica;
+    //Strain.getDummySativa;
   }
   
   List<Widget> getStrainCards() {
