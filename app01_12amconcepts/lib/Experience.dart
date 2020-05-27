@@ -4,7 +4,7 @@ import 'Strain.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Experience {
-  /* A single user cannabis experience */
+  /* A single cannabis experience */
   Strain strain; //the Strain of cannabis used during this Experience
   DateTime date; //the date this Experience happened on
   Phrase location; //where this Experience took place
@@ -27,7 +27,7 @@ class Experience {
   }
 
   Experience.fromString(String experienceString) {
-    //creates a new Strain from the semi-colon-delimited String created by Strain.toString()
+    //creates a new Experience from the semi-colon-delimited String created by Experience.toString()
     List experienceValues = experienceString.split(";");
 
     //finds the first Strain with a matching name and attaches that Strain to this Experience
@@ -65,7 +65,7 @@ class Experience {
     experienceString += this.ingestion.saveString + ';';
     experienceString += this.overallRating.toString() + ';';
 
-    //converts the Lists of Phrases to ampersand-deliminted Strings
+    //converts the Lists of Phrases to ampersand-delimited Strings
     this.highs.forEach((high) => experienceString += high.saveString + '&');
     experienceString =
         experienceString.substring(0, experienceString.length - 1) + ';';

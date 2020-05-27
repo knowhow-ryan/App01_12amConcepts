@@ -35,6 +35,19 @@ class Strain {
     Strain.allStrains.add(this); //add this new Strain to the List of all Strains
   }
 
+  static void reload(String strainsData) {
+    //rebuilds the entire allStrains list from the allStrains data String
+    //allStrains is a single String that contains Strain data created by toString on each line
+    Strain.allStrains.clear();
+    
+    List<String> strainStrings = strainsData.split("\n"); //separate the data String into separate Strings for each Strain
+      strainStrings.forEach((strain) {
+        if(strain != null && strain.isNotEmpty) {
+          Strain.fromString(strain);
+        }
+      });
+  }
+
   static Strain getStrainByName(String strainName) {
     //returns the Strain whose name matches strainName or returns null
     
@@ -128,17 +141,17 @@ class Strain {
                                 )),
                           SizedBox(width:5),
                             Container(
-                            decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black45,),
-          borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(5),
-                              child: Text(this.getSubSpecies,
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black45,),
+                               borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5),
+                                child: Text(this.getSubSpecies,
+                                      style: TextStyle(
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
                                     )),
                             ),
                           ),

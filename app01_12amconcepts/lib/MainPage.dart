@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Strain.dart';
 import 'dart:async';
 import 'StrainEditPage.dart';
+import 'DataControl.dart';
 
 class MainPage extends StatefulWidget {
   MainPage() : super();
@@ -16,6 +17,8 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   
+  Future<String> incomingStrainData;
+
   @override
   void initState() {
     super.initState();
@@ -35,48 +38,49 @@ class _MainPageState extends State<MainPage> {
         key: Key(strain.name.phraseString), //Dismissibles require a unique Key for its child; 
         child: InkWell(
           child: strain.displayCard(),
-          onTap: () {Navigator.of(context).push(_createRoute(destination: StrainPage(strain)));},//telling button what to do
+          onTap: () {Navigator.of(context).push(_createRoute(destination: StrainPage(strain)));},//telling button where to go next
         ),
         direction: DismissDirection.endToStart,
-          onDismissed: (direction) {
-                // Remove the item from the data source.
-                setState(() {
-                  Strain.allStrains.remove(strain);
-                });
-              },
-          confirmDismiss: (direction) async {
-            userDeleteReaction = new Completer();
+        onDismissed: (direction) {
+          // Remove the item from the data source.
+          Strain.allStrains.remove(strain);
+          //set state only after saving data
+          DataControl.saveStrains();//.then((value) => setState((){}));
+        },
 
-            return await userDeleteReaction.future; //return the user's selection from the delete confirmation panel
-          },
-          background: Container( // delete confirmation panel
-            color: Colors.red,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                InkWell( // cancel the delete action
-                  child: Icon(Icons.cancel),
-                  onTap: (() => userDeleteReaction.complete(false)),
+        confirmDismiss: (direction) async {
+          userDeleteReaction = new Completer();
+
+          return await userDeleteReaction.future; //return the user's selection from the delete confirmation panel
+        },
+        background: Container( // delete confirmation panel
+          color: Colors.red,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              InkWell( // cancel the delete action
+                child: Icon(Icons.cancel),
+                onTap: (() => userDeleteReaction.complete(false)),
+              ),
+              InkWell( // edit the swiped Strain
+                child: Icon(
+                  FontAwesomeIcons.pencilAlt,
+                  color: Colors.white70,
+                  size: 13,
                 ),
-                InkWell( // edit the swiped Strain
-                  child: Icon(
-                    FontAwesomeIcons.pencilAlt,
-                    color: Colors.white70,
-                    size: 13,
-                  ),
-                  onTap: () {
-                    userDeleteReaction.complete(false);
-                    Navigator.of(context).push(_createRoute(destination: StrainEditPage(strain)));
-                  }
-                ),
-                InkWell( // confirm the delete action
-                  child: Icon(Icons.delete_outline),
-                  onTap: (() => userDeleteReaction.complete(true)),
-                )
-              ]
-            ),
+                onTap: () {
+                  userDeleteReaction.complete(false);
+                  Navigator.of(context).push(_createRoute(destination: StrainEditPage(strain)));
+                }
+              ),
+              InkWell( // confirm the delete action
+                child: Icon(Icons.delete_outline),
+                onTap: (() => userDeleteReaction.complete(true)),
+              )
+            ]
           ),
-        ));
+        ),
+      ));
     });
     
     return strainCards;
@@ -84,6 +88,8 @@ class _MainPageState extends State<MainPage> {
   
   @override
   Widget build(BuildContext context) {
+    incomingStrainData = DataControl.loadStrains();
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -118,10 +124,48 @@ class _MainPageState extends State<MainPage> {
                 child: TopSearchHome(),
               ),
               Expanded(
-                child: ListView(
-                  padding: EdgeInsets.only(top: 0.0),
-                  shrinkWrap: true,
-                  children: getStrainCards(),
+                child: FutureBuilder<String>( //builds the primary page content only once the user data is loaded
+                    future: incomingStrainData,
+                    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      Widget underConstruction;
+
+                      //this is the main decision-making routine for loading data.
+                      //Conditionally loads either the user data, an error message, or a loading indicator
+                      if (snapshot.hasData) {
+                        Strain.reload(snapshot.data);
+                        underConstruction = ListView(
+                          padding: EdgeInsets.only(top: 0.0),
+                          shrinkWrap: true,
+                          children: getStrainCards(),
+                        );
+                      }
+
+                      else if (snapshot.hasError) {
+                        underConstruction = Center(
+                          child: Icon(
+                            Icons.error_outline,
+                            color: Colors.red[200],
+                            size: 60,
+                          )
+                        );
+                      }
+                      else {
+                        underConstruction = Column(
+                          children: [Center( child: SizedBox(
+                            child: CircularProgressIndicator(),
+                            width: 60,
+                            height: 60,
+                          )),
+                          Center( child: Padding(
+                            padding: EdgeInsets.only(top: 16),
+                            child: Text('Awaiting result...'),
+                          ))],
+                        );
+                      }
+
+                      
+                      return underConstruction;
+                    },
                 ),
               ),
             ],

@@ -862,7 +862,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
           DataControl.saveStrains().then((e) {
             //TODO: remove debug code below101
             //DEBUG: print the Strain info file to the console
-            DataControl.debugLoadStrains().then((strainFileString) =>
+            DataControl.loadStrains().then((strainFileString) =>
               print("***DEBUG - Strain info file***\n$strainFileString")
             );
           });
