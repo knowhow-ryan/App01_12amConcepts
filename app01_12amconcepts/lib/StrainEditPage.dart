@@ -4,6 +4,7 @@ import 'Phrase.dart';
 import 'SubspeciesPickerButton.dart';
 import 'StrainPage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'DataControl.dart';
 
 class StrainEditPage extends StatefulWidget{
   //A page for the user to edit the values of an existing Strain
@@ -180,6 +181,9 @@ class StrainEditPageState extends State<StrainEditPage> {
             widget.editStrain.subSpecies = subspecies;
             widget.editStrain.thcPercent = _thcSliderValue;
             widget.editStrain.cbdPercent = _cbdSliderValue;
+            
+            DataControl.saveStrains();
+            
             //go to the Strain page to display the newly updated information
             Navigator.of(context).push(_createRoute(widget.editStrain));
           }

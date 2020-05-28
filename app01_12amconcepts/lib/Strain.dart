@@ -35,6 +35,21 @@ class Strain {
     Strain.allStrains.add(this); //add this new Strain to the List of all Strains
   }
 
+  //named constructor
+  Strain.fromString (String strainString) {
+    //creates a new Strain from the semi-colon-delimited String created by Strain.toString()
+    List strainValues = strainString.split(";");
+
+    this.name = Phrase.save(strainValues[0], PhraseType.Strain);
+    this.thcPercent = double.parse(strainValues[1]);
+    this.cbdPercent = double.parse(strainValues[2]);
+    this.subSpecies = Sub_species.values.firstWhere((e) => e.toString() == strainValues[3]);
+
+    this.experiences = [];
+
+    Strain.allStrains.add(this); //add this new Strain to the List of all Strains
+  }
+
   static void reload(String strainsData) {
     //rebuilds the entire allStrains list from the allStrains data String
     //allStrains is a single String that contains Strain data created by toString on each line
@@ -58,18 +73,6 @@ class Strain {
       }
     }
     return matchingStrain;
-  }
-
-  Strain.fromString (String strainString) {
-    //creates a new Strain from the semi-colon-delimited String created by Strain.toString()
-    List strainValues = strainString.split(";");
-
-    this.name = Phrase.save(strainValues[0], PhraseType.Strain);
-    this.thcPercent = double.parse(strainValues[1]);
-    this.cbdPercent = double.parse(strainValues[2]);
-    this.subSpecies = Sub_species.values.firstWhere((e) => e.toString() == strainValues[3]);
-
-    Strain.allStrains.add(this); //add this new Strain to the List of all Strains
   }
 
   @override

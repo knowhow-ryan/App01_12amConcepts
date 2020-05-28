@@ -859,13 +859,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
             userExperience.notes = notesController.text;
           }
 
-          DataControl.saveStrains().then((e) {
-            //TODO: remove debug code below101
-            //DEBUG: print the Strain info file to the console
-            DataControl.loadStrains().then((strainFileString) =>
-              print("***DEBUG - Strain info file***\n$strainFileString")
-            );
-          });
+          DataControl.saveStrains();
+          DataControl.saveExperiences();
 
           Navigator.of(context).push(_createRoute(userStrain));//call the Route to the Strain page for the userStrain
 
