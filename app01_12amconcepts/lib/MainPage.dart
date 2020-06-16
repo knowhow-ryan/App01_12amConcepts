@@ -7,6 +7,7 @@ import 'Strain.dart';
 import 'dart:async';
 import 'StrainEditPage.dart';
 import 'DataControl.dart';
+import 'Experience.dart';
 
 class MainPage extends StatefulWidget {
   MainPage() : super();
@@ -17,7 +18,8 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   
-  Future<String> incomingStrainData;
+  //Future<String> incomingStrainData;
+  Future<bool> userDataLoaded;
 
   @override
   void initState() {
@@ -88,7 +90,8 @@ class _MainPageState extends State<MainPage> {
   
   @override
   Widget build(BuildContext context) {
-    incomingStrainData = DataControl.loadStrains();
+    //incomingStrainData = DataControl.loadStrains();
+    userDataLoaded = DataControl.loadAll();
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -124,15 +127,16 @@ class _MainPageState extends State<MainPage> {
                 child: TopSearchHome(),
               ),
               Expanded(
-                child: FutureBuilder<String>( //builds the primary page content only once the user data is loaded
-                    future: incomingStrainData,
-                    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                child: FutureBuilder<bool>( //builds the primary page content only once the user data is loaded
+                    future: userDataLoaded,
+                    builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
                       Widget underConstruction;
 
                       //this is the main decision-making routine for loading data.
                       //Conditionally loads either the user data, an error message, or a loading indicator
                       if (snapshot.hasData) {
-                        Strain.reload(snapshot.data);
+                        //only triggers if both the Strain and Experience Futures have completed
+                        //Strain.reload(snapshot.data);
                         underConstruction = ListView(
                           padding: EdgeInsets.only(top: 0.0),
                           shrinkWrap: true,
@@ -141,6 +145,8 @@ class _MainPageState extends State<MainPage> {
                       }
 
                       else if (snapshot.hasError) {
+                        print("***MainPage builder error***\n\n" + snapshot.error.toString());
+                        
                         underConstruction = Center(
                           child: Icon(
                             Icons.error_outline,
@@ -149,6 +155,7 @@ class _MainPageState extends State<MainPage> {
                           )
                         );
                       }
+                      
                       else {
                         underConstruction = Column(
                           children: [Center( child: SizedBox(
@@ -158,12 +165,17 @@ class _MainPageState extends State<MainPage> {
                           )),
                           Center( child: Padding(
                             padding: EdgeInsets.only(top: 16),
-                            child: Text('Awaiting result...'),
+                            child: Text('rolling a blunt...',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 28,
+                              )
+                            ),
                           ))],
                         );
                       }
 
-                      
                       return underConstruction;
                     },
                 ),

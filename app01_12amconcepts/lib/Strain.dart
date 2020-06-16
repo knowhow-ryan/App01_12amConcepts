@@ -51,16 +51,16 @@ class Strain {
   }
 
   static void reload(String strainsData) {
-    //rebuilds the entire allStrains list from the allStrains data String
-    //allStrains is a single String that contains Strain data created by toString on each line
+    //rebuilds the entire allStrains list from the strainsData data String
+    //strainData is a single String that contains Strain data created by toString on each line
     Strain.allStrains.clear();
     
     List<String> strainStrings = strainsData.split("\n"); //separate the data String into separate Strings for each Strain
-      strainStrings.forEach((strain) {
-        if(strain != null && strain.isNotEmpty) {
-          Strain.fromString(strain);
-        }
-      });
+    strainStrings.forEach((strain) {
+      if(strain != null && strain.isNotEmpty) {
+        Strain.fromString(strain);
+      }
+    });
   }
 
   static Strain getStrainByName(String strainName) {

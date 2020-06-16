@@ -1,10 +1,16 @@
+import 'dart:async';
 import 'dart:io';
+import 'package:app01_12amconcepts/Experience.dart';
+
 import 'Strain.dart';
 
 import 'package:path_provider/path_provider.dart';
 
 class DataControl {
   //a static class to control data IO
+
+  static String strainsData;
+  static String experiencesData;
 
   static Future<File> get _StrainFile async {
     final directory = await getApplicationDocumentsDirectory();
@@ -28,6 +34,7 @@ class DataControl {
     Strain.allStrains.forEach((strain) => saveString += strain.toString() + "\n");
 
     saveString = saveString.trim();
+    strainsData = saveString; //store the most up-to-date data string
 
     strainFile.writeAsString(saveString);
   }
@@ -43,11 +50,9 @@ class DataControl {
     });
 
     saveString = saveString.trim();
+    experiencesData = saveString; //store the most up-to-date data string
 
     experienceFile.writeAsString(saveString);
-
-    
-    await debugloadExperiences(); //TODO: remove this debug code
   }
 
   static Future<String> loadStrains() async {
@@ -57,13 +62,35 @@ class DataControl {
     return strainFile.readAsString();
   }
 
-  static void debugloadExperiences() async {
-    //loads the Experience info file and prints it to the console as a debug message
-    //TODO: convert this to the actual loadExperiences
+  static Future<String> loadExperiences() async {
+    //loads the Strain info file and returns the contents as a String within a Future
     File experienceFile = await _ExperienceFile;
-    String experiencesString = await experienceFile.readAsString();
 
+    return experienceFile.readAsString();
+  }
 
-    print("\n***DEBUG - debugloadExperiences***\n\n" + experiencesString + "\n*** *** *** *** ***\n");
+  static Future<bool> loadAll() async {
+    //loads both Strain and Experience into their data structures, returning a boolean to indicate loading is complete
+    Completer<bool> dataLoaded = new Completer(); //watches for Strain and Experience data to be loaded.
+
+    loadStrains().then((strains) {
+      strainsData = strains;  //store the most up-to-date Strain data string
+      Strain.reload(strainsData);
+
+      loadExperiences().then((experiences) {
+        //TODO: remove DEBUG code below
+        print("***DataControl.loadAll() - loadExperiences.then***\n\n" + experiences);
+        experiencesData = experiences;  //store the most up-to-date data string
+        Experience.reload(experiencesData);
+
+        dataLoaded.complete(true);
+      },
+
+      onError: (error) => dataLoaded.completeError(error));
+    },
+
+    onError: (error) => dataLoaded.completeError(error));
+
+    return dataLoaded.future;
   }
 }

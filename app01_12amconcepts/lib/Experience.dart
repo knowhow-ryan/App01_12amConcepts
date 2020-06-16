@@ -30,11 +30,21 @@ class Experience {
     //creates a new Experience from the semi-colon-delimited String created by Experience.toString()
     List experienceValues = experienceString.split(";");
 
-    //finds the first Strain with a matching name and attaches that Strain to this Experience
+    //TODO: remove DEBUG code below
+    print("***Experience.fromString***\n\n" + Strain.allStrains.toString());
+
+    //finds the first Strain with a matching name and attaches the Strain and Experience to each other
     //Requires that all of the Strains have already been built
     this.strain = Strain.allStrains.firstWhere(
-        (strain) => strain.name.saveString == experienceValues[0],
+        (strain) {
+          if (strain.name.saveString == experienceValues[0]) {
+            return true;
+          }
+          else {return false;}
+        },
         orElse: () => null);
+
+    this.strain.addExperience(this);
 
     this.date = DateTime.parse(experienceValues[1]);
     this.location = new Phrase(experienceValues[2], PhraseType.Location);
@@ -52,6 +62,18 @@ class Experience {
     lows.forEach((low) => this.lows.add(new Phrase(low, PhraseType.Low)));
 
     this.notes = experienceValues[7];
+  }
+
+  static void reload(String experiencesData) {
+    //rebuilds each Strains Experiences List from the experiencesData data String
+    //experieneData is a single String that contains Experience data created by toString on each line
+    List<String> experienceStrings = experiencesData.split("\n"); //split the data String into separate Strings for each Experience
+    
+    experienceStrings.forEach((experience) {
+      if(experience != null && experience.isNotEmpty) {
+        Experience.fromString(experience);
+      }
+    });
   }
 
   @override
