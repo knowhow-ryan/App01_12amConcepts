@@ -84,6 +84,11 @@ class StrainEditPageState extends State<StrainEditPage> {
         setState(
             () => _thcSliderValue = double.tryParse(thcPercentController.text));
       }
+
+      //this keeps the cursor at the end (far right) of the user's input.
+      if(thcPercentController.text.length > 0) {
+        thcPercentController.selection = TextSelection.fromPosition(TextPosition(offset: thcPercentController.text.length));
+      }
     });
 
     cbdPercentController.addListener(() {
@@ -93,6 +98,11 @@ class StrainEditPageState extends State<StrainEditPage> {
       } else {
         setState(
             () => _cbdSliderValue = double.tryParse(cbdPercentController.text));
+      }
+
+      //this keeps the cursor at the end (far right) of the user's input.
+      if(cbdPercentController.text.length > 0) {
+        cbdPercentController.selection = TextSelection.fromPosition(TextPosition(offset: cbdPercentController.text.length));
       }
     });
     
@@ -286,16 +296,14 @@ class StrainEditPageState extends State<StrainEditPage> {
                                   setTHC = (newPercentage) {
                                     setState(() {
                                       _thcSliderValue = newPercentage;
-                                      thcPercentController.text =
-                                          newPercentage.toStringAsFixed(1);
+                                      thcPercentController.text = newPercentage.toStringAsFixed(1);
                                     });
                                   };
 
                                   setCBD = (newPercentage) {
                                     setState(() {
                                       _cbdSliderValue = newPercentage;
-                                      cbdPercentController.text =
-                                          newPercentage.toStringAsFixed(1);
+                                      cbdPercentController.text = newPercentage.toStringAsFixed(1);
                                     });
                                   };
                                 });
@@ -410,9 +418,6 @@ class StrainEditPageState extends State<StrainEditPage> {
                                         _thcValidValue = validatePercentInput(
                                             inputString, _thcValidValue);
                                         thcPercentController.text = _thcValidValue;
-                                        thcPercentController.selection =
-                                            TextSelection.fromPosition(TextPosition(
-                                                offset: thcPercentController.text.length));
                                       });
                                     }, // onChanged
                                     decoration: InputDecoration(
@@ -494,9 +499,6 @@ class StrainEditPageState extends State<StrainEditPage> {
                                         _cbdValidValue = validatePercentInput(
                                             inputString, _cbdValidValue);
                                         cbdPercentController.text = _cbdValidValue;
-                                        cbdPercentController.selection =
-                                            TextSelection.fromPosition(TextPosition(
-                                                offset: cbdPercentController.text.length));
                                       });
                                     }, // onChanged
                                     decoration: InputDecoration(

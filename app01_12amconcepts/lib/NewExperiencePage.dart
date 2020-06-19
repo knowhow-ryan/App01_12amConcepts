@@ -118,6 +118,11 @@ class NewExperiencePageState extends State<NewExperiencePage> {
         setState(
             () => _thcSliderValue = double.tryParse(thcPercentController.text));
       }
+
+      //this keeps the cursor at the end (far right) of the user's input.
+      if(thcPercentController.text.length > 0) {
+        thcPercentController.selection = TextSelection.fromPosition(TextPosition(offset: thcPercentController.text.length));
+      }
     });
 
     cbdPercentController.addListener(() {
@@ -127,6 +132,11 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       } else {
         setState(
             () => _cbdSliderValue = double.tryParse(cbdPercentController.text));
+      }
+
+      //this keeps the cursor at the end (far right) of the user's input.
+      if(cbdPercentController.text.length > 0) {
+        cbdPercentController.selection = TextSelection.fromPosition(TextPosition(offset: cbdPercentController.text.length));
       }
     });
 
@@ -449,9 +459,6 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                             _thcValidValue = validatePercentInput(
                                 inputString, _thcValidValue);
                             thcPercentController.text = _thcValidValue;
-                            thcPercentController.selection =
-                                TextSelection.fromPosition(TextPosition(
-                                    offset: thcPercentController.text.length));
                           });
                         }, // onChanged
                         decoration: InputDecoration(
@@ -533,9 +540,6 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                             _cbdValidValue = validatePercentInput(
                                 inputString, _cbdValidValue);
                             cbdPercentController.text = _cbdValidValue;
-                            cbdPercentController.selection =
-                                TextSelection.fromPosition(TextPosition(
-                                    offset: cbdPercentController.text.length));
                           });
                         }, // onChanged
                         decoration: InputDecoration(
