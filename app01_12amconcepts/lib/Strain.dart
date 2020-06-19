@@ -191,7 +191,7 @@ class Strain {
 
   List<Widget> bottomRowInformation() {
     List<Widget> infoWidgets = [
-      Text('THC: ${this.thcPercent}%',
+      Text('THC: ' + this.thcPercent.toStringAsFixed(2),
         style: TextStyle(
           color: Colors.black54,
           fontWeight: FontWeight.bold,
@@ -201,7 +201,7 @@ class Strain {
         width: 15,
       ),
       Text(
-        'CBD: ${this.cbdPercent}%',
+        'CBD: ' + this.cbdPercent.toStringAsFixed(2),
         style: TextStyle(
           color: Colors.black54,
           fontWeight: FontWeight.bold,
