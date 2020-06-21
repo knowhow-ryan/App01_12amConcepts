@@ -51,6 +51,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
 
   TextEditingController thcPercentController = new TextEditingController();
   TextEditingController cbdPercentController = new TextEditingController();
+  TextEditingController highsController = new TextEditingController();
+  TextEditingController lowsController = new TextEditingController();
   TextEditingController ratingController = new TextEditingController();
   TextEditingController notesController = new TextEditingController();
 
@@ -659,6 +661,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
               hint: 'highs',
               multipleSelection: true,
               initialValues: editMode ? userHighs : null,
+              textEditingController: highsController,
               callback: (high) {
                 setState(() {
                   if (high.runtimeType == Phrase) {
@@ -683,6 +686,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
               hint: 'lows',
               multipleSelection: true,
               initialValues: editMode ? userLows : null,
+              textEditingController: lowsController,
               callback: (low) {
                 setState(() {
                   if (low.runtimeType == Phrase) {
@@ -838,6 +842,20 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () { if(userStrain != null) {
           //create a new Experience from the user's input
+          
+          //take any unsubmitted input from the Highs/Lows TextFields and submit it for the user
+          if(highsController.text != "") {
+            Phrase highPhrase = Phrase.save(highsController.text, PhraseType.High);
+            if (!userHighs.contains(highPhrase)) {
+              userHighs.add(highPhrase);
+            }
+          }
+          if(lowsController.text != "") {
+            Phrase lowPhrase = Phrase.save(lowsController.text, PhraseType.Low);
+            if (!userLows.contains(lowPhrase)) {
+              userLows.add(lowPhrase);
+            }
+          }
           
           if(!editMode) {
             userExperience = new Experience(

@@ -227,6 +227,7 @@ class PhraseInputUI extends StatefulWidget {
   final PhraseType phraseType;
   final Function callback; //pass the input of the TextField back to the parent widget
   final Function deleteCallback; //notify the parent Widget that a Phrase has been deleted from the selectedPhrases
+  final TextEditingController textEditingController; //Controller for the UI's TextField
   final String hint; //hint to display in the TextField before any user input
   final bool multipleSelection;
   final bool enforceUniqueInput;
@@ -239,6 +240,7 @@ class PhraseInputUI extends StatefulWidget {
       {@required this.phraseType,
       this.callback,
       this.deleteCallback,
+      this.textEditingController,
       this.hint,
       this.multipleSelection = false,
       this.enforceUniqueInput = false,
@@ -252,8 +254,8 @@ class PhraseInputUI extends StatefulWidget {
 
 class _PhraseInputUIState extends State<PhraseInputUI> {
   FocusNode inputFocusNode;
-  
-  TextEditingController inputUIController = TextEditingController();
+
+  TextEditingController inputUIController;
 
   List<Widget> matchingPhrasePills;
   List<Phrase> selectedPhrases;
@@ -263,6 +265,8 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
     super.initState();
     
     inputFocusNode = FocusNode();
+
+    inputUIController = widget.textEditingController ?? TextEditingController();
     
     matchingPhrasePills = [];
     
