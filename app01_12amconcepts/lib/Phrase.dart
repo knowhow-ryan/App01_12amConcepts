@@ -251,6 +251,8 @@ class PhraseInputUI extends StatefulWidget {
 }
 
 class _PhraseInputUIState extends State<PhraseInputUI> {
+  FocusNode inputFocusNode;
+  
   TextEditingController inputUIController = TextEditingController();
 
   List<Widget> matchingPhrasePills;
@@ -259,6 +261,9 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
   @override
   void initState() {
     super.initState();
+    
+    inputFocusNode = FocusNode();
+    
     matchingPhrasePills = [];
     
     //check if there are initialValues that need to be distrubuted to the inputUIController.text or the selectedPhrases
@@ -286,6 +291,7 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
   }
 
   void dispose() {
+    inputFocusNode.dispose();
     inputUIController.dispose();
     super.dispose();
   }
@@ -403,6 +409,7 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
                   hintText: widget.hint,
                   hintStyle: TextStyle(fontSize: 15, color: Colors.white54),
                 ),
+                focusNode: inputFocusNode,
                 controller: inputUIController,
                 onSubmitted: (String userInput) {
                   setState( () {
@@ -412,6 +419,7 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
                       widget.callback(inputPhrase);
                     }
                     inputUIController.text = "";
+                    inputFocusNode.requestFocus();
                   });
                 }, // onSubmitted
               ),
