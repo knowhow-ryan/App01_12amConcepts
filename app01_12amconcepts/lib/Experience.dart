@@ -47,19 +47,19 @@ class Experience {
     this.strain.addExperience(this);
 
     this.date = DateTime.parse(experienceValues[1]);
-    this.location = new Phrase(experienceValues[2], PhraseType.Location);
-    this.ingestion = new Phrase(experienceValues[3], PhraseType.Ingestion);
+    this.location = Phrase.save(experienceValues[2], PhraseType.Location);
+    this.ingestion = Phrase.save(experienceValues[3], PhraseType.Ingestion);
     this.overallRating = int.parse(experienceValues[4]);
 
     String highsString = experienceValues[5];
     List highs = highsString.split('&');
     this.highs = List<Phrase>();
-    highs.forEach((high) => this.highs.add(new Phrase(high, PhraseType.High)));
+    highs.forEach((high) => this.highs.add(Phrase.save(high, PhraseType.High)));
 
     String lowsString = experienceValues[6];
     List lows = lowsString.split('&');
     this.lows = List<Phrase>();
-    lows.forEach((low) => this.lows.add(new Phrase(low, PhraseType.Low)));
+    lows.forEach((low) => this.lows.add(Phrase.save(low, PhraseType.Low)));
 
     this.notes = experienceValues[7];
   }
