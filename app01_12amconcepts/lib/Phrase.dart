@@ -7,6 +7,10 @@ class Phrase {
   /* short phrase the user has input to describe their Experiences
   This class makes it easy for the user to use the same phrasing consistently
   This allows for auto-fill features as well as searching across the app by particular Phrases*/
+
+  static const String BLANK = '_blank_'; //replaces empty Phrase strings for saving to file
+
+
   static List<Phrase> strains = []; //all of the Phrases used in the Strain name field of all Experiences
   static List<Phrase> highs = []; //all of the Phrases used in the highs field of all Experiences
   static List<Phrase> lows = []; //all of the Phrases used in the lows field of all Experiences
@@ -47,9 +51,13 @@ class Phrase {
   }
 
   String get saveString {
-    //processes and returns the phrase_string for safe saving to semicolon- and ampersand-deliminted list
-    String saveString = this.phraseString;
-    saveString.replaceAll('&', '_and');
+    //processes and returns the phrase_string for safe saving to semicolon- and ampersand-delimited list
+    String saveString;
+    
+    //if the phraseString is empty, set the saveString to the constant value BLANK, otherwise assign phraseString to saveString
+    (this.phraseString == '') ? saveString = BLANK : saveString = this.phraseString;
+
+    saveString = saveString.replaceAll('&', '_and');
     return saveString.replaceAll(';', "_sc");
   }
 
@@ -57,9 +65,12 @@ class Phrase {
     //standardize all strings to aid in removing duplicates
     String processedString = "";
 
+    //recreate a blank String from the escaped "_blank_" value
+    rawString = rawString.replaceAll(BLANK, "");
+    
     //remove extraneous whitespace
-    rawString.replaceAll('\t', " ");
-    rawString.replaceAll('\n', " ");
+    rawString = rawString.replaceAll('\t', " ");
+    rawString = rawString.replaceAll('\n', " ");
 
     //remove all extra spaces
     List<String> words = rawString.split(" ");

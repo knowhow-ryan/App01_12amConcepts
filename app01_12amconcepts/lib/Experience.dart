@@ -49,17 +49,33 @@ class Experience {
     this.date = DateTime.parse(experienceValues[1]);
     this.location = Phrase.save(experienceValues[2], PhraseType.Location);
     this.ingestion = Phrase.save(experienceValues[3], PhraseType.Ingestion);
-    this.overallRating = int.parse(experienceValues[4]);
+    
+    if(experienceValues[4] == "_blank_") {
+      this.overallRating = null;
+    }
+    else {
+      this.overallRating = int.parse(experienceValues[4]);
+    }
 
     String highsString = experienceValues[5];
-    List highs = highsString.split('&');
-    this.highs = List<Phrase>();
-    highs.forEach((high) => this.highs.add(Phrase.save(high, PhraseType.High)));
+    if(highsString == "_blank_") {
+      this.highs = List<Phrase>();
+    }
+    else {
+      List highs = highsString.split('&');
+      this.highs = List<Phrase>();
+      highs.forEach((high) => this.highs.add(Phrase.save(high, PhraseType.High)));
+    }
 
     String lowsString = experienceValues[6];
-    List lows = lowsString.split('&');
-    this.lows = List<Phrase>();
-    lows.forEach((low) => this.lows.add(Phrase.save(low, PhraseType.Low)));
+    if(lowsString == "_blank_") {
+      this.lows = List<Phrase>();
+    }
+    else {
+      List lows = lowsString.split('&');
+      this.lows = List<Phrase>();
+      lows.forEach((low) => this.lows.add(Phrase.save(low, PhraseType.Low)));
+    }
 
     this.notes = experienceValues[7];
   }
@@ -85,15 +101,31 @@ class Experience {
     experienceString += this.date.toString() + ';';
     experienceString += this.location.saveString + ';';
     experienceString += this.ingestion.saveString + ';';
-    experienceString += this.overallRating.toString() + ';';
+    
+    if(this.overallRating == null) {
+      experienceString += "_blank_;";
+    }
+    else {
+       experienceString += this.overallRating.toString() + ';';
+    }
 
-    //converts the Lists of Phrases to ampersand-delimited Strings
-    this.highs.forEach((high) => experienceString += high.saveString + '&');
-    experienceString =
-        experienceString.substring(0, experienceString.length - 1) + ';';
-    this.lows.forEach((low) => experienceString += low.saveString + '&');
-    experienceString =
-        experienceString.substring(0, experienceString.length - 1) + ';';
+    //converts the Lists of Highs Phrases to ampersand-delimited Strings
+    if(this.highs.length == 0) {
+      experienceString = experienceString += "_blank_;";
+    }
+    else {
+      this.highs.forEach((high) => experienceString += high.saveString + '&');
+      experienceString = experienceString.substring(0, experienceString.length - 1) + ';';
+    }
+    
+    //converts the Lists of Highs Phrases to ampersand-delimited Strings
+    if(this.lows.length == 0) {
+      experienceString = experienceString += "_blank_;";
+    }
+    else {
+      this.lows.forEach((low) => experienceString += low.saveString + '&');
+      experienceString = experienceString.substring(0, experienceString.length - 1) + ';';
+    }
 
     String notesString = this.notes;
     experienceString += notesString.replaceAll(';', "_sc"); //escape semicolons
