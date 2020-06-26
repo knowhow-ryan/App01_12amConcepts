@@ -722,7 +722,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
             ),
             Row( /** OVERALL RATING **/
               children: <Widget>[
-                Expanded(
+                //TODO: remove old code below
+                /*Expanded(
                   flex: 1,
                   child: Container(
                     decoration: BoxDecoration(
@@ -763,13 +764,15 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                           ),
                         )),
                   ),
-                ),
+                ),*/
                 Expanded(
                   flex: 8,
                   child: SliderTheme(
                     data: SliderTheme.of(context).copyWith(
                       activeTrackColor: Color(0xFFbfd7c9),
                       inactiveTrackColor: Color(0xFF3e865d),
+                      showValueIndicator: ShowValueIndicator.onlyForDiscrete,
+                      valueIndicatorTextStyle: TextStyle(color: Colors.black),
                       trackShape: RectangularSliderTrackShape(),
                       trackHeight: 3.0,
                     ), // data
@@ -778,7 +781,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                       min: 1.0,
                       max: 5.0,
                       divisions: 4,
-                      label: 'rating',
+                      label: _ratingSliderValue.toInt().toString(),
                       onChanged: setRating,
                       value: _ratingSliderValue, //Do not change
                     ),
@@ -863,7 +866,9 @@ class NewExperiencePageState extends State<NewExperiencePage> {
               DateTime.now(),
               Phrase.save(userLocation, PhraseType.Location),
               Phrase.save(userIngestion, PhraseType.Ingestion),
-              int.tryParse(ratingController.text),
+              _ratingSliderValue.toInt(),
+              //TODO: remove older code below
+              //int.tryParse(ratingController.text),
               userHighs,
               userLows,
               notesController.text,
