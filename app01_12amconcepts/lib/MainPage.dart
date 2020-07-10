@@ -46,8 +46,8 @@ class _MainPageState extends State<MainPage> {
         onDismissed: (direction) {
           // Remove the item from the data source.
           Strain.allStrains.remove(strain);
-          //set state only after saving data
-          DataControl.saveStrains();//.then((value) => setState((){}));
+          // update the data File
+          DataControl.saveStrains();
         },
 
         confirmDismiss: (direction) async {

@@ -1,3 +1,4 @@
+import 'package:app01_12amconcepts/DataControl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'TopSearch.dart';
@@ -52,6 +53,8 @@ class StrainPageState extends State<StrainPage> {
                 setState(() {
                   strain.experiences.remove(experience);
                 });
+                //update the Data File
+                DataControl.saveExperiences();
 
                 // Then show a snackbar.
                 //Scaffold.of(context).showSnackBar(SnackBar(content: Text("$item dismmissed")));
