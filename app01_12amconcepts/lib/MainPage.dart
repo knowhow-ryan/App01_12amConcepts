@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'StrainPage.dart';
 import 'NewExperiencePage.dart';
@@ -146,14 +148,28 @@ class _MainPageState extends State<MainPage> {
 
                       else if (snapshot.hasError) {
                         print("***MainPage builder error***\n\n" + snapshot.error.toString());
-                        
-                        underConstruction = Center(
-                          child: Icon(
-                            Icons.error_outline,
-                            color: Colors.red[200],
-                            size: 60,
-                          )
-                        );
+
+                        if(snapshot.error.toString().contains("OS Error: No such file or directory")) {
+                          underConstruction = Center( child: Padding(
+                            padding: EdgeInsets.only(top: 16),
+                            child: Text('no data',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 28,
+                              )
+                            ),
+                          ));
+                        }
+                        else {
+                          underConstruction = Center(
+                            child: Icon(
+                              Icons.error_outline,
+                              color: Colors.red[200],
+                              size: 60,
+                            )
+                          );
+                        }
                       }
                       
                       else {
