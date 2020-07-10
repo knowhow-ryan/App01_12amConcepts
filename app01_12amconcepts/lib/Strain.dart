@@ -279,13 +279,28 @@ class Strain {
 
   void calculateAverageRating() {
     //calculate the average_rating property
-    int sum = 0;
+    int sum = 0; //the sum of the rated Experiences
+    int num = 0; //the number of rated Experiences
+
+    //TODO: remove DEBUG code below
+    print("***DEBUG - calculateAverageRating***\n\nexperiences: ${this.experiences}");
+
     this.experiences.forEach((experience) {
-      if(experience.overallRating != null) {
+      if(experience.overallRating != 0) {
+        //TODO: remove DEBUG code below
+        print("experience.overallRating = ${experience.overallRating}\n");
         sum += experience.overallRating;
+        num += 1;
+        //TODO: remove DEBUG code below
+        print("sum = $sum\n\n***end DEBUG***");
       }
     });
-    this.averageRating = sum.toDouble() / this.experiences.length.toDouble();
+    if(num > 0) {
+      this.averageRating = sum.toDouble() / num.toDouble();
+    }
+    else {
+      this.averageRating = 0;
+    }
   }
 
   String get getSubSpecies {

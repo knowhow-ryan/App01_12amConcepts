@@ -31,12 +31,12 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   int currentStep = 0;
   double _thcSliderValue = 0.0;
   double _cbdSliderValue = 0.0;
-  double _ratingSliderValue = 3;
+  double _ratingSliderValue = 0;
   String userStrainName;
   Sub_species subspecies = Sub_species.unknown;
   String _thcValidValue ="0.0"; //the most recent valid value for the THC percentage TextField
   String _cbdValidValue = "0.0"; //the most recent valid value for the CBD percentage TextField
-  String _ratingValidValue = "3"; //the most recent valid value for the Overall Rating TextField
+  //String _ratingValidValue = "0"; //the most recent valid value for the Overall Rating TextField
 
   String userLocation = "";
   String userIngestion = "";
@@ -53,7 +53,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   TextEditingController cbdPercentController = new TextEditingController();
   TextEditingController highsController = new TextEditingController();
   TextEditingController lowsController = new TextEditingController();
-  TextEditingController ratingController = new TextEditingController();
+  //TextEditingController ratingController = new TextEditingController();
   TextEditingController notesController = new TextEditingController();
 
   List<Phrase> userHighs;
@@ -100,15 +100,15 @@ class NewExperiencePageState extends State<NewExperiencePage> {
 
     setRating = (newRating) {
       if (newRating == null) {
-        newRating = 3;
+        newRating = 0;
       }
       setState(() {
         _ratingSliderValue = newRating;
-        if (newRating == 0.0) {
+        /*if (newRating == 0.0) {
           ratingController.text = "";
         } else {
           ratingController.text = newRating.toStringAsFixed(0);
-        }
+        }*/
       });
     };
 
@@ -142,7 +142,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       }
     });
 
-    ratingController.addListener(() {
+    /*ratingController.addListener(() {
       if (double.tryParse(ratingController.text) == null) {
         ratingController.text = "";
         setState(() => _ratingSliderValue = 3);
@@ -150,7 +150,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       else {
         setState(() => _ratingSliderValue = double.tryParse(ratingController.text));
       }
-    });
+    });*/
 
     toggleSubSpeciesButtons(); //set all of the Sub_species buttons to deselected
 
@@ -175,9 +175,9 @@ class NewExperiencePageState extends State<NewExperiencePage> {
 
       toggleSubSpeciesButtons(subSpecies: userStrain.subSpecies);
 
-      _ratingSliderValue = (userExperience.overallRating ?? 3).toDouble();
-      _ratingValidValue = _ratingSliderValue.toStringAsFixed(0);
-      ratingController.text = _ratingValidValue;
+      _ratingSliderValue = (userExperience.overallRating ?? 0).toDouble();
+      //_ratingValidValue = _ratingSliderValue.toStringAsFixed(0);
+      //ratingController.text = _ratingValidValue;
       userLocation = userExperience.location.phraseString;
       userIngestion = userExperience.ingestion.phraseString;
       userHighs = userExperience.highs ?? [];
@@ -197,7 +197,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   void dispose() {
     thcPercentController.dispose();
     cbdPercentController.dispose();
-    ratingController.dispose();
+    //ratingController.dispose();
     notesController.dispose();
     super.dispose();
   }
@@ -218,7 +218,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
     return validString;
   }
 
-  String validateRatingInput(inputString, validString) {
+  /*String validateRatingInput(inputString, validString) {
     /*validate that the inputString represents a double value between 0 and 100, inclusive.
     If the value is invalid, return the input validString*/
     double inputDouble = double.tryParse(inputString);
@@ -232,7 +232,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
     }
 
     return validString;
-  }
+  }*/
 
   void toggleSubSpeciesButtons({Sub_species subSpecies = Sub_species.unknown}) {
     //deactivates all of the SubspeciesPickerButtons, then activates the button for the input sub_species
@@ -778,10 +778,10 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                     ), // data
                     child: Slider(
                       activeColor: Colors.white,
-                      min: 1.0,
+                      min: 0.0,
                       max: 5.0,
-                      divisions: 4,
-                      label: _ratingSliderValue.toInt().toString(),
+                      divisions: 5,
+                      label: _ratingSliderValue == 0 ? "no rating" : _ratingSliderValue.toInt().toString(),
                       onChanged: setRating,
                       value: _ratingSliderValue, //Do not change
                     ),
@@ -880,7 +880,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
             userExperience.strain = userStrain;
             userExperience.location = Phrase.save(userLocation, PhraseType.Location);
             userExperience.ingestion = Phrase.save(userIngestion, PhraseType.Ingestion);
-            userExperience.overallRating = int.tryParse(ratingController.text);
+            userExperience.overallRating = _ratingSliderValue.toInt();
             userExperience.highs = userHighs;
             userExperience.lows = userLows;
             userExperience.notes = notesController.text;

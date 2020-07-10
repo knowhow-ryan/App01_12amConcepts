@@ -8,14 +8,11 @@ class Experience {
   Strain strain; //the Strain of cannabis used during this Experience
   DateTime date; //the date this Experience happened on
   Phrase location; //where this Experience took place
-  Phrase
-      ingestion; //the means of ingesting the cannabis for this experience (e.g. bong, dab, joint, etc.)
+  Phrase ingestion; //the means of ingesting the cannabis for this experience (e.g. bong, dab, joint, etc.)
   int overallRating; //a 1-5 integer rating for this Experience
-  List<Phrase>
-      highs; //short phrases describing the good parts of this Experience
+  List<Phrase> highs; //short phrases describing the good parts of this Experience
   List<Phrase> lows; //short phrases describing the bad parts of this Experience
-  String
-      notes; //any extra information the user wants to attach to this Experience.
+  String notes; //any extra information the user wants to attach to this Experience.
 
   //TODO: remove
   //dummy Experience for testing
@@ -28,10 +25,10 @@ class Experience {
 
   Experience.fromString(String experienceString) {
     //creates a new Experience from the semi-colon-delimited String created by Experience.toString()
-    List experienceValues = experienceString.split(";");
+    List<String> experienceValues = experienceString.split(";");
 
     //TODO: remove DEBUG code below
-    print("***Experience.fromString***\n\n" + Strain.allStrains.toString());
+    print("***Experience.fromString***\n\nexperienceValues: $experienceValues\n");
 
     //finds the first Strain with a matching name and attaches the Strain and Experience to each other
     //Requires that all of the Strains have already been built
@@ -44,18 +41,19 @@ class Experience {
         },
         orElse: () => null);
 
-    this.strain.addExperience(this);
-
+    //TODO: BOOKMARK - insert "_blank_" checks for location and ingestion, setting them equal to null
     this.date = DateTime.parse(experienceValues[1]);
     this.location = Phrase.save(experienceValues[2], PhraseType.Location);
     this.ingestion = Phrase.save(experienceValues[3], PhraseType.Ingestion);
     
-    if(experienceValues[4] == "_blank_") {
+    /*if(experienceValues[4] == "_blank_") {
       this.overallRating = null;
     }
     else {
       this.overallRating = int.parse(experienceValues[4]);
-    }
+    }*/
+
+    this.overallRating = int.parse(experienceValues[4]);
 
     String highsString = experienceValues[5];
     if(highsString == "_blank_") {
@@ -78,10 +76,14 @@ class Experience {
     }
 
     this.notes = experienceValues[7];
+    this.notes = this.notes.replaceAll("_blank_", "");
+    this.notes = this.notes.replaceAll("_sc", ";");
+
+    this.strain.addExperience(this); //add this Experience to its Strain now that all of its values are set
   }
 
   static void reload(String experiencesData) {
-    //rebuilds each Strains Experiences List from the experiencesData data String
+    //rebuilds each Strain's Experiences List from the experiencesData data String
     //experieneData is a single String that contains Experience data created by toString on each line
     List<String> experienceStrings = experiencesData.split("\n"); //split the data String into separate Strings for each Experience
     
@@ -99,8 +101,20 @@ class Experience {
 
     experienceString += this.strain.name.saveString + ';';
     experienceString += this.date.toString() + ';';
-    experienceString += this.location.saveString + ';';
-    experienceString += this.ingestion.saveString + ';';
+    
+    if(this.location == null) {
+      experienceString += "_blank_;";
+    }
+    else {
+      experienceString += this.location.saveString + ';';
+    }
+
+    if(this.ingestion == null) {
+      experienceString += "_blank_;";
+    }
+    else {
+      experienceString += this.ingestion.saveString + ';';
+    }
     
     if(this.overallRating == null) {
       experienceString += "_blank_;";
@@ -110,7 +124,7 @@ class Experience {
     }
 
     //converts the Lists of Highs Phrases to ampersand-delimited Strings
-    if(this.highs.length == 0) {
+    if(this.highs == null || this.highs.length == 0) {
       experienceString = experienceString += "_blank_;";
     }
     else {
@@ -119,7 +133,7 @@ class Experience {
     }
     
     //converts the Lists of Highs Phrases to ampersand-delimited Strings
-    if(this.lows.length == 0) {
+    if(this.lows == null || this.lows.length == 0) {
       experienceString = experienceString += "_blank_;";
     }
     else {
@@ -127,8 +141,12 @@ class Experience {
       experienceString = experienceString.substring(0, experienceString.length - 1) + ';';
     }
 
-    String notesString = this.notes;
-    experienceString += notesString.replaceAll(';', "_sc"); //escape semicolons
+    if(this.notes == null || this.notes == ""){
+      experienceString += "_blank_";
+    }
+    else {
+      experienceString += this.notes.replaceAll(';', "_sc"); //escape semicolons
+    }
 
     return experienceString;
   }
@@ -206,7 +224,7 @@ class Experience {
                           size: 13,
                         ),
                         Text(
-                          ' : ' + this.overallRating.toString(),
+                          ' : ' + (this.overallRating == 0 ? "unrated" : this.overallRating.toString()),
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

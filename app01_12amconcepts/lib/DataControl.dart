@@ -34,7 +34,7 @@ class DataControl {
     Strain.allStrains.forEach((strain) => saveString += strain.toString() + "\n");
 
     saveString = saveString.trim();
-    strainsData = saveString; //store the most up-to-date data string
+    DataControl.strainsData = saveString; //store the most up-to-date data string
 
     strainFile.writeAsString(saveString);
   }
@@ -50,7 +50,7 @@ class DataControl {
     });
 
     saveString = saveString.trim();
-    experiencesData = saveString; //store the most up-to-date data string
+    DataControl.experiencesData = saveString; //store the most up-to-date data string
 
     experienceFile.writeAsString(saveString);
   }
@@ -74,14 +74,14 @@ class DataControl {
     Completer<bool> dataLoaded = new Completer(); //watches for Strain and Experience data to be loaded.
 
     loadStrains().then((strains) {
-      strainsData = strains;  //store the most up-to-date Strain data string
+      DataControl.strainsData = strains;  //store the most up-to-date Strain data string
       Strain.reload(strainsData);
 
       loadExperiences().then((experiences) {
         //TODO: remove DEBUG code below
         print("***DataControl.loadAll() - loadExperiences.then***\n\n" + experiences);
-        experiencesData = experiences;  //store the most up-to-date data string
-        Experience.reload(experiencesData);
+        DataControl.experiencesData = experiences;  //store the most up-to-date data string
+        Experience.reload(DataControl.experiencesData);
 
         dataLoaded.complete(true);
       },
