@@ -245,7 +245,7 @@ class StrainEditPageState extends State<StrainEditPage> {
               opacity: 1, //_myOpacity,
               curve: Interval(0.8, 1.0, curve: Curves.fastOutSlowIn),
               duration: Duration(seconds: 1),
-              child: Column(
+              child: SingleChildScrollView(child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         SizedBox(height: 100,),
@@ -549,7 +549,7 @@ class StrainEditPageState extends State<StrainEditPage> {
                           height: 20,
                         )
                       ],
-                    ),
+                    ),),
             ),
           ),
         ],
