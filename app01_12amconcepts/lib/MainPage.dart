@@ -46,6 +46,8 @@ class _MainPageState extends State<MainPage> {
         ),
         direction: DismissDirection.endToStart,
         onDismissed: (direction) {
+          //Remove the Strain's name from the StrainName Phrase List
+          strain.name.remove();
           // Remove the item from the data source.
           Strain.allStrains.remove(strain);
           // update the data File

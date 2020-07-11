@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:app01_12amconcepts/Experience.dart';
 
 import 'Strain.dart';
+import 'Phrase.dart';
 
 import 'package:path_provider/path_provider.dart';
 

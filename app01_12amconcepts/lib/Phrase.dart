@@ -50,6 +50,18 @@ class Phrase {
     return phrase;
   }
 
+  static void reset() {
+    //resets each of the static List members associated with each PhraseType
+    PhraseType.values.forEach((phraseType) {
+      getPhraseList(phraseType).clear();
+    });
+  }
+
+  void remove() {
+    //removes the Phrase from the it's PhraseType List
+    getPhraseList(this.phraseType).remove(this);
+  }
+
   String get saveString {
     //processes and returns the phrase_string for safe saving to semicolon- and ampersand-delimited list
     String saveString;
@@ -402,6 +414,15 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
             Container(
+              height: 50.0,
+              child: ListView(
+                //list of user-selected Phrases
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                children: getSelectedPhrasePills(),
+              )
+            ),
+            Container(
               decoration: BoxDecoration(
                 color: Colors.white12,
               ),
@@ -448,14 +469,6 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
                   children: getMatchingPhrasePills(
                       inputUIController.text, widget.phraseType),
                 )),
-            Container(
-                height: 50.0,
-                child: ListView(
-                  //list of user-selected Phrases
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  children: getSelectedPhrasePills(),
-                ))
           ]));
     }
     else if (widget.enforceUniqueInput) {
