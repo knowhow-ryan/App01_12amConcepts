@@ -54,7 +54,7 @@ class Phrase {
   }
 
   void remove() {
-    //removes the Phrase from the it's PhraseType List
+    //removes the Phrase from its PhraseType List
     getPhraseList(this.phraseType).remove(this);
   }
 

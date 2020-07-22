@@ -18,8 +18,7 @@ class Experience {
   //dummy Experience for testing
   static Experience _dummyExperience;
 
-  Experience(this.strain, this.date, this.location, this.ingestion,
-      this.overallRating, this.highs, this.lows, this.notes) {
+  Experience(this.strain, this.date, this.location, this.ingestion, this.overallRating, this.highs, this.lows, this.notes) {
     strain.addExperience(this);
   }
 
@@ -32,20 +31,18 @@ class Experience {
 
     //finds the first Strain with a matching name and attaches the Strain and Experience to each other
     //Requires that all of the Strains have already been built
-    this.strain = Strain.allStrains.firstWhere(
-        (strain) {
-          if (strain.name.saveString == experienceValues[0]) {
-            return true;
-          }
-          else {return false;}
-        },
-        orElse: () => null);
+    this.strain = Strain.allStrains.firstWhere((strain) {
+      if (strain.name.saveString == experienceValues[0]) {
+        return true;
+      } else {
+        return false;
+      }
+    }, orElse: () => null);
 
-    //TODO: insert "_blank_" checks for location and ingestion, setting them equal to null
     this.date = DateTime.parse(experienceValues[1]);
     this.location = Phrase.save(experienceValues[2], PhraseType.Location);
     this.ingestion = Phrase.save(experienceValues[3], PhraseType.Ingestion);
-    
+
     /*if(experienceValues[4] == "_blank_") {
       this.overallRating = null;
     }
@@ -56,20 +53,18 @@ class Experience {
     this.overallRating = int.parse(experienceValues[4]);
 
     String highsString = experienceValues[5];
-    if(highsString == "_blank_") {
+    if (highsString == "_blank_") {
       this.highs = List<Phrase>();
-    }
-    else {
+    } else {
       List highs = highsString.split('&');
       this.highs = List<Phrase>();
       highs.forEach((high) => this.highs.add(Phrase.save(high, PhraseType.High)));
     }
 
     String lowsString = experienceValues[6];
-    if(lowsString == "_blank_") {
+    if (lowsString == "_blank_") {
       this.lows = List<Phrase>();
-    }
-    else {
+    } else {
       List lows = lowsString.split('&');
       this.lows = List<Phrase>();
       lows.forEach((low) => this.lows.add(Phrase.save(low, PhraseType.Low)));
@@ -86,9 +81,9 @@ class Experience {
     //rebuilds each Strain's Experiences List from the experiencesData data String
     //experieneData is a single String that contains Experience data created by toString on each line
     List<String> experienceStrings = experiencesData.split("\n"); //split the data String into separate Strings for each Experience
-    
+
     experienceStrings.forEach((experience) {
-      if(experience != null && experience.isNotEmpty) {
+      if (experience != null && experience.isNotEmpty) {
         Experience.fromString(experience);
       }
     });
@@ -101,50 +96,44 @@ class Experience {
 
     experienceString += this.strain.name.saveString + ';';
     experienceString += this.date.toString() + ';';
-    
-    if(this.location == null) {
+
+    if (this.location == null) {
       experienceString += "_blank_;";
-    }
-    else {
+    } else {
       experienceString += this.location.saveString + ';';
     }
 
-    if(this.ingestion == null) {
+    if (this.ingestion == null) {
       experienceString += "_blank_;";
-    }
-    else {
+    } else {
       experienceString += this.ingestion.saveString + ';';
     }
-    
-    if(this.overallRating == null) {
+
+    if (this.overallRating == null) {
       experienceString += "_blank_;";
-    }
-    else {
-       experienceString += this.overallRating.toString() + ';';
+    } else {
+      experienceString += this.overallRating.toString() + ';';
     }
 
     //converts the Lists of Highs Phrases to ampersand-delimited Strings
-    if(this.highs == null || this.highs.length == 0) {
+    if (this.highs == null || this.highs.length == 0) {
       experienceString = experienceString += "_blank_;";
-    }
-    else {
+    } else {
       this.highs.forEach((high) => experienceString += high.saveString + '&');
       experienceString = experienceString.substring(0, experienceString.length - 1) + ';';
     }
-    
+
     //converts the Lists of Highs Phrases to ampersand-delimited Strings
-    if(this.lows == null || this.lows.length == 0) {
+    if (this.lows == null || this.lows.length == 0) {
       experienceString = experienceString += "_blank_;";
-    }
-    else {
+    } else {
       this.lows.forEach((low) => experienceString += low.saveString + '&');
       experienceString = experienceString.substring(0, experienceString.length - 1) + ';';
     }
 
-    if(this.notes == null || this.notes == ""){
+    if (this.notes == null || this.notes == "") {
       experienceString += "_blank_";
-    }
-    else {
+    } else {
       experienceString += this.notes.replaceAll(';', "_sc"); //escape semicolons
     }
 
@@ -167,99 +156,88 @@ class Experience {
 
   Widget displayCard(BuildContext context) {
     Widget card = Container(
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+        Row(
           children: <Widget>[
-            Row(
+            Text(
+              this.date.month.toString() + '/' + this.date.day.toString() + '/' + this.date.year.toString(),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            Text(
+              this.location.phraseString + '  ' + this.ingestion.phraseString,
+              style: TextStyle(
+                color: Colors.white,
+                fontStyle: FontStyle.italic,
+                fontSize: 20,
+              ),
+            ),
+          ],
+        ),
+        Wrap(
+          //highs
+          children: this.highsPillList,
+        ),
+        Wrap(
+            //lows
+            children: this.lowsPillList),
+        Container(
+          child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: Row(
               children: <Widget>[
-               
+                Icon(
+                  //edit icon
+                  FontAwesomeIcons.solidStar,
+                  color: Colors.white,
+                  size: 13,
+                ),
                 Text(
-                  this.date.month.toString() +
-                      '/' +
-                      this.date.day.toString() +
-                      '/' +
-                      this.date.year.toString(),
+                  ' : ' + (this.overallRating == 0 ? "unrated" : this.overallRating.toString()),
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Text(
-                  this.location.phraseString +
-                      '  ' +
-                      this.ingestion.phraseString,
-                  style: TextStyle(
-                    color: Colors.white,
-                    
-                    fontStyle: FontStyle.italic,
-                    fontSize: 20,
+                    fontSize: 18,
                   ),
                 ),
               ],
             ),
-             Wrap(
-              //highs
-              children: this.highsPillList,
-            ),
-            Wrap(
-                //lows
-                children: this.lowsPillList),
-                 Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          //edit icon
-                          FontAwesomeIcons.solidStar,
-                          color: Colors.white,
-                          size: 13,
-                        ),
-                        Text(
-                          ' : ' + (this.overallRating == 0 ? "unrated" : this.overallRating.toString()),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-            
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white12,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    //notes
-                    this.notes,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    )),
-              ),
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                    child: Divider(
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white12,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+                //notes
+                this.notes,
+                style: TextStyle(
                   color: Colors.white,
+                  fontSize: 18,
                 )),
-              ],
-            )
-          ]),
+          ),
+        ),
+        Row(
+          children: <Widget>[
+            Expanded(
+                child: Divider(
+              color: Colors.white,
+            )),
+          ],
+        )
+      ]),
     );
 
     return card;
@@ -273,14 +251,8 @@ class Experience {
           Phrase("dummy location", PhraseType.Location),
           Phrase("dummy ingestion", PhraseType.Ingestion),
           4,
-          [
-            Phrase("dummy high 1", PhraseType.High),
-            Phrase("dummy high 2", PhraseType.High)
-          ],
-          [
-            Phrase("dummy low 1", PhraseType.Low),
-            Phrase("dummy low 2", PhraseType.Low)
-          ],
+          [Phrase("dummy high 1", PhraseType.High), Phrase("dummy high 2", PhraseType.High)],
+          [Phrase("dummy low 1", PhraseType.Low), Phrase("dummy low 2", PhraseType.Low)],
           "woah dude. that was epic");
     }
     return _dummyExperience;
