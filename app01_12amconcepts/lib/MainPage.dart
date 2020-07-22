@@ -151,7 +151,6 @@ class _MainPageState extends State<MainPage> {
                     searchController: searchController,
                     sortStrainsBy: sortStrainsBy,
                     sortToggle: () {
-                      print("\n***DEBUG - MainPage - sortToggle***\n\n$sortStrainsBy");
                       setState(() {
                         if (sortStrainsBy == SortBy.Alphabetical) {
                           sortStrainsBy = SortBy.Date;

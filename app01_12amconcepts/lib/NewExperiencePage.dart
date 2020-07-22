@@ -846,8 +846,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 ],
               ),
             ),
-            child: Image.network(
-              "http://justcole.design/wp-content/uploads/2020/02/Smokey-Background-Side.png", //TODO: update this to an assett image
+            child: Image(
+              image: AssetImage('graphics/Smokey-Background-Side.png'),
               height: double.maxFinite,
               width: double.maxFinite,
               fit: BoxFit.fill,
