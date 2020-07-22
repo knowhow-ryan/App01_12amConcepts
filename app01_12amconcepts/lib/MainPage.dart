@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'StrainPage.dart';
 import 'NewExperiencePage.dart';
@@ -9,7 +7,6 @@ import 'Strain.dart';
 import 'dart:async';
 import 'StrainEditPage.dart';
 import 'DataControl.dart';
-import 'Experience.dart';
 
 class MainPage extends StatefulWidget {
   MainPage() : super();
@@ -261,12 +258,6 @@ Route _createRoute({destination}) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => destination,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      var begin = 0;
-      var end = 1;
-      var curve = Curves.decelerate;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve)); //what is this for?
-
       return FadeTransition(
         // duration: Duration(seconds:1),
         opacity: animation,

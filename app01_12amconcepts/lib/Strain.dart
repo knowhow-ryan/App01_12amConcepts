@@ -13,16 +13,14 @@ class Strain {
 
   static List<Strain> allStrains = []; //All the Strains the user has created
 
+  // ignore: non_constant_identifier_names
   static final Color HYBRID_GREEN = Color(0xFFbfd7c9);
+  // ignore: non_constant_identifier_names
   static final Color INDICA_PURPLE = Color(0xFFceafcc);
+  // ignore: non_constant_identifier_names
   static final Color SATIVA_ORANGE = Color(0xFFedccb3);
+  // ignore: non_constant_identifier_names
   static final Color UNKNOWN_WHITE = Color(0xFFffffff);
-
-  //TODO: remove
-  //dummy Strains for testing
-  static Strain _dummyHybrid;
-  static Strain _dummyIndica;
-  static Strain _dummySativa;
 
   Strain(String name, double thc, double cbd, {Sub_species subSpecies = Sub_species.unknown}) {
     this.name = Phrase.save(name, PhraseType.Strain);
@@ -36,7 +34,7 @@ class Strain {
   }
 
   //named constructor
-  Strain.fromString (String strainString) {
+  Strain.fromString(String strainString) {
     //creates a new Strain from the semi-colon-delimited String created by Strain.toString()
     List strainValues = strainString.split(";");
 
@@ -54,10 +52,10 @@ class Strain {
     //rebuilds the entire allStrains list from the strainsData data String
     //strainData is a single String that contains Strain data created by toString on each line
     Strain.allStrains.clear();
-    
+
     List<String> strainStrings = strainsData.split("\n"); //separate the data String into separate Strings for each Strain
     strainStrings.forEach((strain) {
-      if(strain != null && strain.isNotEmpty) {
+      if (strain != null && strain.isNotEmpty) {
         Strain.fromString(strain);
       }
     });
@@ -65,10 +63,10 @@ class Strain {
 
   static Strain getStrainByName(String strainName) {
     //returns the Strain whose name matches strainName or returns null
-    
+
     Strain matchingStrain;
-    for(int i = 0; i < allStrains.length && matchingStrain == null; i++) {
-      if(allStrains[i].name.phraseString == strainName) {
+    for (int i = 0; i < allStrains.length && matchingStrain == null; i++) {
+      if (allStrains[i].name.phraseString == strainName) {
         matchingStrain = allStrains[i];
       }
     }
@@ -92,12 +90,12 @@ class Strain {
 
     //sets the color of the background gradient based on the Sub_Species
     Color gradientColor = getSubSpeciesColor();
-    
+
     return Padding(
       padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
       child: Container(
         //Sativa Orange Card
-        
+
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(
             Radius.circular(5.0),
@@ -119,7 +117,7 @@ class Strain {
               Color(0xFFFFFFFF),
               gradientColor, //depends on Sub_species
             ],
-          ), 
+          ),
         ),
 
         child: Row(
@@ -142,22 +140,24 @@ class Strain {
                                   fontWeight: FontWeight.bold,
                                   fontSize: 28,
                                 )),
-                          SizedBox(width:5),
+                            SizedBox(width: 5),
                             Container(
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black45,),
-                               borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: Colors.black45,
+                                ),
+                                borderRadius: BorderRadius.circular(12),
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(5),
                                 child: Text(this.getSubSpecies,
-                                      style: TextStyle(
-                                        color: Colors.black54,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
+                                    style: TextStyle(
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
                                     )),
+                              ),
                             ),
-                          ),
                           ],
                         ),
                         // SizedBox(
@@ -192,11 +192,11 @@ class Strain {
   List<Widget> bottomRowInformation() {
     List<Widget> infoWidgets = [
       Text('THC: ' + this.thcPercent.toStringAsFixed(2),
-        style: TextStyle(
-          color: Colors.black54,
-          fontWeight: FontWeight.bold,
-          fontSize: 22,
-      )),
+          style: TextStyle(
+            color: Colors.black54,
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          )),
       SizedBox(
         width: 15,
       ),
@@ -213,7 +213,7 @@ class Strain {
       )
     ];
 
-    if(averageRating != null) {
+    if (averageRating != null) {
       infoWidgets.add(Icon(
         Icons.star,
         color: Colors.black54,
@@ -221,12 +221,11 @@ class Strain {
       ));
 
       infoWidgets.add(Text(': ${averageRating.toStringAsFixed(1)}',
-        style: TextStyle(
-          color: Colors.black54,
-          fontWeight: FontWeight.bold,
-          fontSize: 22,
-        )
-      ));
+          style: TextStyle(
+            color: Colors.black54,
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          )));
     }
 
     return infoWidgets;
@@ -235,31 +234,35 @@ class Strain {
   Color getSubSpeciesColor() {
     Color color;
 
-    switch(this.subSpecies) {
-      case Sub_species.Hybrid: {
-        color = HYBRID_GREEN;
-      }
-      break;
+    switch (this.subSpecies) {
+      case Sub_species.Hybrid:
+        {
+          color = HYBRID_GREEN;
+        }
+        break;
 
-      case Sub_species.Indica: {
-        color = INDICA_PURPLE;
-      }
-      break;
-      
-      case Sub_species.Sativa: {
-        color = SATIVA_ORANGE;
-      }
-      break;
+      case Sub_species.Indica:
+        {
+          color = INDICA_PURPLE;
+        }
+        break;
 
-      case Sub_species.unknown: {
-        color = UNKNOWN_WHITE;
-      }
-      break;
+      case Sub_species.Sativa:
+        {
+          color = SATIVA_ORANGE;
+        }
+        break;
+
+      case Sub_species.unknown:
+        {
+          color = UNKNOWN_WHITE;
+        }
+        break;
     }
 
     return color;
   }
-  
+
   void addExperience(Experience newExperience) {
     //add an Experience object to the experiences property
     this.experiences.add(newExperience);
@@ -277,48 +280,44 @@ class Strain {
     int sum = 0; //the sum of the rated Experiences
     int num = 0; //the number of rated Experiences
 
-    //TODO: remove DEBUG code below
-    print("***DEBUG - calculateAverageRating***\n\nexperiences: ${this.experiences}");
-
     this.experiences.forEach((experience) {
-      if(experience.overallRating != 0) {
-        //TODO: remove DEBUG code below
-        print("experience.overallRating = ${experience.overallRating}\n");
+      if (experience.overallRating != 0) {
         sum += experience.overallRating;
         num += 1;
-        //TODO: remove DEBUG code below
-        print("sum = $sum\n\n***end DEBUG***");
       }
     });
-    if(num > 0) {
+    if (num > 0) {
       this.averageRating = sum.toDouble() / num.toDouble();
-    }
-    else {
+    } else {
       this.averageRating = 0;
     }
   }
 
   String get getSubSpecies {
-    switch(this.subSpecies) {
-      case Sub_species.Hybrid: {
-        return "Hybrid";
-      }
-      break;
+    switch (this.subSpecies) {
+      case Sub_species.Hybrid:
+        {
+          return "Hybrid";
+        }
+        break;
 
-      case Sub_species.Indica: {
-        return "Indica";
-      }
-      break;
-      
-      case Sub_species.Sativa: {
-        return "Sativa";
-      }
-      break;
+      case Sub_species.Indica:
+        {
+          return "Indica";
+        }
+        break;
 
-      case Sub_species.unknown: {
-        return "unknown";
-      }
-      
+      case Sub_species.Sativa:
+        {
+          return "Sativa";
+        }
+        break;
+
+      case Sub_species.unknown:
+        {
+          return "unknown";
+        }
+
       default:
     }
     return null;
@@ -327,7 +326,7 @@ class Strain {
   Experience mostRecentExperience() {
     //returns the Experience with the most recent Date property
 
-    this.experiences.sort((a,b) => a.date.compareTo(b.date));
+    this.experiences.sort((a, b) => a.date.compareTo(b.date));
 
     return this.experiences.last;
   }
@@ -344,7 +343,7 @@ class Strain {
     List<Strain> filteredStrains = [];
 
     sortedStrains.forEach((strain) {
-      if(strain.name.phraseString.contains(searchString ?? "")) {
+      if (strain.name.phraseString.contains(searchString ?? "")) {
         filteredStrains.add(strain);
       }
     });
@@ -369,44 +368,17 @@ class Strain {
     //returns a List of Strains sorted Alphabetically or by Date
     List<Strain> sortedStrains = Strain.allStrains;
 
-    if(sortBy == SortBy.Alphabetical) {
-      sortedStrains.sort((a,b) => a.name.phraseString.compareTo(b.name.phraseString));
-    }
-    else if (sortBy == SortBy.Date) {
-      sortedStrains.sort((a,b) => b.mostRecentExperience().date.compareTo(a.mostRecentExperience().date));
+    if (sortBy == SortBy.Alphabetical) {
+      sortedStrains.sort((a, b) => a.name.phraseString.compareTo(b.name.phraseString));
+    } else if (sortBy == SortBy.Date) {
+      sortedStrains.sort((a, b) => b.mostRecentExperience().date.compareTo(a.mostRecentExperience().date));
     }
 
     return sortedStrains;
   }
-
-  static Strain get getDummyHybrid {
-    if(_dummyHybrid == null) {
-      _dummyHybrid = Strain("Hybrid Dummy Strain",18.7,0.2, subSpecies: Sub_species.Hybrid);
-    }
-    return _dummyHybrid;
-  }
-
-  static Strain get getDummyIndica {
-    if(_dummyIndica == null) {
-      _dummyIndica = Strain("Indica Dummy Strain",15.0,5.3, subSpecies: Sub_species.Indica);
-    }
-    return _dummyIndica;
-  }
-
-  static Strain get getDummySativa {
-    if(_dummySativa == null) {
-      _dummySativa = Strain("Sativa Dummy Strain",22.1,3.5, subSpecies: Sub_species.Sativa);
-    }
-    return _dummySativa;
-  }
 }
 
-enum Sub_species {
-  Indica,
-  Sativa,
-  Hybrid,
-  unknown
-}
+enum Sub_species { Indica, Sativa, Hybrid, unknown }
 
 enum SortBy {
   Alphabetical,
