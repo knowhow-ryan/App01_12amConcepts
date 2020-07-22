@@ -138,8 +138,8 @@ class _MainPageState extends State<MainPage> {
                 ],
               ),
             ),
-            child: Image.network(
-              "http://justcole.design/wp-content/uploads/2020/02/Smokey-Background-Side.png",
+            child: Image(
+              image: AssetImage('graphics/Smokey-Background-Side.png'),
               height: double.maxFinite,
               width: double.maxFinite,
               fit: BoxFit.cover,
