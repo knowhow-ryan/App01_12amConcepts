@@ -41,7 +41,7 @@ class Experience {
         },
         orElse: () => null);
 
-    //TODO: BOOKMARK - insert "_blank_" checks for location and ingestion, setting them equal to null
+    //TODO: insert "_blank_" checks for location and ingestion, setting them equal to null
     this.date = DateTime.parse(experienceValues[1]);
     this.location = Phrase.save(experienceValues[2], PhraseType.Location);
     this.ingestion = Phrase.save(experienceValues[3], PhraseType.Ingestion);

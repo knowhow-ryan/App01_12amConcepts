@@ -19,30 +19,44 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  
   //Future<String> incomingStrainData;
   Future<bool> userDataLoaded;
+
+  //Strain search and sort values
+  String searchStrainsFor = "";
+  SortBy sortStrainsBy = SortBy.Date;
+
+  TextEditingController searchController = new TextEditingController(); //controller for the search bar
 
   @override
   void initState() {
     super.initState();
 
-    //TODO: remove dummy data below
-    //Strain.getDummyHybrid;
-    //Strain.getDummyIndica;
-    //Strain.getDummySativa;
+    searchController.addListener(() {
+      setState(() {
+        searchStrainsFor = searchController.text;
+      });
+    });
   }
-  
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
   List<Widget> getStrainCards() {
     List<Widget> strainCards = [];
     Completer userDeleteReaction = new Completer();
 
-    Strain.allStrains.forEach((strain) {
-      strainCards.add( Dismissible(
-        key: Key(strain.name.phraseString), //Dismissibles require a unique Key for its child; 
+    Strain.filterStrains(searchString: searchStrainsFor, sortBy: sortStrainsBy).forEach((strain) {
+      strainCards.add(Dismissible(
+        key: Key(strain.name.phraseString), //Dismissibles require a unique Key for its child;
         child: InkWell(
           child: strain.displayCard(),
-          onTap: () {Navigator.of(context).push(_createRoute(destination: StrainPage(strain)));},//telling button where to go next
+          onTap: () {
+            Navigator.of(context).push(_createRoute(destination: StrainPage(strain)));
+          }, //telling button where to go next
         ),
         direction: DismissDirection.endToStart,
         onDismissed: (direction) {
@@ -52,6 +66,7 @@ class _MainPageState extends State<MainPage> {
           Strain.allStrains.remove(strain);
           // update the data File
           DataControl.saveStrains();
+          DataControl.saveExperiences();
         },
 
         confirmDismiss: (direction) async {
@@ -59,16 +74,17 @@ class _MainPageState extends State<MainPage> {
 
           return await userDeleteReaction.future; //return the user's selection from the delete confirmation panel
         },
-        background: Container( // delete confirmation panel
+        background: Container(
+          // delete confirmation panel
           color: Colors.red,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              InkWell( // cancel the delete action
-                child: Icon(Icons.cancel),
-                onTap: (() => userDeleteReaction.complete(false)),
-              ),
-              InkWell( // edit the swiped Strain
+          child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <Widget>[
+            InkWell(
+              // cancel the delete action
+              child: Icon(Icons.cancel),
+              onTap: (() => userDeleteReaction.complete(false)),
+            ),
+            InkWell(
+                // edit the swiped Strain
                 child: Icon(
                   FontAwesomeIcons.pencilAlt,
                   color: Colors.white70,
@@ -77,21 +93,20 @@ class _MainPageState extends State<MainPage> {
                 onTap: () {
                   userDeleteReaction.complete(false);
                   Navigator.of(context).push(_createRoute(destination: StrainEditPage(strain)));
-                }
-              ),
-              InkWell( // confirm the delete action
-                child: Icon(Icons.delete_outline),
-                onTap: (() => userDeleteReaction.complete(true)),
-              )
-            ]
-          ),
+                }),
+            InkWell(
+              // confirm the delete action
+              child: Icon(Icons.delete_outline),
+              onTap: (() => userDeleteReaction.complete(true)),
+            )
+          ]),
         ),
       ));
     });
-    
+
     return strainCards;
   }
-  
+
   @override
   Widget build(BuildContext context) {
     //incomingStrainData = DataControl.loadStrains();
@@ -100,24 +115,31 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(_createRoute(destination: NewExperiencePage()));//telling button what to do
+          Navigator.of(context).push(_createRoute(destination: NewExperiencePage())); //telling button what to do
         },
         child: Icon(FontAwesomeIcons.bong),
         backgroundColor: Color(0xFF3e865d),
       ),
-
-      body:  Stack(
+      body: Stack(
         children: <Widget>[
-          Container( //Starting Gradient with Smoke Background
+          Container(
+            //Starting Gradient with Smoke Background
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 end: FractionalOffset.topCenter,
                 begin: FractionalOffset.bottomCenter,
-                stops: [.05, .45,],
-                colors: [Color(0xFFDDDDDD), Colors.black87,],
+                stops: [
+                  .05,
+                  .45,
+                ],
+                colors: [
+                  Color(0xFFDDDDDD),
+                  Colors.black87,
+                ],
               ),
             ),
-            child: Image.network("http://justcole.design/wp-content/uploads/2020/02/Smokey-Background-Side.png",
+            child: Image.network(
+              "http://justcole.design/wp-content/uploads/2020/02/Smokey-Background-Side.png",
               height: double.maxFinite,
               width: double.maxFinite,
               fit: BoxFit.cover,
@@ -128,74 +150,84 @@ class _MainPageState extends State<MainPage> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TopSearchHome(),
+                child: TopSearchHome(
+                    searchController: searchController,
+                    sortStrainsBy: sortStrainsBy,
+                    sortToggle: () {
+                      print("\n***DEBUG - MainPage - sortToggle***\n\n$sortStrainsBy");
+                      setState(() {
+                        if (sortStrainsBy == SortBy.Alphabetical) {
+                          sortStrainsBy = SortBy.Date;
+                        } else if (sortStrainsBy == SortBy.Date) {
+                          sortStrainsBy = SortBy.Alphabetical;
+                        }
+                      });
+                    }),
               ),
               Expanded(
-                child: FutureBuilder<bool>( //builds the primary page content only once the user data is loaded
-                    future: userDataLoaded,
-                    builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                      Widget underConstruction;
+                child: FutureBuilder<bool>(
+                  //builds the primary page content only once the user data is loaded
+                  future: userDataLoaded,
+                  builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                    Widget underConstruction;
 
-                      //this is the main decision-making routine for loading data.
-                      //Conditionally loads either the user data, an error message, or a loading indicator
-                      if (snapshot.hasData) {
-                        //only triggers if both the Strain and Experience Futures have completed
-                        //Strain.reload(snapshot.data);
-                        underConstruction = ListView(
-                          padding: EdgeInsets.only(top: 0.0),
-                          shrinkWrap: true,
-                          children: getStrainCards(),
-                        );
-                      }
+                    //this is the main decision-making routine for loading data.
+                    //Conditionally loads either the user data, an error message, or a loading indicator
+                    if (snapshot.hasData) {
+                      //only triggers if both the Strain and Experience Futures have completed
+                      //Strain.reload(snapshot.data);
+                      underConstruction = ListView(
+                        padding: EdgeInsets.only(top: 0.0),
+                        shrinkWrap: true,
+                        children: getStrainCards(),
+                      );
+                    } else if (snapshot.hasError) {
+                      print("***MainPage builder error***\n\n" + snapshot.error.toString());
 
-                      else if (snapshot.hasError) {
-                        print("***MainPage builder error***\n\n" + snapshot.error.toString());
-
-                        if(snapshot.error.toString().contains("OS Error: No such file or directory")) {
-                          underConstruction = Center( child: Padding(
-                            padding: EdgeInsets.only(top: 16),
-                            child: Text('no data',
+                      if (snapshot.error.toString().contains("OS Error: No such file or directory")) {
+                        underConstruction = Center(
+                            child: Padding(
+                          padding: EdgeInsets.only(top: 16),
+                          child: Text('no data',
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 28,
-                              )
-                            ),
-                          ));
-                        }
-                        else {
-                          underConstruction = Center(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 28,
+                              )),
+                        ));
+                      } else {
+                        underConstruction = Center(
                             child: Icon(
-                              Icons.error_outline,
-                              color: Colors.red[200],
-                              size: 60,
-                            )
-                          );
-                        }
+                          Icons.error_outline,
+                          color: Colors.red[200],
+                          size: 60,
+                        ));
                       }
-                      
-                      else {
-                        underConstruction = Column(
-                          children: [Center( child: SizedBox(
+                    } else {
+                      underConstruction = Column(
+                        children: [
+                          Center(
+                              child: SizedBox(
                             child: CircularProgressIndicator(),
                             width: 60,
                             height: 60,
                           )),
-                          Center( child: Padding(
+                          Center(
+                              child: Padding(
                             padding: EdgeInsets.only(top: 16),
                             child: Text('rolling a blunt...',
-                              style: TextStyle(
+                                style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 28,
-                              )
-                            ),
-                          ))],
-                        );
-                      }
+                                )),
+                          ))
+                        ],
+                      );
+                    }
 
-                      return underConstruction;
-                    },
+                    return underConstruction;
+                  },
                 ),
               ),
             ],
@@ -236,7 +268,7 @@ Route _createRoute({destination}) {
       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve)); //what is this for?
 
       return FadeTransition(
-       // duration: Duration(seconds:1),
+        // duration: Duration(seconds:1),
         opacity: animation,
         child: child,
       );
@@ -265,7 +297,6 @@ Route _createRoute({destination}) {
 //   );
 // }
 
-
 //Second Failed Fade Transition
 //https://api.flutter.dev/flutter/widgets/AnimatedOpacity-class.html
 // Route _createRoute() {
@@ -275,7 +306,6 @@ Route _createRoute({destination}) {
 //       // var begin = Opacity(opacity: 0);
 //       // var end = Opacity(opacity:1);
 //       // var curve = Curves.ease;
-      
 
 //       //var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
@@ -283,7 +313,7 @@ Route _createRoute({destination}) {
 //         opacity: _changeOpacity,
 //         duration: Duration(seconds: 1),
 //         child: child,
-        
+
 //       );
 //     },
 //   );

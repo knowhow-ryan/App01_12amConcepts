@@ -259,11 +259,6 @@ class Strain {
 
     return color;
   }
-
-  Widget displayFull() {
-    //TODO: build Strain.displayFull method
-    return null;
-  }
   
   void addExperience(Experience newExperience) {
     //add an Experience object to the experiences property
@@ -329,10 +324,59 @@ class Strain {
     return null;
   }
 
+  Experience mostRecentExperience() {
+    //returns the Experience with the most recent Date property
+
+    this.experiences.sort((a,b) => a.date.compareTo(b.date));
+
+    return this.experiences.last;
+  }
+
   Phrase mostRecentLocation() {
     //the location from the Experience with the most recent date
     //TODO: build Strain.mostRecentLocation method
     return null;
+  }
+
+  static List<Strain> filterStrains({String searchString, SortBy sortBy}) {
+    //returns a List of Strains whose name's contain searchString and ordered according to sortBy
+    List<Strain> sortedStrains = Strain.sort(sortBy ?? SortBy.Date);
+    List<Strain> filteredStrains = [];
+
+    sortedStrains.forEach((strain) {
+      if(strain.name.phraseString.contains(searchString ?? "")) {
+        filteredStrains.add(strain);
+      }
+    });
+
+    return filteredStrains;
+  }
+
+  static List<Strain> search(String searchString) {
+    //returns a list of Strains whose names contain the searchString
+    List<Strain> searchResults = [];
+
+    Strain.allStrains.forEach((strain) {
+      if (strain.name.phraseString.contains(searchString)) {
+        searchResults.add(strain);
+      }
+    });
+
+    return searchResults;
+  }
+
+  static List<Strain> sort(SortBy sortBy) {
+    //returns a List of Strains sorted Alphabetically or by Date
+    List<Strain> sortedStrains = Strain.allStrains;
+
+    if(sortBy == SortBy.Alphabetical) {
+      sortedStrains.sort((a,b) => a.name.phraseString.compareTo(b.name.phraseString));
+    }
+    else if (sortBy == SortBy.Date) {
+      sortedStrains.sort((a,b) => b.mostRecentExperience().date.compareTo(a.mostRecentExperience().date));
+    }
+
+    return sortedStrains;
   }
 
   static Strain get getDummyHybrid {
@@ -362,4 +406,9 @@ enum Sub_species {
   Sativa,
   Hybrid,
   unknown
+}
+
+enum SortBy {
+  Alphabetical,
+  Date,
 }
