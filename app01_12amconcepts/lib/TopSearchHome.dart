@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
 import 'CreditsPage.dart';
-import 'StrainPage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Strain.dart';
 
 class TopSearchHome extends StatefulWidget {
-  TextEditingController searchController;
-  SortBy sortStrainsBy;
-  IconData sortIcon;
-  Function sortToggle;
+  final TextEditingController searchController;
+  final SortBy sortStrainsBy;
+  final Function sortToggle;
 
-  TopSearchHome({this.searchController, this.sortStrainsBy, this.sortToggle}) {
-    if (sortStrainsBy == SortBy.Alphabetical) {
-      sortIcon = FontAwesomeIcons.sortAlphaDown;
-    } else if (sortStrainsBy == SortBy.Date) {
-      sortIcon = FontAwesomeIcons.calendarAlt;
-    }
-  }
+  TopSearchHome({this.searchController, this.sortStrainsBy, this.sortToggle});
 
   @override
   TopSearchHomeState createState() => TopSearchHomeState();
 }
 
 class TopSearchHomeState extends State<TopSearchHome> {
+  IconData sortIcon;
+
   @override
   Widget build(BuildContext context) {
+    if (widget.sortStrainsBy == SortBy.Alphabetical) {
+      sortIcon = FontAwesomeIcons.sortAlphaDown;
+    } else if (widget.sortStrainsBy == SortBy.Date) {
+      sortIcon = FontAwesomeIcons.calendarAlt;
+    }
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 45, 8, 10),
       child: Container(
@@ -83,7 +82,7 @@ class TopSearchHomeState extends State<TopSearchHome> {
                 flex: 1,
                 child: IconButton(
                   icon: Icon(
-                    widget.sortIcon,
+                    sortIcon,
                     color: Colors.white,
                   ),
                   iconSize: 28,
@@ -101,12 +100,6 @@ Route _createRoute() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => CreditsPage(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      var begin = 0;
-      var end = 1;
-      var curve = Curves.decelerate;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve)); //what does this do?
-
       return FadeTransition(
         // duration: Duration(seconds:1),
         opacity: animation,

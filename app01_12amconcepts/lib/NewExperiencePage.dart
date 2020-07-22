@@ -12,7 +12,7 @@ class NewExperiencePage extends StatefulWidget {
   final Experience editExperience;
 
   NewExperiencePage({this.editExperience}) : super();
-    //if an Experience is included, then NewExperiencePage opens in editMode
+  //if an Experience is included, then NewExperiencePage opens in editMode
 
   @override
   NewExperiencePageState createState() => NewExperiencePageState();
@@ -22,19 +22,19 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   bool editMode = false; //editMode is enabled if NewExperiencePage was called with in input Experience parameter
   /*When editMode is true, then all of the information in the Stepper will be prefilled with the values from the input Experience
   **When the user presses the submit FAB, a new Experience will not be created, but rather, the information will saved to the input Experience*/
-  
+
   bool userInputActive = true;
-  
+
   Strain userStrain;
   Experience userExperience;
-  
+
   int currentStep = 0;
   double _thcSliderValue = 0.0;
   double _cbdSliderValue = 0.0;
   double _ratingSliderValue = 0;
   String userStrainName;
   Sub_species subspecies = Sub_species.unknown;
-  String _thcValidValue ="0.0"; //the most recent valid value for the THC percentage TextField
+  String _thcValidValue = "0.0"; //the most recent valid value for the THC percentage TextField
   String _cbdValidValue = "0.0"; //the most recent valid value for the CBD percentage TextField
   //String _ratingValidValue = "0"; //the most recent valid value for the Overall Rating TextField
 
@@ -63,7 +63,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   void initState() {
     super.initState();
 
-    if(widget.editExperience != null) {
+    if (widget.editExperience != null) {
       //if the NewExperiencePage was called with an input Experience, enable Edit Mode
       //Edit Mode is initialized at the bottom of this initState function
       userExperience = widget.editExperience;
@@ -117,12 +117,11 @@ class NewExperiencePageState extends State<NewExperiencePage> {
         thcPercentController.text = "";
         setState(() => _thcSliderValue = 0.0);
       } else {
-        setState(
-            () => _thcSliderValue = double.tryParse(thcPercentController.text));
+        setState(() => _thcSliderValue = double.tryParse(thcPercentController.text));
       }
 
       //this keeps the cursor at the end (far right) of the user's input.
-      if(thcPercentController.text.length > 0) {
+      if (thcPercentController.text.length > 0) {
         thcPercentController.selection = TextSelection.fromPosition(TextPosition(offset: thcPercentController.text.length));
       }
     });
@@ -132,12 +131,11 @@ class NewExperiencePageState extends State<NewExperiencePage> {
         cbdPercentController.text = "";
         setState(() => _cbdSliderValue = 0.0);
       } else {
-        setState(
-            () => _cbdSliderValue = double.tryParse(cbdPercentController.text));
+        setState(() => _cbdSliderValue = double.tryParse(cbdPercentController.text));
       }
 
       //this keeps the cursor at the end (far right) of the user's input.
-      if(cbdPercentController.text.length > 0) {
+      if (cbdPercentController.text.length > 0) {
         cbdPercentController.selection = TextSelection.fromPosition(TextPosition(offset: cbdPercentController.text.length));
       }
     });
@@ -157,7 +155,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
     userHighs = [];
     userLows = [];
 
-    if(editMode) {
+    if (editMode) {
       //initialize Edit Mode:
       //initialize all Stepper fields to the values from the input Experience
       //set the initial Step to 1 so the user is put right into Experience information
@@ -172,7 +170,6 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       _cbdValidValue = _cbdSliderValue.toString();
       userInputActive = false;
 
-
       toggleSubSpeciesButtons(subSpecies: userStrain.subSpecies);
 
       _ratingSliderValue = (userExperience.overallRating ?? 0).toDouble();
@@ -181,17 +178,11 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       userLocation = userExperience.location.phraseString;
       userIngestion = userExperience.ingestion.phraseString;
       userHighs = userExperience.highs ?? [];
-      userLows = userExperience.lows ??[];
+      userLows = userExperience.lows ?? [];
       notesController.text = userExperience.notes;
 
       currentStep = 1;
     }
-
-    //DEBUG TODO: remove dummy Strains and Experience
-    //Strain dummyHybrid = Strain.getDummyHybrid;
-    //Strain dummyIndica = Strain.getDummyIndica;
-    //Strain dummySativa = Strain.getDummySativa;
-    //Experience dummyExperience = Experience.dummyExperience;
   }
 
   void dispose() {
@@ -238,32 +229,26 @@ class NewExperiencePageState extends State<NewExperiencePage> {
     //deactivates all of the SubspeciesPickerButtons, then activates the button for the input sub_species
     //if sub_species is unknown, then no button is activated
 
-    sativaButton =
-        SubspeciesPickerButton(subspecies: Sub_species.Sativa, selected: false);
-    indicaButton =
-        SubspeciesPickerButton(subspecies: Sub_species.Indica, selected: false);
-    hybridButton =
-        SubspeciesPickerButton(subspecies: Sub_species.Hybrid, selected: false);
+    sativaButton = SubspeciesPickerButton(subspecies: Sub_species.Sativa, selected: false);
+    indicaButton = SubspeciesPickerButton(subspecies: Sub_species.Indica, selected: false);
+    hybridButton = SubspeciesPickerButton(subspecies: Sub_species.Hybrid, selected: false);
 
     switch (subSpecies) {
       case Sub_species.Hybrid:
         {
-          hybridButton = SubspeciesPickerButton(
-              subspecies: Sub_species.Hybrid, selected: true);
+          hybridButton = SubspeciesPickerButton(subspecies: Sub_species.Hybrid, selected: true);
         }
         break;
 
       case Sub_species.Indica:
         {
-          indicaButton = SubspeciesPickerButton(
-              subspecies: Sub_species.Indica, selected: true);
+          indicaButton = SubspeciesPickerButton(subspecies: Sub_species.Indica, selected: true);
         }
         break;
 
       case Sub_species.Sativa:
         {
-          sativaButton = SubspeciesPickerButton(
-              subspecies: Sub_species.Sativa, selected: true);
+          sativaButton = SubspeciesPickerButton(subspecies: Sub_species.Sativa, selected: true);
         }
         break;
 
@@ -293,15 +278,16 @@ class NewExperiencePageState extends State<NewExperiencePage> {
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            PhraseInputUI( /** STRAIN NAME **/
+            PhraseInputUI(
+                /** STRAIN NAME **/
                 phraseType: PhraseType.Strain,
                 hint: "strain name",
-                initialValues: (editMode && userStrain != null )? [userStrain.name] : null,
+                initialValues: (editMode && userStrain != null) ? [userStrain.name] : null,
                 callback: (String userInput) {
                   //returns the matching Strain from the PhraseInputUI widget
                   userStrain = null;
                   userStrain = Strain.getStrainByName(userInput);
-                  
+
                   if (userInput == "") {
                     userStrainName = null;
                   } else {
@@ -337,16 +323,14 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                       setTHC = (newPercentage) {
                         setState(() {
                           _thcSliderValue = newPercentage;
-                          thcPercentController.text =
-                              newPercentage.toStringAsFixed(1);
+                          thcPercentController.text = newPercentage.toStringAsFixed(1);
                         });
                       };
 
                       setCBD = (newPercentage) {
                         setState(() {
                           _cbdSliderValue = newPercentage;
-                          cbdPercentController.text =
-                              newPercentage.toStringAsFixed(1);
+                          cbdPercentController.text = newPercentage.toStringAsFixed(1);
                         });
                       };
                     });
@@ -426,7 +410,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 ),
               ],
             ),
-            Row( /** STRAIN THC **/
+            Row(
+              /** STRAIN THC **/
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 15, 0, 8),
@@ -453,19 +438,16 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                         controller: thcPercentController,
                         enabled: userInputActive,
                         enableInteractiveSelection: userInputActive,
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: TextInputType.numberWithOptions(decimal: true),
                         onChanged: (String inputString) {
                           //Validate the input text as only a double
                           setState(() {
-                            _thcValidValue = validatePercentInput(
-                                inputString, _thcValidValue);
+                            _thcValidValue = validatePercentInput(inputString, _thcValidValue);
                             thcPercentController.text = _thcValidValue;
                           });
                         }, // onChanged
                         decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                          contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                           enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                             width: 0,
@@ -506,7 +488,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 ),
               ],
             ),
-            Row( /** STRAIN CBD PERCENTAGE **/
+            Row(
+              /** STRAIN CBD PERCENTAGE **/
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 15, 0, 8),
@@ -527,28 +510,23 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white12,
-                      
                     ),
                     child: TextField(
-                      style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white),
                         controller: cbdPercentController,
                         enabled: userInputActive,
                         enableInteractiveSelection: userInputActive,
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: TextInputType.numberWithOptions(decimal: true),
                         onChanged: (String inputString) {
                           //Validate the input text as only a double
                           setState(() {
-                            _cbdValidValue = validatePercentInput(
-                                inputString, _cbdValidValue);
+                            _cbdValidValue = validatePercentInput(inputString, _cbdValidValue);
                             cbdPercentController.text = _cbdValidValue;
                           });
                         }, // onChanged
                         decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-
-                              enabledBorder: UnderlineInputBorder(
+                          contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                          enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                             width: 0,
                             color: Colors.transparent,
@@ -656,7 +634,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
             )),
         content: Column(
           children: <Widget>[
-            PhraseInputUI( /** HIGHS **/
+            PhraseInputUI(
+              /** HIGHS **/
               phraseType: PhraseType.High,
               hint: 'highs',
               multipleSelection: true,
@@ -668,8 +647,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                     if (!userHighs.contains(high)) {
                       userHighs.add(high);
                     }
-                  }
-                  else if (high.runtimeType == String) {
+                  } else if (high.runtimeType == String) {
                     Phrase highPhrase = Phrase.save(high, PhraseType.High);
                     if (!userHighs.contains(highPhrase)) {
                       userHighs.add(highPhrase);
@@ -681,7 +659,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 setState(() => userHighs.remove(removeHigh));
               }, // deleteCallback
             ),
-            PhraseInputUI( /** LOWS **/
+            PhraseInputUI(
+              /** LOWS **/
               phraseType: PhraseType.Low,
               hint: 'lows',
               multipleSelection: true,
@@ -693,8 +672,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                     if (!userLows.contains(low)) {
                       userLows.add(low);
                     }
-                  }
-                  else if (low.runtimeType == String) {
+                  } else if (low.runtimeType == String) {
                     Phrase lowPhrase = Phrase.save(low, PhraseType.Low);
                     if (!userLows.contains(lowPhrase)) {
                       userLows.add(lowPhrase);
@@ -720,51 +698,9 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 ),
               ],
             ),
-            Row( /** OVERALL RATING **/
+            Row(
+              /** OVERALL RATING **/
               children: <Widget>[
-                //TODO: remove old code below
-                /*Expanded(
-                  flex: 1,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white12,
-                    ),
-                    child: TextField(
-                        style: TextStyle(color: Colors.white),
-                        controller: ratingController,
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: false),
-                        onChanged: (String inputString) {
-                          //Validate the input text as only a double
-                          setState(() {
-                            _ratingValidValue = validateRatingInput(inputString, _ratingValidValue);
-                            ratingController.text = _ratingValidValue;
-                            ratingController.selection = TextSelection.fromPosition(TextPosition(
-                              offset: ratingController.text.length));
-                          });
-                        },
-                        decoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                            width: 0,
-                            color: Colors.transparent,
-                          )),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: Color(0xFF51B579),
-                            ),
-                          ),
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                          hintText: "-",
-                          hintStyle: TextStyle(
-                            fontSize: 15,
-                            color: Colors.white54,
-                          ),
-                        )),
-                  ),
-                ),*/
                 Expanded(
                   flex: 8,
                   child: SliderTheme(
@@ -795,7 +731,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
         isActive: true,
       ),
       Step(
-         /*******************************
+        /*******************************
         Step 5: NOTES
         *******************************/
         title: Text('Notes',
@@ -814,8 +750,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                   style: TextStyle(color: Colors.white),
                   controller: notesController,
                   decoration: InputDecoration(
-                    contentPadding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                    contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                     enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                       width: 0,
@@ -843,60 +778,53 @@ class NewExperiencePageState extends State<NewExperiencePage> {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () { if(userStrain != null) {
-          //create a new Experience from the user's input
-          
-          //take any unsubmitted input from the Highs/Lows TextFields and submit it for the user
-          if(highsController.text != "") {
-            Phrase highPhrase = Phrase.save(highsController.text, PhraseType.High);
-            if (!userHighs.contains(highPhrase)) {
-              userHighs.add(highPhrase);
+        onPressed: () {
+          if (userStrain != null) {
+            //create a new Experience from the user's input
+
+            //take any unsubmitted input from the Highs/Lows TextFields and submit it for the user
+            if (highsController.text != "") {
+              Phrase highPhrase = Phrase.save(highsController.text, PhraseType.High);
+              if (!userHighs.contains(highPhrase)) {
+                userHighs.add(highPhrase);
+              }
             }
-          }
-          if(lowsController.text != "") {
-            Phrase lowPhrase = Phrase.save(lowsController.text, PhraseType.Low);
-            if (!userLows.contains(lowPhrase)) {
-              userLows.add(lowPhrase);
+            if (lowsController.text != "") {
+              Phrase lowPhrase = Phrase.save(lowsController.text, PhraseType.Low);
+              if (!userLows.contains(lowPhrase)) {
+                userLows.add(lowPhrase);
+              }
             }
-          }
-          
-          if(!editMode) {
-            userExperience = new Experience(
-              userStrain,
-              DateTime.now(),
-              Phrase.save(userLocation, PhraseType.Location),
-              Phrase.save(userIngestion, PhraseType.Ingestion),
-              _ratingSliderValue.toInt(),
-              //TODO: remove older code below
-              //int.tryParse(ratingController.text),
-              userHighs,
-              userLows,
-              notesController.text,
-            );
-          }
-          else {
-            userExperience.strain.removeExperience(userExperience);
-            userStrain.addExperience(userExperience);
-            userExperience.strain = userStrain;
-            userExperience.location = Phrase.save(userLocation, PhraseType.Location);
-            userExperience.ingestion = Phrase.save(userIngestion, PhraseType.Ingestion);
-            userExperience.overallRating = _ratingSliderValue.toInt();
-            userExperience.highs = userHighs;
-            userExperience.lows = userLows;
-            userExperience.notes = notesController.text;
-          }
 
-          DataControl.saveStrains();
-          DataControl.saveExperiences();
+            if (!editMode) {
+              userExperience = new Experience(
+                userStrain,
+                DateTime.now(),
+                Phrase.save(userLocation, PhraseType.Location),
+                Phrase.save(userIngestion, PhraseType.Ingestion),
+                _ratingSliderValue.toInt(),
+                userHighs,
+                userLows,
+                notesController.text,
+              );
+            } else {
+              userExperience.strain.removeExperience(userExperience);
+              userStrain.addExperience(userExperience);
+              userExperience.strain = userStrain;
+              userExperience.location = Phrase.save(userLocation, PhraseType.Location);
+              userExperience.ingestion = Phrase.save(userIngestion, PhraseType.Ingestion);
+              userExperience.overallRating = _ratingSliderValue.toInt();
+              userExperience.highs = userHighs;
+              userExperience.lows = userLows;
+              userExperience.notes = notesController.text;
+            }
 
-          Navigator.of(context).push(_createRoute(userStrain));//call the Route to the Strain page for the userStrain
+            DataControl.saveStrains();
+            DataControl.saveExperiences();
 
-          //TODO: remove the debug code below
-          //DEBUG: print the Strain and Experience information to the console from the generated Strain and Experience objects
-          //print("***DEBUG***\nStrain: ${userStrain.name.phraseString}\nSubspecies: ${userStrain.subSpecies.toString()}\nTHC: ${userStrain.thcPercent}\tCBD: ${userStrain.cbdPercent}\nAverage Rating: ${userStrain.averageRating}\nExperiences: ${userStrain.experiences.length}");
-          //print("***EXPERIENCE***\nDate: ${userExperience.date}\nLocation: ${userExperience.location.phraseString}\nIngestion: ${userExperience.ingestion.phraseString}\nRating: ${userExperience.overallRating}\nHighs: ${userExperience.highs}\nLows: ${userExperience.lows}\nNotes: ${userExperience.notes}\n*** *** *** *** ***");
-        }},
-            
+            Navigator.of(context).push(_createRoute(userStrain)); //call the Route to the Strain page for the userStrain
+          }
+        },
         child: Icon(FontAwesomeIcons.check),
         backgroundColor: Color(0xFF8BD3A8),
       ),
@@ -936,8 +864,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
               curve: Interval(0.8, 1.0, curve: Curves.fastOutSlowIn),
               duration: Duration(seconds: 1),
               child: Stepper(
-                controlsBuilder: (BuildContext context,
-                    {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
+                controlsBuilder: (BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
                   return Row(
                     children: <Widget>[
                       Expanded(
@@ -971,10 +898,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                     //when the user advances past the first step, save the Strain
                     if (currentStep == 0 && step != 0) {
                       if (userStrain == null && userStrainName != null) {
-                        userStrain = new Strain(
-                          userStrainName, _thcSliderValue, _cbdSliderValue,
-                          subSpecies: subspecies
-                        );
+                        userStrain = new Strain(userStrainName, _thcSliderValue, _cbdSliderValue, subSpecies: subspecies);
                       }
                     }
 
@@ -988,15 +912,11 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                     //when the user advances past the first step, save the Strain
                     if (currentStep == 0) {
                       if (userStrain == null && userStrainName != null) {
-                        userStrain = new Strain(
-                          userStrainName, _thcSliderValue, _cbdSliderValue,
-                          subSpecies: subspecies
-                        );
+                        userStrain = new Strain(userStrainName, _thcSliderValue, _cbdSliderValue, subSpecies: subspecies);
                       }
                     }
 
-                    if (currentStep < steps.length - 1 &&
-                        userStrainName != null) {
+                    if (currentStep < steps.length - 1 && userStrainName != null) {
                       currentStep = currentStep + 1;
                     } else {
                       currentStep = 0;
@@ -1023,15 +943,8 @@ class NewExperiencePageState extends State<NewExperiencePage> {
 
 Route _createRoute(Strain strain) {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) =>
-        StrainPage(strain),
+    pageBuilder: (context, animation, secondaryAnimation) => StrainPage(strain),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      var begin = 0;
-      var end = 1;
-      var curve = Curves.decelerate;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
       return FadeTransition(
         // duration: Duration(seconds:1),
         opacity: animation,

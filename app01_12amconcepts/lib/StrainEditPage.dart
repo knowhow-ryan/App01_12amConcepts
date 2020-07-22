@@ -193,11 +193,6 @@ class StrainEditPageState extends State<StrainEditPage> {
           } else {
             setState(() => warningTextColor = Colors.red[500]);
           }
-
-          //TODO: remove the debug code below
-          //DEBUG: print the Strain and Experience information to the console from the generated Strain and Experience objects
-          print(
-              "***DEBUG***\nStrain: ${widget.editStrain.name.phraseString}\nSubspecies: ${widget.editStrain.subSpecies.toString()}\nTHC: ${widget.editStrain.thcPercent}\tCBD: ${widget.editStrain.cbdPercent}\nAverage Rating: ${widget.editStrain.averageRating}\nExperiences: ${widget.editStrain.experiences.length}");
         },
         child: Icon(FontAwesomeIcons.check),
         backgroundColor: userInputActive ? Color(0xFF8BD3A8) : Colors.grey[300],
@@ -559,12 +554,6 @@ Route _createRoute(Strain strain) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => StrainPage(strain),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      var begin = 0;
-      var end = 1;
-      var curve = Curves.decelerate;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
       return FadeTransition(
         // duration: Duration(seconds:1),
         opacity: animation,

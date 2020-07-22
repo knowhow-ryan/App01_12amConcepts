@@ -353,7 +353,6 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
               widget.callback(inputUIController.text); //moved A1
             }
           }),
-          onLongPress: () {}, //TODO: define this onLongPress behavior -> offer deletion options
         );
 
         matchingPillList.add(pill);

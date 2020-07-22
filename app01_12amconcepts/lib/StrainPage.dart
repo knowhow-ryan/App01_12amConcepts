@@ -2,10 +2,8 @@ import 'package:app01_12amconcepts/DataControl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'TopSearch.dart';
-import 'Experience.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Strain.dart';
-import 'SwipeBackground.dart';
 import 'dart:async';
 import 'NewExperiencePage.dart';
 
@@ -21,7 +19,6 @@ class StrainPage extends StatefulWidget {
 }
 
 class StrainPageState extends State<StrainPage> {
-
   Strain strain;
 
   @override
@@ -39,41 +36,44 @@ class StrainPageState extends State<StrainPage> {
     //generate a List of Experience Cards to display below the Strain information
     List<Widget> experienceCards = [];
 
-    setState(() { //update the Experience card widgets
-      strain.experiences.forEach((experience) { //make a card widget for each experience
+    setState(() {
+      //update the Experience card widgets
+      strain.experiences.forEach((experience) {
+        //make a card widget for each experience
         //Completer and Future for connecting the Dismissible widget to the confirmation button in the Dismissble's background
         Completer userDeleteReaction = new Completer();
 
         experienceCards.add(Dismissible(
-          key: Key(experience.date.toString()), //Dismissibles require a unique Key for its child; 
+          key: Key(experience.date.toString()), //Dismissibles require a unique Key for its child;
           child: experience.displayCard(context),
           direction: DismissDirection.endToStart,
           onDismissed: (direction) {
-                // Remove the item from the data source.
-                setState(() {
-                  strain.experiences.remove(experience);
-                });
-                //update the Data File
-                DataControl.saveExperiences();
+            // Remove the item from the data source.
+            setState(() {
+              strain.experiences.remove(experience);
+            });
+            //update the Data File
+            DataControl.saveExperiences();
 
-                // Then show a snackbar.
-                //Scaffold.of(context).showSnackBar(SnackBar(content: Text("$item dismmissed")));
-              },
+            // Then show a snackbar.
+            //Scaffold.of(context).showSnackBar(SnackBar(content: Text("$item dismmissed")));
+          },
           confirmDismiss: (direction) async {
             userDeleteReaction = new Completer();
 
             return await userDeleteReaction.future; //return the user's selection from the delete confirmation panel
           },
-          background: Container( // delete confirmation panel
+          background: Container(
+            // delete confirmation panel
             color: Colors.red,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                InkWell( // cancel the delete action
-                  child: Icon(Icons.cancel),
-                  onTap: (() => userDeleteReaction.complete(false)),
-                ),
-                InkWell( // edit the swiped Experience
+            child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <Widget>[
+              InkWell(
+                // cancel the delete action
+                child: Icon(Icons.cancel),
+                onTap: (() => userDeleteReaction.complete(false)),
+              ),
+              InkWell(
+                  // edit the swiped Experience
                   child: Icon(
                     FontAwesomeIcons.pencilAlt,
                     color: Colors.white70,
@@ -82,14 +82,13 @@ class StrainPageState extends State<StrainPage> {
                   onTap: () {
                     userDeleteReaction.complete(false);
                     Navigator.of(context).push(_createRoute(destination: NewExperiencePage(editExperience: experience)));
-                  }
-                ),
-                InkWell( // confirm the delete action
-                  child: Icon(Icons.delete_outline),
-                  onTap: (() => userDeleteReaction.complete(true)),
-                )
-              ]
-            ),
+                  }),
+              InkWell(
+                // confirm the delete action
+                child: Icon(Icons.delete_outline),
+                onTap: (() => userDeleteReaction.complete(true)),
+              )
+            ]),
           ),
         ));
       });
@@ -103,8 +102,10 @@ class StrainPageState extends State<StrainPage> {
     return Material(
       child: Stack(
         children: <Widget>[
-          Container( //page background
-            decoration: BoxDecoration( //Starting Gradient with Smoke Background
+          Container(
+            //page background
+            decoration: BoxDecoration(
+              //Starting Gradient with Smoke Background
               gradient: LinearGradient(
                 end: FractionalOffset.topCenter,
                 begin: FractionalOffset.bottomCenter,
@@ -127,15 +128,16 @@ class StrainPageState extends State<StrainPage> {
               colorBlendMode: BlendMode.overlay,
             ),
           ),
-            
-          Column( //the page content
+          Column(
+            //the page content
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               TopSearch(), //top search bar
-            
+
               strain.displayCard(), //the current Strain
-                  
-              Expanded(// list of all of the Strain's Experiences
+
+              Expanded(
+                // list of all of the Strain's Experiences
                 child: ListView(
                   padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                   children: getExperiences(context),
@@ -153,14 +155,8 @@ Route _createRoute({destination}) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => destination,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      var begin = 0;
-      var end = 1;
-      var curve = Curves.decelerate;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve)); //what is this for?
-
       return FadeTransition(
-       // duration: Duration(seconds:1),
+        // duration: Duration(seconds:1),
         opacity: animation,
         child: child,
       );

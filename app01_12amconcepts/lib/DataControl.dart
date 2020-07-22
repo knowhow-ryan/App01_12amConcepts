@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:app01_12amconcepts/Experience.dart';
 
 import 'Strain.dart';
-import 'Phrase.dart';
 
 import 'package:path_provider/path_provider.dart';
 
@@ -13,6 +12,7 @@ class DataControl {
   static String strainsData;
   static String experiencesData;
 
+  // ignore: non_constant_identifier_names
   static Future<File> get _StrainFile async {
     final directory = await getApplicationDocumentsDirectory();
     final path = directory.path;
@@ -20,6 +20,7 @@ class DataControl {
     return File('$path/Strains.txt');
   }
 
+  // ignore: non_constant_identifier_names
   static Future<File> get _ExperienceFile async {
     final directory = await getApplicationDocumentsDirectory();
     final path = directory.path;
@@ -75,22 +76,16 @@ class DataControl {
     Completer<bool> dataLoaded = new Completer(); //watches for Strain and Experience data to be loaded.
 
     loadStrains().then((strains) {
-      DataControl.strainsData = strains;  //store the most up-to-date Strain data string
+      DataControl.strainsData = strains; //store the most up-to-date Strain data string
       Strain.reload(strainsData);
 
       loadExperiences().then((experiences) {
-        //TODO: remove DEBUG code below
-        print("***DataControl.loadAll() - loadExperiences.then***\n\n" + experiences);
-        DataControl.experiencesData = experiences;  //store the most up-to-date data string
+        DataControl.experiencesData = experiences; //store the most up-to-date data string
         Experience.reload(DataControl.experiencesData);
 
         dataLoaded.complete(true);
-      },
-
-      onError: (error) => dataLoaded.completeError(error));
-    },
-
-    onError: (error) => dataLoaded.completeError(error));
+      }, onError: (error) => dataLoaded.completeError(error));
+    }, onError: (error) => dataLoaded.completeError(error));
 
     return dataLoaded.future;
   }

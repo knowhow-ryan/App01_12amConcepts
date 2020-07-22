@@ -14,10 +14,6 @@ class Experience {
   List<Phrase> lows; //short phrases describing the bad parts of this Experience
   String notes; //any extra information the user wants to attach to this Experience.
 
-  //TODO: remove
-  //dummy Experience for testing
-  static Experience _dummyExperience;
-
   Experience(this.strain, this.date, this.location, this.ingestion, this.overallRating, this.highs, this.lows, this.notes) {
     strain.addExperience(this);
   }
@@ -25,9 +21,6 @@ class Experience {
   Experience.fromString(String experienceString) {
     //creates a new Experience from the semi-colon-delimited String created by Experience.toString()
     List<String> experienceValues = experienceString.split(";");
-
-    //TODO: remove DEBUG code below
-    print("***Experience.fromString***\n\nexperienceValues: $experienceValues\n");
 
     //finds the first Strain with a matching name and attaches the Strain and Experience to each other
     //Requires that all of the Strains have already been built
@@ -241,20 +234,5 @@ class Experience {
     );
 
     return card;
-  }
-
-  static Experience get dummyExperience {
-    if (_dummyExperience == null) {
-      _dummyExperience = Experience(
-          Strain.getDummyHybrid,
-          DateTime.now(),
-          Phrase("dummy location", PhraseType.Location),
-          Phrase("dummy ingestion", PhraseType.Ingestion),
-          4,
-          [Phrase("dummy high 1", PhraseType.High), Phrase("dummy high 2", PhraseType.High)],
-          [Phrase("dummy low 1", PhraseType.Low), Phrase("dummy low 2", PhraseType.Low)],
-          "woah dude. that was epic");
-    }
-    return _dummyExperience;
   }
 }
