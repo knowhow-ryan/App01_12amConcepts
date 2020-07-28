@@ -47,56 +47,77 @@ class _MainPageState extends State<MainPage> {
     Completer userDeleteReaction = new Completer();
 
     Strain.filterStrains(searchString: searchStrainsFor, sortBy: sortStrainsBy).forEach((strain) {
-      strainCards.add(Dismissible(
-        key: Key(strain.name.phraseString), //Dismissibles require a unique Key for its child;
-        child: InkWell(
-          child: strain.displayCard(),
-          onTap: () {
-            Navigator.of(context).push(_createRoute(destination: StrainPage(strain)));
-          }, //telling button where to go next
-        ),
-        direction: DismissDirection.endToStart,
-        onDismissed: (direction) {
-          //Remove the Strain's name from the StrainName Phrase List
-          strain.name.remove();
-          // Remove the item from the data source.
-          Strain.allStrains.remove(strain);
-          // update the data File
-          DataControl.saveStrains();
-          DataControl.saveExperiences();
-        },
+      strainCards.add(Padding(
+        padding: const EdgeInsets.fromLTRB(15, 4, 15, 4),
+        child: Dismissible(
+          key: Key(strain.name.phraseString), //Dismissibles require a unique Key for its child;
+          child: InkWell(
+            child: strain.displayCard(),
+            onTap: () {
+              Navigator.of(context).push(_createRoute(destination: StrainPage(strain)));
+            }, //telling button where to go next
+          ),
+          direction: DismissDirection.endToStart,
+          onDismissed: (direction) {
+            //Remove the Strain's name from the StrainName Phrase List
+            strain.name.remove();
+            // Remove the item from the data source.
+            Strain.allStrains.remove(strain);
+            // update the data File
+            DataControl.saveStrains();
+            DataControl.saveExperiences();
+          },
 
-        confirmDismiss: (direction) async {
-          userDeleteReaction = new Completer();
+          confirmDismiss: (direction) async {
+            userDeleteReaction = new Completer();
 
-          return await userDeleteReaction.future; //return the user's selection from the delete confirmation panel
-        },
-        background: Container(
-          // delete confirmation panel
-          color: Colors.red,
-          child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <Widget>[
-            InkWell(
-              // cancel the delete action
-              child: Icon(Icons.cancel),
-              onTap: (() => userDeleteReaction.complete(false)),
-            ),
-            InkWell(
-                // edit the swiped Strain
-                child: Icon(
-                  FontAwesomeIcons.pencilAlt,
-                  color: Colors.white70,
-                  size: 13,
+            return await userDeleteReaction.future; //return the user's selection from the delete confirmation panel
+          },
+          background: Padding(
+            padding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
+            child: Container(
+              // delete confirmation panel
+              
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.red,
+                  width: 3,
+                  style: BorderStyle.solid,
                 ),
-                onTap: () {
-                  userDeleteReaction.complete(false);
-                  Navigator.of(context).push(_createRoute(destination: StrainEditPage(strain)));
-                }),
-            InkWell(
-              // confirm the delete action
-              child: Icon(Icons.delete_outline),
-              onTap: (() => userDeleteReaction.complete(true)),
-            )
-          ]),
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.redAccent,
+                ),
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <Widget>[
+                InkWell(
+                  // cancel the delete action
+                  child: Icon(FontAwesomeIcons.angleDoubleRight,
+                  color: Colors.white70,
+                  size:20,
+                  ),
+                  onTap: (() => userDeleteReaction.complete(false)),
+                ),
+                InkWell(
+                    // edit the swiped Strain
+                    child: Icon(
+                      FontAwesomeIcons.pencilAlt,
+                      color: Colors.white70,
+                      size: 20,
+                    ),
+                    onTap: () {
+                      userDeleteReaction.complete(false);
+                      Navigator.of(context).push(_createRoute(destination: StrainEditPage(strain)));
+                    }),
+                InkWell(
+                  // confirm the delete action
+                  child: Icon(FontAwesomeIcons.trashAlt,
+                  color: Colors.white70,
+                  size: 20,
+                  ),
+                  onTap: (() => userDeleteReaction.complete(true)),
+                )
+              ]),
+            ),
+          ),
         ),
       ));
     });

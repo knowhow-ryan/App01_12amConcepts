@@ -63,32 +63,47 @@ class StrainPageState extends State<StrainPage> {
 
             return await userDeleteReaction.future; //return the user's selection from the delete confirmation panel
           },
-          background: Container(
-            // delete confirmation panel
-            color: Colors.red,
-            child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <Widget>[
-              InkWell(
-                // cancel the delete action
-                child: Icon(Icons.cancel),
-                onTap: (() => userDeleteReaction.complete(false)),
+          background: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
+            child: Container(
+              // delete confirmation panel
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.red,
+                  width: 3,
+                  style: BorderStyle.solid,
+                ),
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.redAccent,
               ),
-              InkWell(
-                  // edit the swiped Experience
-                  child: Icon(
-                    FontAwesomeIcons.pencilAlt,
-                    color: Colors.white70,
-                    size: 13,
-                  ),
-                  onTap: () {
-                    userDeleteReaction.complete(false);
-                    Navigator.of(context).push(_createRoute(destination: NewExperiencePage(editExperience: experience)));
-                  }),
-              InkWell(
-                // confirm the delete action
-                child: Icon(Icons.delete_outline),
-                onTap: (() => userDeleteReaction.complete(true)),
-              )
-            ]),
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <Widget>[
+                InkWell(
+                  // cancel the delete action
+                  child: Icon(FontAwesomeIcons.angleDoubleRight,
+                  color: Colors.white70,
+                  size:20,),
+                  onTap: (() => userDeleteReaction.complete(false)),
+                ),
+                InkWell(
+                    // edit the swiped Experience
+                    child: Icon(
+                      FontAwesomeIcons.pencilAlt,
+                      color: Colors.white70,
+                      size: 20,
+                    ),
+                    onTap: () {
+                      userDeleteReaction.complete(false);
+                      Navigator.of(context).push(_createRoute(destination: NewExperiencePage(editExperience: experience)));
+                    }),
+                InkWell(
+                  // confirm the delete action
+                  child: Icon(FontAwesomeIcons.trashAlt,
+                  color: Colors.white70,
+                  size: 20,),
+                  onTap: (() => userDeleteReaction.complete(true)),
+                )
+              ]),
+            ),
           ),
         ));
       });
@@ -134,7 +149,10 @@ class StrainPageState extends State<StrainPage> {
             children: <Widget>[
               TopSearch(), //top search bar
 
-              strain.displayCard(), //the current Strain
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 4, 15, 4),
+                child: strain.displayCard(),
+              ), //the current Strain
 
               Expanded(
                 // list of all of the Strain's Experiences

@@ -149,88 +149,91 @@ class Experience {
 
   Widget displayCard(BuildContext context) {
     Widget card = Container(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-        Row(
-          children: <Widget>[
-            Text(
-              this.date.month.toString() + '/' + this.date.day.toString() + '/' + this.date.year.toString(),
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
-              ),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-          ],
-        ),
-        Row(
-          children: <Widget>[
-            Text(
-              this.location.phraseString + '  ' + this.ingestion.phraseString,
-              style: TextStyle(
-                color: Colors.white,
-                fontStyle: FontStyle.italic,
-                fontSize: 20,
-              ),
-            ),
-          ],
-        ),
-        Wrap(
-          //highs
-          children: this.highsPillList,
-        ),
-        Wrap(
-            //lows
-            children: this.lowsPillList),
-        Container(
-          child: Padding(
-            padding: const EdgeInsets.all(5),
-            child: Row(
-              children: <Widget>[
-                Icon(
-                  //edit icon
-                  FontAwesomeIcons.solidStar,
-                  color: Colors.white,
-                  size: 13,
-                ),
-                Text(
-                  ' : ' + (this.overallRating == 0 ? "unrated" : this.overallRating.toString()),
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white12,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-                //notes
-                this.notes,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+          Row(
+            children: <Widget>[
+              Text(
+                this.date.month.toString() + '/' + this.date.day.toString() + '/' + this.date.year.toString(),
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 18,
-                )),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+            ],
           ),
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-                child: Divider(
-              color: Colors.white,
-            )),
-          ],
-        )
-      ]),
+          Row(
+            children: <Widget>[
+              Text(
+                this.location.phraseString + '  ' + this.ingestion.phraseString,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontStyle: FontStyle.italic,
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
+          Wrap(
+            //highs
+            children: this.highsPillList,
+          ),
+          Wrap(
+              //lows
+              children: this.lowsPillList),
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    //edit icon
+                    FontAwesomeIcons.solidStar,
+                    color: Colors.white,
+                    size: 13,
+                  ),
+                  Text(
+                    ' : ' + (this.overallRating == 0 ? "unrated" : this.overallRating.toString()),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white12,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                  //notes
+                  this.notes,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  )),
+            ),
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                  child: Divider(
+                color: Colors.white,
+              )),
+            ],
+          )
+        ]),
+      ),
     );
 
     return card;

@@ -91,100 +91,97 @@ class Strain {
     //sets the color of the background gradient based on the Sub_Species
     Color gradientColor = getSubSpeciesColor();
 
-    return Padding(
-      padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
-      child: Container(
-        //Sativa Orange Card
+    return Container(
+      //Sativa Orange Card
 
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(5.0),
-          ),
-          boxShadow: [
-            new BoxShadow(
-              color: Colors.black54,
-              blurRadius: 2.0,
-            ),
-          ],
-          gradient: LinearGradient(
-            end: FractionalOffset.bottomCenter,
-            begin: FractionalOffset.topLeft,
-            stops: [
-              0.2,
-              1,
-            ],
-            colors: [
-              Color(0xFFFFFFFF),
-              gradientColor, //depends on Sub_species
-            ],
-          ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(
+          Radius.circular(5.0),
         ),
+        boxShadow: [
+          new BoxShadow(
+            color: Colors.black54,
+            blurRadius: 2.0,
+          ),
+        ],
+        gradient: LinearGradient(
+          end: FractionalOffset.bottomCenter,
+          begin: FractionalOffset.topLeft,
+          stops: [
+            0.2,
+            1,
+          ],
+          colors: [
+            Color(0xFFFFFFFF),
+            gradientColor, //depends on Sub_species
+          ],
+        ),
+      ),
 
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Expanded(
-              child: Stack(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Text(this.name.phraseString,
-                                style: TextStyle(
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 28,
-                                )),
-                            SizedBox(width: 5),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.black45,
-                                ),
-                                borderRadius: BorderRadius.circular(12),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Expanded(
+            child: Stack(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Text(this.name.phraseString,
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                              )),
+                          SizedBox(width: 5),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black45,
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(5),
-                                child: Text(this.getSubSpecies,
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                    )),
-                              ),
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                          ],
-                        ),
-                        // SizedBox(
-                        //   height: 2,
-                        // ),
-                        /* Strain.mostRecentLocation() is not built yet
-                        TODO: uncomment Most Recent Location widget
-                        Text(strain.mostRecentLocation(),
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                            )),*/
-                        // SizedBox(
-                        //   height: 5,
-                        // ),
-                        Row(
-                          children: bottomRowInformation(),
-                        ),
-                      ],
-                    ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: Text(this.getSubSpecies,
+                                  style: TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13,
+                                  )),
+                            ),
+                          ),
+                        ],
+                      ),
+                      // SizedBox(
+                      //   height: 2,
+                      // ),
+                      /* Strain.mostRecentLocation() is not built yet
+                      TODO: uncomment Most Recent Location widget
+                      Text(strain.mostRecentLocation(),
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                          )),*/
+                      // SizedBox(
+                      //   height: 5,
+                      // ),
+                      Row(
+                        children: bottomRowInformation(),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -195,7 +192,7 @@ class Strain {
           style: TextStyle(
             color: Colors.black54,
             fontWeight: FontWeight.bold,
-            fontSize: 22,
+            fontSize: 20,
           )),
       SizedBox(
         width: 15,
@@ -205,7 +202,7 @@ class Strain {
         style: TextStyle(
           color: Colors.black54,
           fontWeight: FontWeight.bold,
-          fontSize: 22,
+          fontSize: 20,
         ),
       ),
       SizedBox(
@@ -217,14 +214,14 @@ class Strain {
       infoWidgets.add(Icon(
         Icons.star,
         color: Colors.black54,
-        size: 22,
+        size: 20,
       ));
 
       infoWidgets.add(Text(': ${averageRating.toStringAsFixed(1)}',
           style: TextStyle(
             color: Colors.black54,
             fontWeight: FontWeight.bold,
-            fontSize: 22,
+            fontSize: 20,
           )));
     }
 

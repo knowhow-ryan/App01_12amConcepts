@@ -1,206 +1,165 @@
-/*
+import 'package:app01_12amconcepts/DataControl.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'TopSearch.dart';
-import 'Experience.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Strain.dart';
+import 'dart:async';
+import 'NewExperiencePage.dart';
 
-class StrainPage extends StatelessWidget {
-  //based on the tutorial: https://flutterbyexample.com/reusable-custom-card-widget/
+class StrainPage extends StatefulWidget {
+  //displays the Strain information along with cards for each Experience with this Strain
 
-  //this is a container for all of the strain information, like name, location, thc, etc.
-  final Strain strain;
+  final Strain strain; //container for all of the strain information, like name, location, thc, etc.
 
-  //this is a constructor that pulls in the Strain object information and puts it in the strain container above
-  StrainPage(this.strain);
+  StrainPage(this.strain); //constructor that pulls in Strain object information and puts it in the strain container above
+
+  @override
+  StrainPageState createState() => StrainPageState();
+}
+
+class StrainPageState extends State<StrainPage> {
+  Strain strain;
+
+  @override
+  void initState() {
+    super.initState();
+
+    strain = widget.strain;
+  }
+
+  void dispose() {
+    super.dispose();
+  }
+
+  List<Widget> getExperiences(BuildContext context) {
+    //generate a List of Experience Cards to display below the Strain information
+    List<Widget> experienceCards = [];
+
+    setState(() {
+      //update the Experience card widgets
+      strain.experiences.forEach((experience) {
+        //make a card widget for each experience
+        //Completer and Future for connecting the Dismissible widget to the confirmation button in the Dismissble's background
+        Completer userDeleteReaction = new Completer();
+
+        experienceCards.add(Dismissible(
+          key: Key(experience.date.toString()), //Dismissibles require a unique Key for its child;
+          child: experience.displayCard(context),
+          direction: DismissDirection.endToStart,
+          onDismissed: (direction) {
+            // Remove the item from the data source.
+            setState(() {
+              strain.experiences.remove(experience);
+            });
+            //update the Data File
+            DataControl.saveExperiences();
+
+            // Then show a snackbar.
+            //Scaffold.of(context).showSnackBar(SnackBar(content: Text("$item dismmissed")));
+          },
+          confirmDismiss: (direction) async {
+            userDeleteReaction = new Completer();
+
+            return await userDeleteReaction.future; //return the user's selection from the delete confirmation panel
+          },
+          background: Container(
+            // delete confirmation panel
+            color: Colors.red,
+            child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <Widget>[
+              InkWell(
+                // cancel the delete action
+                child: Icon(Icons.cancel),
+                onTap: (() => userDeleteReaction.complete(false)),
+              ),
+              InkWell(
+                  // edit the swiped Experience
+                  child: Icon(
+                    FontAwesomeIcons.pencilAlt,
+                    color: Colors.white70,
+                    size: 13,
+                  ),
+                  onTap: () {
+                    userDeleteReaction.complete(false);
+                    Navigator.of(context).push(_createRoute(destination: NewExperiencePage(editExperience: experience)));
+                  }),
+              InkWell(
+                // confirm the delete action
+                child: Icon(Icons.delete_outline),
+                onTap: (() => userDeleteReaction.complete(true)),
+              )
+            ]),
+          ),
+        ));
+      });
+    });
+
+    return experienceCards;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              end: FractionalOffset.topCenter,
-              begin: FractionalOffset.bottomCenter,
-              stops: [
-                .3,
-                .8,
-                .9,
-              ],
-              colors: [
-                Color(0xFFDDDDDD), //Light Gray
-                // Color(0xFFda8f57), //Orange
-                Color(0xFF3e865d), //Green
-                // Color(0xFF914d8c), //Purple
-                Colors.black87,
-              ], //Dark Gray
+      child: Stack(
+        children: <Widget>[
+          Container(
+            //page background
+            decoration: BoxDecoration(
+              //Starting Gradient with Smoke Background
+              gradient: LinearGradient(
+                end: FractionalOffset.topCenter,
+                begin: FractionalOffset.bottomCenter,
+                stops: [
+                  .05,
+                  .45,
+                ],
+                colors: [
+                  strain.getSubSpeciesColor(),
+                  Color(0xFF000000),
+                ],
+              ),
+            ),
+            child: Image(
+              image: AssetImage('graphics/Smokey-Background-Side.png'),
+              height: double.maxFinite,
+              width: double.maxFinite,
+              fit: BoxFit.fill,
+              alignment: Alignment.topCenter,
+              colorBlendMode: BlendMode.overlay,
             ),
           ),
-          child: Column(
+          Column(
+            //the page content
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              TopSearch(),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20.0, 0, 20, 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        Container(
-                          height: 250,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(12.0),
-                              ),
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(
-                                    "https://images.pexels.com/photos/1466335/pexels-photo-1466335.jpeg"),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black38,
-                                  blurRadius: 8.0,
-                                ),
-                              ]),
-                        ),
-                        Positioned(
-                          // padding: const EdgeInsets.all(8.0),
-                          bottom: 15,
-                          right: 15,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadiusDirectional.circular(50),
-                              color: Colors.white60,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(strain.subSpecies.toString(),
-                                  style: TextStyle(
-                                    color: Colors.black87,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Padding(
-                          //Strain Title
-                          padding: const EdgeInsets.only(
-                            bottom: 5,
-                            top: 15,
-                            right: 8,
-                          ),
-                          child: Text(strain.name.phraseString,
-                              style: TextStyle(
-                                color: Colors.black87,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 32,
-                              )),
-                        ),
-                        Icon(
-                          FontAwesomeIcons.pencilAlt,
-                          color: Colors.black26,
-                          size: 18,
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        right: 28.0,
-                        bottom: 10,
-                      ),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: Text('THC: ${strain.thcPercent}%',
-                                style: TextStyle(
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 23,
-                                )),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Text(
-                              'CBD: ${strain.cbdPercent}%',
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 23,
-                              ),
-                            ),
-                          ),
-                          Icon(
-                            Icons.star,
-                            color: Colors.black54,
-                            size: 20,
-                          ),
-                          Text('${strain.averageRating}',
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 23,
-                              )),
-                        ],
-                      ),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                            child: Divider(
-                          color: Colors.black45,
-                        ))
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              TopSearch(), //top search bar
+
+              strain.displayCard(), //the current Strain
+
               Expanded(
+                // list of all of the Strain's Experiences
                 child: ListView(
                   padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  children: <Widget>[
-                    Experience.dummyExperience.displayCard(),
-                    Experience.dummyExperience.displayCard(),
-                    Experience.dummyExperience.displayCard(),
-                    Experience.dummyExperience.displayCard(),
-                  ],
+                  children: getExperiences(context),
                 ),
               ),
             ],
-          )),
+          ),
+        ],
+      ),
     );
   }
 }
 
-/*
-//This is a dummy strain so you have data you can insert into the UI
-//you access this information by using strain.name, strain.thc, etc.
-class Strain {
-  String name;
-  double thc;
-  double cbd;
-  double rating;
-  String date;
-  String location;
-  String genetics;
-
-  Strain() {
-    this.name = "Jedi Killer Kush";
-    this.thc = 18.5;
-    this.cbd = 2.3;
-    this.rating = 4.7;
-    this.date = "04/20/20";
-    this.location = "Destroyer's Burger Cave";
-    this.genetics = "Sativa";
-  }
+Route _createRoute({destination}) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => destination,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(
+        // duration: Duration(seconds:1),
+        opacity: animation,
+        child: child,
+      );
+    },
+  );
 }
-*/
-*/
