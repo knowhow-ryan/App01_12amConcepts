@@ -314,8 +314,10 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
   }
 
   void dispose() {
+    if (widget.textEditingController == null) {
+      inputUIController.dispose();
+    }
     inputFocusNode.dispose();
-    inputUIController.dispose();
     super.dispose();
   }
 
@@ -326,8 +328,6 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
         widget.callback(inputUIController.text);
       }
     });
-
-    //widget.callback(inputUIController.text); //moved A1
   }
 
   List<Widget> getMatchingPhrasePills(String inputString, PhraseType phraseType) {
@@ -445,7 +445,7 @@ class _PhraseInputUIState extends State<PhraseInputUI> {
                   widget.callback(inputPhrase);
                 }
                 inputUIController.text = "";
-                inputFocusNode.requestFocus();
+                inputFocusNode..requestFocus();
               });
             }, // onSubmitted
           ),

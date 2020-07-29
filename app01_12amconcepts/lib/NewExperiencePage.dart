@@ -36,7 +36,6 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   Sub_species subspecies = Sub_species.unknown;
   String _thcValidValue = "0.0"; //the most recent valid value for the THC percentage TextField
   String _cbdValidValue = "0.0"; //the most recent valid value for the CBD percentage TextField
-  //String _ratingValidValue = "0"; //the most recent valid value for the Overall Rating TextField
 
   String userLocation = "";
   String userIngestion = "";
@@ -49,11 +48,11 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   Function setCBD;
   Function setRating;
 
+  TextEditingController strainNameController = new TextEditingController();
   TextEditingController thcPercentController = new TextEditingController();
   TextEditingController cbdPercentController = new TextEditingController();
   TextEditingController highsController = new TextEditingController();
   TextEditingController lowsController = new TextEditingController();
-  //TextEditingController ratingController = new TextEditingController();
   TextEditingController notesController = new TextEditingController();
 
   List<Phrase> userHighs;
@@ -140,16 +139,6 @@ class NewExperiencePageState extends State<NewExperiencePage> {
       }
     });
 
-    /*ratingController.addListener(() {
-      if (double.tryParse(ratingController.text) == null) {
-        ratingController.text = "";
-        setState(() => _ratingSliderValue = 3);
-      }
-      else {
-        setState(() => _ratingSliderValue = double.tryParse(ratingController.text));
-      }
-    });*/
-
     toggleSubSpeciesButtons(); //set all of the Sub_species buttons to deselected
 
     userHighs = [];
@@ -186,9 +175,9 @@ class NewExperiencePageState extends State<NewExperiencePage> {
   }
 
   void dispose() {
+    strainNameController.dispose();
     thcPercentController.dispose();
     cbdPercentController.dispose();
-    //ratingController.dispose();
     notesController.dispose();
     super.dispose();
   }
@@ -208,22 +197,6 @@ class NewExperiencePageState extends State<NewExperiencePage> {
 
     return validString;
   }
-
-  /*String validateRatingInput(inputString, validString) {
-    /*validate that the inputString represents a double value between 0 and 100, inclusive.
-    If the value is invalid, return the input validString*/
-    double inputDouble = double.tryParse(inputString);
-
-    if (inputString == "") {
-      validString = inputString;
-    } else if (inputDouble != null) {
-      if (inputDouble >= 1.0 && inputDouble <= 5.0) {
-        validString = inputString;
-      }
-    }
-
-    return validString;
-  }*/
 
   void toggleSubSpeciesButtons({Sub_species subSpecies = Sub_species.unknown}) {
     //deactivates all of the SubspeciesPickerButtons, then activates the button for the input sub_species
@@ -283,6 +256,7 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 phraseType: PhraseType.Strain,
                 hint: "strain name",
                 initialValues: (editMode && userStrain != null) ? [userStrain.name] : null,
+                textEditingController: strainNameController,
                 callback: (String userInput) {
                   //returns the matching Strain from the PhraseInputUI widget
                   userStrain = null;
@@ -781,6 +755,9 @@ class NewExperiencePageState extends State<NewExperiencePage> {
         onPressed: () {
           if (userStrain != null) {
             //create a new Experience from the user's input
+            if (strainNameController.text.isEmpty) {
+              strainNameController.text = userStrain.name.phraseString;
+            }
 
             //take any unsubmitted input from the Highs/Lows TextFields and submit it for the user
             if (highsController.text != "") {
@@ -808,8 +785,11 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 notesController.text,
               );
             } else {
+              //if the Strain was changed, remove the Experience from the old Strain
               userExperience.strain.removeExperience(userExperience);
+              //now add it to the Strain it was changed to
               userStrain.addExperience(userExperience);
+
               userExperience.strain = userStrain;
               userExperience.location = Phrase.save(userLocation, PhraseType.Location);
               userExperience.ingestion = Phrase.save(userIngestion, PhraseType.Ingestion);
@@ -900,6 +880,9 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                       if (userStrain == null && userStrainName != null) {
                         userStrain = new Strain(userStrainName, _thcSliderValue, _cbdSliderValue, subSpecies: subspecies);
                       }
+                    } else if (currentStep != 0 && step == 0) {
+                      //this is a fix for the Strain name TextField resetting when the user interacts with the Highs/Lows TextFields
+                      strainNameController.text = userStrain?.name?.phraseString;
                     }
 
                     if (userStrainName != null) {
@@ -914,6 +897,9 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                       if (userStrain == null && userStrainName != null) {
                         userStrain = new Strain(userStrainName, _thcSliderValue, _cbdSliderValue, subSpecies: subspecies);
                       }
+                    } else if (currentStep == steps.length - 1) {
+                      //this is a fix for the Strain name TextField resetting when the user interacts with the Highs/Lows TextFields
+                      strainNameController.text = userStrain?.name?.phraseString;
                     }
 
                     if (currentStep < steps.length - 1 && userStrainName != null) {
@@ -926,6 +912,9 @@ class NewExperiencePageState extends State<NewExperiencePage> {
                 onStepCancel: () {
                   setState(() {
                     if (currentStep > 0) {
+                      strainNameController.text = userStrain?.name
+                          ?.phraseString; //this is a fix for the Strain name TextField resetting when the user interacts with the Highs/Lows TextFields
+
                       currentStep = currentStep - 1;
                     } else {
                       currentStep = 0;

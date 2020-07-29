@@ -368,7 +368,19 @@ class Strain {
     if (sortBy == SortBy.Alphabetical) {
       sortedStrains.sort((a, b) => a.name.phraseString.compareTo(b.name.phraseString));
     } else if (sortBy == SortBy.Date) {
-      sortedStrains.sort((a, b) => b.mostRecentExperience().date.compareTo(a.mostRecentExperience().date));
+      sortedStrains.sort((a, b) {
+        int order = -1; //assume a and b are in desired order, which allows us to avoid testing if b has no experiences, but a does
+
+        if (a.experiences.length > 0 && b.experiences.length > 0) {
+          order = b.mostRecentExperience().date.compareTo(a.mostRecentExperience().date);
+        } else if (a.experiences.length == 0 && b.experiences.length > 0) {
+          order = 1;
+        } else if (a.experiences.length == 0 && b.experiences.length == 0) {
+          order = 0;
+        }
+
+        return order;
+      });
     }
 
     return sortedStrains;
